@@ -1,5 +1,7 @@
 package com.example.taskforge.controller;
 
+import com.example.taskforge.dto.UserLoginRequestDto;
+import com.example.taskforge.dto.UserLoginResponseDto;
 import com.example.taskforge.dto.UserRegistrationRequestDto;
 import com.example.taskforge.dto.UserResponseDto;
 import com.example.taskforge.exception.RegistrationException;
@@ -16,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationService authenticationService;
+
+    @PostMapping("/login")
+    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto requestDto) {
+        return authenticationService.authenticate(requestDto);
+    }
 
     @PostMapping("/register")
     public UserResponseDto register(
