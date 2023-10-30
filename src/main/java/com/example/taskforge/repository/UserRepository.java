@@ -1,6 +1,6 @@
-package repository;
+package com.example.taskforge.repository;
 
-import model.User;
+import com.example.taskforge.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 
