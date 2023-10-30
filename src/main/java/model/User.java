@@ -21,4 +21,6 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+
+    //todo: Update user with List<Project> projects;
 }
