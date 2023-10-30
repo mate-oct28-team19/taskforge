@@ -1,6 +1,5 @@
 package com.example.taskforge.security;
 
-
 import com.example.taskforge.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
