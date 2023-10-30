@@ -1,6 +1,6 @@
-package service;
+package com.example.taskforge.service;
 
-import model.User;
+import com.example.taskforge.model.User;
 
 public interface UserService {
 
