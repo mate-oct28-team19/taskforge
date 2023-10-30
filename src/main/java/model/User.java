@@ -2,6 +2,8 @@ package model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,5 +24,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    //todo: Update user with List<Project> projects;
+    public enum Language {
+        UKRAINIAN, ENGLISH, POLISH
+    }
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Language language;
+
+    //todo: Update with language ENUM & liquibase;
 }
