@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-users-table-add-language
+      author: VolodymyrBarasiuk
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: language
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
