@@ -8,5 +8,7 @@ public interface UserService {
 
     void update(User user);
 
-    void delete(User user);
+    void delete(Long id);
+
+    //todo: add change password, language, theme color
 }

@@ -9,4 +9,5 @@ public class CreateUserRequestDto {
     private String email;
     private String password;
     private String language;
+    private String colorScheme;
 }

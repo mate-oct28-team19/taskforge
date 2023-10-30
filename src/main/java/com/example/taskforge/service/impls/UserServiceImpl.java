@@ -11,14 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-    private UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
     public User save(CreateUserRequestDto requestDto) {
-        if (requestDto.getLanguage().isEmpty() || requestDto.getLanguage().isBlank()) {
-            requestDto.setLanguage("ENGLISH");
-        }
+        requestDto.setLanguage("ENGLISH");
+        requestDto.setColorScheme("LIGHT");
         User user = userMapper.toModel(requestDto);
         return userRepository.save(user);
     }
@@ -29,7 +28,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(User user) {
-
+    public void delete(Long id) {
+        //todo: implement deletion all the task that belongs to user
+        userRepository.deleteById(id);
     }
 }
+
