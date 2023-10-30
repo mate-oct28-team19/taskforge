@@ -28,6 +28,7 @@ public class Task {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
     public enum Status {
         TODO, IN_PROCESS, FINISHED
     }

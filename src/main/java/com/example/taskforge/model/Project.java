@@ -11,9 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -33,9 +33,11 @@ public class Project {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
     public enum Status {
         INITIATED, IN_PROGRESS, COMPLETED
     }
+
     @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
