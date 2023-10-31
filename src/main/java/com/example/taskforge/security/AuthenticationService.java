@@ -9,5 +9,6 @@ import com.example.taskforge.exception.RegistrationException;
 public interface AuthenticationService {
 
     UserResponseDto register(UserRegistrationRequestDto requestDto) throws RegistrationException;
+
     UserLoginResponseDto authenticate(UserLoginRequestDto request);
 }
