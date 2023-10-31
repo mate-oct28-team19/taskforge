@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Lang } from "./types/Lang";
+import { Theme } from "./types/Theme";
+import { LangContext } from "./contexts/LangContext";
+import { ThemeContext } from "./contexts/ThemeContext";
+import { Footer } from "./components/Footer";
+import './reset.scss';
+
 
 function App() {
+  const [lang, setLang] = useState<Lang>('ENGLISH');
+  const [theme, setTheme] = useState<Theme>('LIGHT');
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <LangContext.Provider value={lang}>
+        <ThemeContext.Provider value={theme}>
+          <Footer></Footer>
+        </ThemeContext.Provider>
+      </LangContext.Provider>
     </div>
   );
 }
