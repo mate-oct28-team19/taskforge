@@ -1,0 +1,33 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 100%;
+  background-color: #4748EE;
+  font-family: 'Montserrat', sans-serif;
+  position: absolute;
+  bottom: 0;
+
+  &--dark {
+    background-color: #fff;
+  }
+
+  &__github-logo {
+    margin-right: 15.7px;
+    fill: #fff;
+
+    &--dark {
+      fill: #303747;
+    }
+  }
+
+  &__link-to-repo {
+    color: #fff;
+    font-size: 15px;
+
+    &--dark {
+      color: #303747;
+    }
+  }
+}

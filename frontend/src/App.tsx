@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './reset.scss';
+
+import { Footer } from "./components/Footer";
+import { Header } from "./components/Header";
+import { useState } from 'react';
+import { Theme } from './types/Theme';
+import { ThemeContext } from './contexts/ThemeContext';
+import { Lang } from './types/Lang';
+import { LangContext } from './contexts/LangContext';
 
 function App() {
+  const [theme, setTheme] = useState<Theme>('LIGHT');
+  const [lang, setLang] = useState<Lang>('ENGLISH');
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => setTheme('LIGHT')}>Light</button>
+      <button onClick={() => setTheme('DARK')}>Dark</button>
+      <button onClick={() => setLang('ENGLISH')}>Eng</button>
+      <button onClick={() => setLang('POLISH')}>Polish</button>
+      <button onClick={() => setLang('UKRAINIAN')}>Ukrainian</button>
+      <LangContext.Provider value={lang}>
+        <ThemeContext.Provider value={theme}>
+          <Header></Header>
+          <Footer></Footer>
+        </ThemeContext.Provider>
+      </LangContext.Provider>
     </div>
   );
 }
