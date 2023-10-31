@@ -4,10 +4,10 @@ import com.example.taskforge.dto.UserRegistrationRequestDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class FieldMatchValidator implements ConstraintValidator
-        <FieldMatch, UserRegistrationRequestDto> {
+public class PassNotContainsEmailValidator implements ConstraintValidator
+        <PassNotContainsEmail, UserRegistrationRequestDto> {
     @Override
     public boolean isValid(UserRegistrationRequestDto dto, ConstraintValidatorContext context) {
-        return dto.getPassword() != null && dto.getPassword().equals(dto.getRepeatPassword());
+        return !dto.getPassword().contains(dto.getEmail());
     }
 }

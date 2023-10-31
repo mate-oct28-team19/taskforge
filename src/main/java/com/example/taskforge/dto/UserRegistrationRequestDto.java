@@ -1,22 +1,27 @@
 package com.example.taskforge.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import com.example.taskforge.validation.Email;
+import com.example.taskforge.validation.FieldMatch;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@FieldMatch
 public class UserRegistrationRequestDto {
     @Email
-    @NotBlank
-    @Size(max = 64)
+    @NotNull
+    @NotEmpty
     private String email;
-    @NotBlank
+    @NotNull
+    @NotEmpty
     @Size(min = 8, max = 40)
     private String password;
-    @NotBlank
+    @NotNull
+    @NotEmpty
     @Size(min = 8, max = 40)
     private String repeatPassword;
 }
