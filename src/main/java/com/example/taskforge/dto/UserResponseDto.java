@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateUserRequestDto {
+public class UserResponseDto {
+    private Long id;
     private String email;
-    private String password;
     private String language;
     private String colorScheme;
 }
