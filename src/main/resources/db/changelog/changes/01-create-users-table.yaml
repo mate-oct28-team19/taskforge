@@ -24,3 +24,13 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+              - column:
+                    name: language
+                    type: varchar(255)
+                    constraints:
+                      nullable: false
+              - column:
+                  name: color_scheme
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
