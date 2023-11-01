@@ -11,6 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import java.time.LocalDate;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,9 +25,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
     private Long id;
+    @Min(5)
+    @Max(254)
     @Column(unique = true, nullable = false)
     private String title;
-    private String description;
+    @Column(nullable = false, name = "creation_date")
+    private LocalDate creationDate;
+    @Column(nullable = false, name = "deletion_date")
+    private LocalDate deletionDate;
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Status status;
