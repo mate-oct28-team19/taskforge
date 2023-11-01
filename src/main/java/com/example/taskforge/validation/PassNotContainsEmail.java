@@ -7,11 +7,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = FieldMatchValidator.class)
-@Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.TYPE})
+@Constraint(validatedBy = PassNotContainsEmailValidator.class)
+@Target({ElementType.PARAMETER, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FieldMatch {
-    String message() default "Field password and repeat password should be equal";
+public @interface PassNotContainsEmail {
+    String message() default "Password should not contain email in it's body";
 
     Class<?>[] groups() default {};
 
