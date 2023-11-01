@@ -9,13 +9,12 @@ import com.example.taskforge.model.User;
 import com.example.taskforge.repository.TaskRepository;
 import com.example.taskforge.repository.UserRepository;
 import com.example.taskforge.service.TaskService;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +22,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskMapper taskMapper;
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+
     @Override
     public List<TaskDto> findAll(String email, Pageable pageable) {
         User user = getUserByEmail(email);
