@@ -1,4 +1,4 @@
-package com.example.taskforge.dto;
+package com.example.taskforge.dto.user;
 
 import com.example.taskforge.validation.Email;
 import com.example.taskforge.validation.FieldMatch;

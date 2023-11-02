@@ -1,14 +1,12 @@
 package com.example.taskforge.security;
 
 import com.example.taskforge.confirmation.ConfirmationTokenService;
-import com.example.taskforge.dto.CreateConfirmationTokenDto;
-import com.example.taskforge.dto.UserLoginRequestDto;
-import com.example.taskforge.dto.UserLoginResponseDto;
-import com.example.taskforge.dto.UserRegistrationRequestDto;
-import com.example.taskforge.dto.UserResponseDto;
+import com.example.taskforge.dto.ConfirmationTokenRequestDto;
+import com.example.taskforge.dto.ConfirmationTokenResponseDto;
+import com.example.taskforge.dto.user.UserLoginRequestDto;
+import com.example.taskforge.dto.user.UserLoginResponseDto;
+import com.example.taskforge.dto.user.UserRegistrationRequestDto;
 import com.example.taskforge.exception.RegistrationException;
-import com.example.taskforge.mapper.ConfirmationTokenMapper;
-import com.example.taskforge.mapper.UserMapper;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +22,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
     private final ConfirmationTokenService confirmationTokenService;
-    private final ConfirmationTokenMapper confirmationTokenMapper;
 
     @Override
-    public UserResponseDto register(UserRegistrationRequestDto requestDto)
+    public ConfirmationTokenResponseDto register(UserRegistrationRequestDto requestDto)
             throws RegistrationException {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
             throw new RegistrationException("Email is already taken, try another one");
@@ -42,15 +38,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setLanguage(User.Language.ENGLISH);
         User userFromDb = userRepository.save(user);
 
-        CreateConfirmationTokenDto createConfirmationTokenDto =
+        ConfirmationTokenRequestDto confirmationTokenRequestDto =
                 confirmationTokenService.generateConfirmationTokenDto(userFromDb);
-        confirmationTokenService.save(confirmationTokenMapper.toModel(createConfirmationTokenDto));
+        return confirmationTokenService.save(confirmationTokenRequestDto);
 
         //todo: maybe here we should send an email
         // He returns token in this place
 
-
-        return userMapper.toDto(userFromDb);
+        //return userMapper.toDto(userFromDb);
 
         //todo: update logic with color and language
     }

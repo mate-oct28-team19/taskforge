@@ -1,13 +1,13 @@
 package com.example.taskforge.dto;
 
 import com.example.taskforge.model.User;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class CreateConfirmationTokenDto {
+public class ConfirmationTokenRequestDto {
     private String token;
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;

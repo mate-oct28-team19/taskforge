@@ -1,6 +1,6 @@
 package com.example.taskforge.service.impls;
 
-import com.example.taskforge.dto.CreateUserRequestDto;
+import com.example.taskforge.dto.user.CreateUserRequestDto;
 import com.example.taskforge.mapper.UserMapper;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.UserRepository;

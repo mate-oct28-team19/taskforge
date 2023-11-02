@@ -1,6 +1,6 @@
 package com.example.taskforge.validation;
 
-import com.example.taskforge.dto.UserRegistrationRequestDto;
+import com.example.taskforge.dto.user.UserRegistrationRequestDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

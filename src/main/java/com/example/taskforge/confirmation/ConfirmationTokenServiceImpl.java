@@ -1,27 +1,33 @@
 package com.example.taskforge.confirmation;
 
-import com.example.taskforge.dto.CreateConfirmationTokenDto;
+import com.example.taskforge.dto.ConfirmationTokenRequestDto;
+import com.example.taskforge.dto.ConfirmationTokenResponseDto;
+import com.example.taskforge.mapper.ConfirmationTokenMapper;
 import com.example.taskforge.model.ConfirmationToken;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.ConfirmationTokenRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final ConfirmationTokenMapper tokenMapper;
 
     @Override
-    public void save(ConfirmationToken confirmationToken) {
-        confirmationTokenRepository.save(confirmationToken);
+    public ConfirmationTokenResponseDto save(
+            ConfirmationTokenRequestDto confirmationTokenRequestDto) {
+        ConfirmationToken confirmationToken =
+                confirmationTokenRepository.save(tokenMapper.toModel(confirmationTokenRequestDto));
+        return tokenMapper.toDto(confirmationToken);
     }
 
-    public CreateConfirmationTokenDto generateConfirmationTokenDto(User user) {
+    public ConfirmationTokenRequestDto generateConfirmationTokenDto(User user) {
         String token = UUID.randomUUID().toString();
-        CreateConfirmationTokenDto createDto = new CreateConfirmationTokenDto();
+        ConfirmationTokenRequestDto createDto = new ConfirmationTokenRequestDto();
         createDto.setToken(token);
         createDto.setCreatedAt(LocalDateTime.now());
         createDto.setExpiresAt(LocalDateTime.now().plusMinutes(15));

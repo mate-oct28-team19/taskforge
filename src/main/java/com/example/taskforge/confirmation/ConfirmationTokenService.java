@@ -1,11 +1,11 @@
 package com.example.taskforge.confirmation;
 
-import com.example.taskforge.dto.CreateConfirmationTokenDto;
-import com.example.taskforge.model.ConfirmationToken;
+import com.example.taskforge.dto.ConfirmationTokenRequestDto;
+import com.example.taskforge.dto.ConfirmationTokenResponseDto;
 import com.example.taskforge.model.User;
 
 public interface ConfirmationTokenService {
-    void save(ConfirmationToken confirmationToken);
+    ConfirmationTokenResponseDto save(ConfirmationTokenRequestDto confirmationToken);
 
-    CreateConfirmationTokenDto generateConfirmationTokenDto(User user);
+    ConfirmationTokenRequestDto generateConfirmationTokenDto(User user);
 }
