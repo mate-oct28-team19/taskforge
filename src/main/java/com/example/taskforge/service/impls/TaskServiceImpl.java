@@ -14,6 +14,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -40,7 +41,6 @@ public class TaskServiceImpl implements TaskService {
         task.setUser(user);
         task.setStatus(Task.Status.TODO);
         task.setCreationDate(LocalDate.now());
-        task.setDeletionDate(LocalDate.now().plusMonths(1));
         return taskMapper.toDto(taskRepository.save(task));
     }
 
@@ -56,6 +56,14 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void delete(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 1 * * *")
+    public void deleteOldTasks() {
+        LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
+        List<Task> oldTasks = taskRepository.findOldTasksWithStatusDone(oneMonthAgo);
+        taskRepository.deleteAll(oldTasks);
     }
 
     private User getUserByEmail(String email) {
