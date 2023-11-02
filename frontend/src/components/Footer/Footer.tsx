@@ -6,8 +6,8 @@ import { LangContext } from '../../contexts/LangContext';
 import { translator } from '../../translator';
 
 export const Footer: React.FC = () => {
-  const theme = useContext(ThemeContext);
-  const lang = useContext(LangContext);
+  const { theme } = useContext(ThemeContext);
+  const { lang } = useContext(LangContext);
 
   return (
     <footer className={classNames(

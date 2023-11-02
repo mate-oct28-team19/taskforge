@@ -8,6 +8,7 @@
   font-family: 'Montserrat', sans-serif;
   position: absolute;
   bottom: 0;
+  transition: background-color 0.3s ease-in-out;
 
   &--dark {
     background-color: #fff;
@@ -16,6 +17,7 @@
   &__github-logo {
     margin-right: 15.7px;
     fill: #fff;
+    transition: fill 0.3s ease-in-out;
 
     &--dark {
       fill: #303747;
@@ -25,9 +27,39 @@
   &__link-to-repo {
     color: #fff;
     font-size: 15px;
+    transition: color 0.3s ease-in-out;
 
     &--dark {
       color: #303747;
+    }
+  }
+}
+
+
+@media (max-width: 500px) {
+  .footer {
+    background-color: transparent;
+
+    &--dark {
+      background-color: transparent;
+    }
+
+    &__github-logo {
+      fill: #4748EE;
+      transition: fill 0.3s ease-in-out;
+
+      &--dark {
+        fill: #fff;
+      }
+    }
+
+    &__link-to-repo {
+      color: #4748EE;
+      transition: color 0.3s ease-in-out;
+
+      &--dark {
+        color: #fff;
+      }
     }
   }
 }
