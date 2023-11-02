@@ -27,18 +27,16 @@ public class Task {
     private Long id;
     @Min(5)
     @Max(254)
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String title;
     @Column(nullable = false, name = "creation_date")
     private LocalDate creationDate;
-    @Column(nullable = false, name = "deletion_date")
-    private LocalDate deletionDate;
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Status status;
 
     public enum Status {
-        TODO, IN_PROCESS, FINISHED
+        TODO, IN_PROCESS, DONE
     }
 
     @EqualsAndHashCode.Exclude
