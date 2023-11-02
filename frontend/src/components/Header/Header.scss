@@ -20,3 +20,19 @@
     display: flex;
   }
 }
+
+@media (max-width: 1100px) {
+  .header {
+    justify-content: center;
+    
+    &__right {
+      display: none;
+    }
+
+    &__logo {
+      font-size: 28px;
+      letter-spacing: 8.26px; 
+    }
+
+  }
+}

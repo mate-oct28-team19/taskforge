@@ -23,10 +23,6 @@
     background-color: #fff;
     border-radius: 60px;
     transition: left 0.3s ease-in-out;
-    
-    &--dark {
-      background-color: rgba(255, 255, 255, 0.16);
-    }
 
     &--choosen-eng {
       left: 8px;
@@ -47,12 +43,21 @@
       font-size: 16px; 
       font-weight: 300; 
       color: #fff;
+      border-radius: 60px;
       padding: 10px 31px;
       z-index: 1;
       transition: color 0.3s ease-in-out;
 
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.17);
+      }
+
       &--active {
         color: #4042E2;
+
+        &-dark {
+          color: #303747;
+        }
       }
     }
   }

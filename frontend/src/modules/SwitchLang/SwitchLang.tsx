@@ -11,7 +11,6 @@ export const SwitchLang: React.FC = () => {
 
   const langToggle = (choosenLang: Lang) => {
     setLang(choosenLang)
-    console.log('clicked', setLang)
   }
 
   return (
