@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Email {
-    String message() default "Please make sure your email address is correct";
+    String message() default "please make sure your email address is correct";
 
     Class<?>[] groups() default {};
 

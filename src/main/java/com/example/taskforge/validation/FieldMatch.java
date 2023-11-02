@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FieldMatch {
-    String message() default "Field password and repeat password should be equal";
+    String message() default "password and repeat password must be the same";
 
     Class<?>[] groups() default {};
 

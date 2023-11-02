@@ -29,4 +29,7 @@ public class UserController {
     void delete(@PathVariable Long id) {
         userService.delete(id);
     }
+
+    //todo: update this controller with change language,
+    // change color scheme, delete user with all dependencies
 }

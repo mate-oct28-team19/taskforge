@@ -14,6 +14,4 @@ public class UserLoginRequestDto {
     @NotEmpty
     @NotNull
     private String password;
-
-    //todo: add validation according to requirements
 }

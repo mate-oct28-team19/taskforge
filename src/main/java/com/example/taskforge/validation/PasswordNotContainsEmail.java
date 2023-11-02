@@ -7,11 +7,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = PassNotContainsEmailValidator.class)
+@Constraint(validatedBy = PasswordNotContainsEmailValidator.class)
 @Target({ElementType.PARAMETER, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PassNotContainsEmail {
-    String message() default "Password should not contain email in it's body";
+public @interface PasswordNotContainsEmail {
+    String message() default "password should not contain email in it's body";
 
     Class<?>[] groups() default {};
 

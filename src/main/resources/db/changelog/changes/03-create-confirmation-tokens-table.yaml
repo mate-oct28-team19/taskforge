@@ -1,42 +1,39 @@
 databaseChangeLog:
   - changeSet:
-      id: create-users-table
+      id: create-confirmation-tokens-table
       author: VolodymyrBarasiuk
       changes:
         - createTable:
-            tableName: users
+            tableName: confirmation_tokens
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: email
-                  type: varchar(255)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: password
-                  type: varchar(255)
+                  name: token
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
-                    name: language
-                    type: varchar(255)
-                    constraints:
-                      nullable: false
-              - column:
-                  name: color_scheme
-                  type: varchar(255)
+                  name: created_at
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
               - column:
-                  name: is_enabled
-                  type: boolean
-                  defaultValueBoolean: false
+                  name: expires_at
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
+              - column:
+                  name: confirmed_at
+                  type: TIMESTAMP
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
