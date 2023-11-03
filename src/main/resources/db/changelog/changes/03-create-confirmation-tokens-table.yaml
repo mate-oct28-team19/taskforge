@@ -32,6 +32,9 @@ databaseChangeLog:
                   name: confirmed_at
                   type: TIMESTAMP
               - column:
+                  name: code
+                  type: INT
+              - column:
                   name: user_id
                   type: BIGINT
                   constraints:

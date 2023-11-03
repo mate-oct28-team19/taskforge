@@ -31,7 +31,7 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         ConfirmationTokenRequestDto createDto = new ConfirmationTokenRequestDto();
         createDto.setToken(token);
         createDto.setCreatedAt(LocalDateTime.now());
-        createDto.setExpiresAt(LocalDateTime.now().plusMinutes(15));
+        createDto.setExpiresAt(LocalDateTime.now().plusMinutes(1));
         createDto.setUser(user);
         return createDto;
 
