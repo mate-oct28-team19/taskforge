@@ -8,9 +8,10 @@ import { Theme } from './types/Theme';
 import { ThemeContext } from './contexts/ThemeContext';
 import { Lang } from './types/Lang';
 import { LangContext } from './contexts/LangContext';
+import { RegistrationPage } from './modules/Registration/RegistrationPage';
 
 function App() {
-  const [theme, setTheme] = useState<Theme>('DARK');
+  const [theme, setTheme] = useState<Theme>('LIGHT');
   const [lang, setLang] = useState<Lang>('ENGLISH');
 
   return (
@@ -18,6 +19,7 @@ function App() {
       <LangContext.Provider value={{ lang, setLang }}>
         <ThemeContext.Provider value={{ theme, setTheme}}>
           <Header></Header>
+          <RegistrationPage></RegistrationPage>
           <Footer></Footer>
         </ThemeContext.Provider>
       </LangContext.Provider>
