@@ -5,7 +5,8 @@
     box-sizing: border-box;
   }
 
-  position: absolute;
+  height: calc(100vh - 90px - 50px);
+  min-height: 500px;
   top: 90px;
   left: 0;
   right: 0;
