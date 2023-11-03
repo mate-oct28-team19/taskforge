@@ -11,5 +11,7 @@ public interface AuthenticationService {
     ConfirmationTokenResponseDto register(UserRegistrationRequestDto requestDto)
             throws RegistrationException;
 
-    UserLoginResponseDto authenticate(UserLoginRequestDto request);
+    UserLoginResponseDto authenticate(UserLoginRequestDto request) throws RegistrationException;
+
+    public String confirmRegistrationToken(String token) throws RegistrationException;
 }

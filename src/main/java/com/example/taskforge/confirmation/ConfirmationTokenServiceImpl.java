@@ -2,6 +2,7 @@ package com.example.taskforge.confirmation;
 
 import com.example.taskforge.dto.ConfirmationTokenRequestDto;
 import com.example.taskforge.dto.ConfirmationTokenResponseDto;
+import com.example.taskforge.exception.EntityNotFoundException;
 import com.example.taskforge.mapper.ConfirmationTokenMapper;
 import com.example.taskforge.model.ConfirmationToken;
 import com.example.taskforge.model.User;
@@ -33,5 +34,19 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         createDto.setExpiresAt(LocalDateTime.now().plusMinutes(15));
         createDto.setUser(user);
         return createDto;
+
+        //todo: generate token instead dto
+    }
+
+    @Override
+    public ConfirmationToken findToken(String token) {
+        return confirmationTokenRepository
+                .findByToken(token)
+                .orElseThrow(() -> new EntityNotFoundException("token not found"));
+    }
+
+    @Override
+    public ConfirmationToken update(ConfirmationToken confirmationToken) {
+        return confirmationTokenRepository.save(confirmationToken);
     }
 }

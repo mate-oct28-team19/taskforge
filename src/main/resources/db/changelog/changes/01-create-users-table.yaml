@@ -35,7 +35,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: is_enabled
+                  name: enabled
                   type: boolean
                   defaultValueBoolean: false
                   constraints:

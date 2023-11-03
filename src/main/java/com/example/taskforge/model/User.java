@@ -45,7 +45,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private ColorScheme colorScheme;
     @Column(nullable = false)
-    private boolean isEnabled = false;
+    private boolean enabled = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -74,6 +74,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

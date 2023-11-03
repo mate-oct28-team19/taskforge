@@ -5,6 +5,7 @@ import com.example.taskforge.mapper.UserMapper;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.UserRepository;
 import com.example.taskforge.service.UserService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,18 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         //todo: implement deletion all the task that belongs to user
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public void enableUser(Long id) {
+        User user = userRepository.findById(id).get();
+        user.setEnabled(true);
+        userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
 
