@@ -10,7 +10,7 @@ export const translator = {
       },
       hrefToLogin: 'Already have an account?',
       btnContinue: 'Continue',
-    }
+    },
   },
   UKRAINIAN: {
     footer: 'Код проєкту TaskForge',
@@ -23,7 +23,7 @@ export const translator = {
       },
       hrefToLogin: 'Вже маєш аккаунт?',
       btnContinue: 'Продовжити',
-    }
+    },
   },
   POLISH: {
     footer: 'Kod projektu TaskForge',
@@ -36,6 +36,6 @@ export const translator = {
       },
       hrefToLogin: 'Posiadasz już konto?',
       btnContinue: 'Kontynuować',
-    }
+    },
   },
 }

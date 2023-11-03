@@ -1,4 +1,19 @@
 .App {
   height: 100vh;
   transition: background-color 0.3s ease-in-out;
+
+  &--dark {
+    background-color: #303747;
+  }
+
+  @media (max-width: 1100px) {
+    background-image: url(./modules/Registration/assets/registration-bg-mobile-light.png);
+    background-size: 120%;
+    background-repeat: no-repeat;
+    background-position: 90% 0;
+
+    &--dark {
+      background-image: url(./modules/Registration/assets/registration-bg-mobile-dark.png);;
+    }
+  }
 }

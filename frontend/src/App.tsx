@@ -9,13 +9,18 @@ import { ThemeContext } from './contexts/ThemeContext';
 import { Lang } from './types/Lang';
 import { LangContext } from './contexts/LangContext';
 import { RegistrationPage } from './modules/Registration/RegistrationPage';
+import classNames from 'classnames';
 
 function App() {
-  const [theme, setTheme] = useState<Theme>('LIGHT');
+  const [theme, setTheme] = useState<Theme>("DARK");
   const [lang, setLang] = useState<Lang>('ENGLISH');
 
   return (
-    <div className="App" style={{ backgroundColor: (theme === 'DARK' && '#303747') || 'white' }}>
+    <div className={classNames(
+      'App',
+      { "App--dark": theme === 'DARK' }
+      )}
+    >
       <LangContext.Provider value={{ lang, setLang }}>
         <ThemeContext.Provider value={{ theme, setTheme}}>
           <Header></Header>
