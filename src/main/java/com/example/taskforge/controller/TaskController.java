@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,13 +34,18 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskDto createBook(@RequestBody @Valid CreateTaskRequestDto requestDto) {
+    public TaskDto createTask(@RequestBody @Valid CreateTaskRequestDto requestDto) {
         return taskService.save(getAuthenticationName(), requestDto);
     }
 
     @PutMapping("/{id}")
-    public TaskDto updateBook(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto) {
+    public TaskDto updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto) {
         return taskService.update(id, taskDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable Long id) {
+        taskService.delete(id);
     }
 
     private String getAuthenticationName() {

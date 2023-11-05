@@ -15,6 +15,6 @@ public interface TaskService {
 
     void delete(Long id);
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 1 * * *")
     void deleteOldTasks();
 }
