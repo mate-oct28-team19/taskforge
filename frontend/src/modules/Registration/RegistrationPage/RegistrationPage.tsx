@@ -2,15 +2,23 @@
 import './RegistrationPage.scss';
 import image from '../assets/registration-bg.png';
 import { translator } from '../../../translator';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { LangContext } from '../../../contexts/LangContext';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import classNames from 'classnames';
+import { ConfirmEmailModalWindow } from '../../ConfirmEmail/ConfirmEmailModalWindow';
 
 export const RegistrationPage: React.FC = () => {
-  const { theme } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
+  const [modalWinIsOpened, setModalWinIsOpened] = useState<boolean>(false);
   const regTranslate = translator[lang].registration;
+
+  const onSubmitHanlder = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setModalWinIsOpened(true);
+  }
 
   return (
     <div className="registration-page">
@@ -23,6 +31,7 @@ export const RegistrationPage: React.FC = () => {
           { "registration--dark": theme === 'DARK' }
         )}
         method="post"
+        onSubmit={onSubmitHanlder}
       >
         <p className={classNames(
           'registration__label',
@@ -39,6 +48,7 @@ export const RegistrationPage: React.FC = () => {
           type="email"
           name="email"
           placeholder={regTranslate.placeholders.email}
+          required
         />
 
         <input
@@ -49,6 +59,7 @@ export const RegistrationPage: React.FC = () => {
           type="password"
           name="password"
           placeholder={regTranslate.placeholders.password}
+          required
         />
 
         <input
@@ -59,6 +70,7 @@ export const RegistrationPage: React.FC = () => {
           type="password"
           name="repeat-password"
           placeholder={regTranslate.placeholders.repeatPassword}
+          required
         />
 
         <a
@@ -90,8 +102,8 @@ export const RegistrationPage: React.FC = () => {
             type="button"
           >
             <svg width="34" height="34" fill="none" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" className="google">
-              <path d="M22.9117 10.8383C21.3346 9.4342 19.295 8.66098 17.1834 8.66666C12.4784 8.66666 8.66675 12.3983 8.66675 17C8.66675 21.6017 12.4784 25.3333 17.1817 25.3333C22.9651 25.3333 25.1001 21.05 25.3334 17.695H18.4017" stroke-width="3"/>
-              <path d="M32 10.3333V23.6667C32 25.8768 31.122 27.9964 29.5592 29.5592C27.9964 31.122 25.8768 32 23.6667 32H10.3333C8.1232 32 6.00358 31.122 4.44078 29.5592C2.87797 27.9964 2 25.8768 2 23.6667V10.3333C2 8.1232 2.87797 6.00358 4.44078 4.44078C6.00358 2.87797 8.1232 2 10.3333 2H23.6667C25.8768 2 27.9964 2.87797 29.5592 4.44078C31.122 6.00358 32 8.1232 32 10.3333Z" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22.9117 10.8383C21.3346 9.4342 19.295 8.66098 17.1834 8.66666C12.4784 8.66666 8.66675 12.3983 8.66675 17C8.66675 21.6017 12.4784 25.3333 17.1817 25.3333C22.9651 25.3333 25.1001 21.05 25.3334 17.695H18.4017" strokeWidth="3"/>
+              <path d="M32 10.3333V23.6667C32 25.8768 31.122 27.9964 29.5592 29.5592C27.9964 31.122 25.8768 32 23.6667 32H10.3333C8.1232 32 6.00358 31.122 4.44078 29.5592C2.87797 27.9964 2 25.8768 2 23.6667V10.3333C2 8.1232 2.87797 6.00358 4.44078 4.44078C6.00358 2.87797 8.1232 2 10.3333 2H23.6667C25.8768 2 27.9964 2.87797 29.5592 4.44078C31.122 6.00358 32 8.1232 32 10.3333Z" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg> 
 
             <span className="button__label">Google</span>
@@ -113,6 +125,8 @@ export const RegistrationPage: React.FC = () => {
           </button>
         </div>
       </form>
+
+      {modalWinIsOpened && <ConfirmEmailModalWindow closeModalWin={() => setModalWinIsOpened(false)} />}
     </div>
   );
 }

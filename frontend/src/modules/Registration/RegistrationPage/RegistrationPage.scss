@@ -26,7 +26,7 @@
   border: 2px solid #4547EA;
   padding: 41px 66px 51px;
   background-color: #fff;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
 
   &--dark {
     border-color: #fff;

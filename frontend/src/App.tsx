@@ -12,7 +12,7 @@ import { RegistrationPage } from './modules/Registration/RegistrationPage';
 import classNames from 'classnames';
 
 function App() {
-  const [theme, setTheme] = useState<Theme>("DARK");
+  const [theme, setTheme] = useState<Theme>("LIGHT");
   const [lang, setLang] = useState<Lang>('ENGLISH');
 
   return (

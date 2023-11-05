@@ -11,6 +11,10 @@ export const translator = {
       hrefToLogin: 'Already have an account?',
       btnContinue: 'Continue',
     },
+    modalWindowConfirmEmail: {
+      label: 'To confirm your e-mail, enter the 6 digits that were sent to ',
+      sendCodeAgain: 'Send code again'
+    }
   },
   UKRAINIAN: {
     footer: 'Код проєкту TaskForge',
@@ -24,6 +28,10 @@ export const translator = {
       hrefToLogin: 'Вже маєш аккаунт?',
       btnContinue: 'Продовжити',
     },
+    modalWindowConfirmEmail: {
+      label: 'Щоб підтвердити твою електронну пошту, введи тут 6 цифр, які ми надіслали тобі на ',
+      sendCodeAgain: 'Надіслати код знову'
+    }
   },
   POLISH: {
     footer: 'Kod projektu TaskForge',
@@ -37,5 +45,9 @@ export const translator = {
       hrefToLogin: 'Posiadasz już konto?',
       btnContinue: 'Kontynuować',
     },
+    modalWindowConfirmEmail: {
+      label: 'Aby potwierdzić swój adres e-mail, wpisz 6 cyfr, które zostały wysłane na adres ',
+      sendCodeAgain: 'Wysłać kod jeszcze raz'
+    }
   },
 }
