@@ -1,6 +1,6 @@
 package com.example.taskforge.controller;
 
-import com.example.taskforge.dto.CreateUserRequestDto;
+import com.example.taskforge.dto.user.CreateUserRequestDto;
 import com.example.taskforge.model.User;
 import com.example.taskforge.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,4 +29,7 @@ public class UserController {
     void delete(@PathVariable Long id) {
         userService.delete(id);
     }
+
+    //todo: update this controller with change language,
+    // change color scheme, delete user with all dependencies
 }

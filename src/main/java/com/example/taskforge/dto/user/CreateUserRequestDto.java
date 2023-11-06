@@ -1,4 +1,4 @@
-package com.example.taskforge.dto;
+package com.example.taskforge.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;

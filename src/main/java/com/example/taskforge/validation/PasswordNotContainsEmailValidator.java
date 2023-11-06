@@ -1,11 +1,11 @@
 package com.example.taskforge.validation;
 
-import com.example.taskforge.dto.UserRegistrationRequestDto;
+import com.example.taskforge.dto.user.UserRegistrationRequestDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PassNotContainsEmailValidator implements ConstraintValidator
-        <PassNotContainsEmail, UserRegistrationRequestDto> {
+public class PasswordNotContainsEmailValidator implements ConstraintValidator
+        <PasswordNotContainsEmail, UserRegistrationRequestDto> {
     @Override
     public boolean isValid(UserRegistrationRequestDto dto, ConstraintValidatorContext context) {
         return !dto.getPassword().contains(dto.getEmail());
