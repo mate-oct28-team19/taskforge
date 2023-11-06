@@ -3,5 +3,3 @@ databaseChangeLog:
       file: db/changelog/changes/01-create-users-table.yaml
   - include:
       file: db/changelog/changes/02-create-tasks-table.yaml
-  - include:
-      file: db/changelog/changes/03-create-confirmation-tokens-table.yaml

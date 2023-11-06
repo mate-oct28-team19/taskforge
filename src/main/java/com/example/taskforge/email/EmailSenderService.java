@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EmailSenderService implements EmailSender {
-    private final Logger LOGGER = LoggerFactory.getLogger(EmailSenderService.class);
+    private final Logger logger = LoggerFactory.getLogger(EmailSenderService.class);
     private final JavaMailSender mailSender;
 
     @Override
@@ -29,7 +29,7 @@ public class EmailSenderService implements EmailSender {
             helper.setFrom("taskforge19@gmail.com");
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
-            LOGGER.error("failed to send email", e);
+            logger.error("failed to send email", e);
             throw new RegistrationException("failed to send email");
         }
 

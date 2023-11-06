@@ -16,6 +16,11 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public User save(CreateUserRequestDto requestDto) {
         requestDto.setLanguage("ENGLISH");
         requestDto.setColorScheme("LIGHT");
