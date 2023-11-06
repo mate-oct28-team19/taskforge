@@ -1,7 +1,8 @@
-import classNames from 'classnames';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { CloseIcon } from '../../../UI/CloseIcon/CloseIcon';
+import classNames from 'classnames';
 import './ConfirmEmailModalWindow.scss';
+
+import { CloseIcon } from '../../../UI/CloseIcon/CloseIcon';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import { LangContext } from '../../../contexts/LangContext';
 import { translator } from '../../../translator';

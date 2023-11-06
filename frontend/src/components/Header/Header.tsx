@@ -1,10 +1,11 @@
 import { useContext } from 'react';
+import classNames from 'classnames';
 import './Header.scss';
 
 import { ThemeContext } from "../../contexts/ThemeContext";
+
 import { ButtonSwitchTheme } from '../../modules/ButtonSwitchTheme';
 import { SwitchLang } from '../../modules/SwitchLang';
-import classNames from 'classnames';
 
 export const Header: React.FC = () => {
   const { theme } = useContext(ThemeContext);

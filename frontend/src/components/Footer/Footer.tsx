@@ -1,9 +1,9 @@
-import classNames from 'classnames';
-import './Footer.scss';
 import { useContext } from 'react';
+import classNames from 'classnames';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { LangContext } from '../../contexts/LangContext';
 import { translator } from '../../translator';
+import './Footer.scss';
 
 export const Footer: React.FC = () => {
   const { theme } = useContext(ThemeContext);
