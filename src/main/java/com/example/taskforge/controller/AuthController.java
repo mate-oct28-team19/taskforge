@@ -58,6 +58,8 @@ public class AuthController {
         return authenticationService.resend(token);
     }
 
+
+
     //  @PostMapping("/confirm")
     //  @ResponseStatus(HttpStatus.OK)
     //  public void confirmCode(@RequestParam String token) throws RegistrationException {
