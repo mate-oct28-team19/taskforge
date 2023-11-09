@@ -39,8 +39,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = new User();
         user.setEmail(requestDto.getEmail());
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        user.setColorScheme(User.ColorScheme.LIGHT);
-        user.setLanguage(User.Language.ENGLISH);
+        user.setColorScheme(requestDto.getColorScheme());
+        user.setLanguage(requestDto.getLanguage());
         User userFromDb = userRepository.save(user);
 
         return createRegistrationResponseDto(userFromDb);
@@ -58,7 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         String token = jwtUtil.generateToken(user.getEmail());
-        return new UserLoginResponseDto(token);
+        return new UserLoginResponseDto(token, user.getColorScheme(), user.getLanguage());
     }
 
     @Transactional
@@ -79,38 +79,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return createRegistrationResponseDto(user);
     }
 
-    @Override
-    public void enableUser(String token) throws RegistrationException {
-        checkIsTokenValid(token);
-        User user = getUserFromDbByToken(token);
-        checkIsUserEnabled(user);
-        user.setEnabled(true);
-        userService.save(user);
-    }
-
-    private UserRegistrationResponseDto createRegistrationResponseDto(User user) {
+    private UserRegistrationResponseDto createRegistrationResponseDto(User user) throws RegistrationException {
         int randomConfirmationCode = generateRandomConfirmationCode();
         String token = jwtUtil.generateToken(user.getEmail());
 
-        UserRegistrationResponseDto responseDto = new UserRegistrationResponseDto();
-        responseDto.setToken(token);
-        responseDto.setCode(randomConfirmationCode);
-
         sendEmailWithActivationLinkAndCode(token, randomConfirmationCode, user);
 
-        return responseDto;
+        return new UserRegistrationResponseDto(
+                token, randomConfirmationCode, user.getColorScheme(), user.getLanguage());
     }
 
     private void sendEmailWithActivationLinkAndCode(
             String token,
             int randomConfirmationCode,
-            User user) {
-        String link = "http://localhost:8080/auth/confirm?token=" + token;
-        try {
-            emailSender.send(user.getEmail(), buildEmail(randomConfirmationCode, link));
-        } catch (RegistrationException e) {
-            throw new RuntimeException(e);
-        }
+            User user) throws RegistrationException {
+        String link = "http://ec2-52-91-108-232.compute-1.amazonaws.com/auth/confirm?token=" + token;
+        emailSender.send(user.getEmail(), buildEmail(randomConfirmationCode, link));
     }
 
     private User getUserFromDbByToken(String token) throws RegistrationException {

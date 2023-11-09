@@ -16,6 +16,4 @@ public interface AuthenticationService {
     String confirmRegistrationToken(String token) throws RegistrationException;
 
     UserRegistrationResponseDto resend(String token) throws RegistrationException;
-
-    void enableUser(String token) throws RegistrationException;
 }
