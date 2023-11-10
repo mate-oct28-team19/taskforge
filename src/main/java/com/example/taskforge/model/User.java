@@ -2,8 +2,6 @@ package com.example.taskforge.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,21 +27,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    public enum Language {
-        UKRAINIAN, ENGLISH, POLISH
-    }
+    @Column(nullable = false)
+    private String language;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Language language;
+    private String colorScheme;
 
-    public enum ColorScheme {
-        LIGHT, DARK
-    }
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ColorScheme colorScheme;
     @Column(nullable = false)
     private boolean enabled = false;
 

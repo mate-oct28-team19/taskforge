@@ -28,7 +28,7 @@ public class AuthController {
 
     @Operation(summary = "Login", description = "Login into the system")
     @PostMapping("/login")
-    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto requestDto)
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto)
             throws RegistrationException {
         return authenticationService.authenticate(requestDto);
     }
@@ -57,12 +57,4 @@ public class AuthController {
             throws RegistrationException {
         return authenticationService.resend(token);
     }
-
-
-
-    //  @PostMapping("/confirm")
-    //  @ResponseStatus(HttpStatus.OK)
-    //  public void confirmCode(@RequestParam String token) throws RegistrationException {
-    //      authenticationService.enableUser(token);
-    //  }
 }

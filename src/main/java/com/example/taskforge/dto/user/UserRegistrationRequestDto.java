@@ -25,4 +25,10 @@ public class UserRegistrationRequestDto {
     @NotNull
     @NotEmpty
     private String repeatPassword;
+    @NotNull
+    @NotEmpty
+    private String colorScheme;
+    @NotNull
+    @NotEmpty
+    private String language;
 }
