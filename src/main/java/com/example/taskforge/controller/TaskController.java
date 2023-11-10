@@ -2,7 +2,6 @@ package com.example.taskforge.controller;
 
 import com.example.taskforge.dto.task.CreateTaskRequestDto;
 import com.example.taskforge.dto.task.TaskDto;
-import com.example.taskforge.exception.EntityNotFoundException;
 import com.example.taskforge.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,13 +37,15 @@ public class TaskController {
     @Operation(summary = "Create a new task", description = "Create a new task")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskDto createTask(@RequestBody @Valid CreateTaskRequestDto requestDto, Authentication authentication) {
+    public TaskDto createTask(@RequestBody @Valid CreateTaskRequestDto requestDto,
+                              Authentication authentication) {
         return taskService.save(authentication.getName(), requestDto);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a task", description = "Update a task by id")
-    public TaskDto updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto, Authentication authentication) {
+    public TaskDto updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto,
+                              Authentication authentication) {
         return taskService.update(authentication.getName(), id, taskDto);
     }
 

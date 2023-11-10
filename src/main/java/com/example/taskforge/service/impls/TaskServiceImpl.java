@@ -54,7 +54,8 @@ public class TaskServiceImpl implements TaskService {
             task.setStatus(taskDto.getStatus());
             return taskMapper.toDto(taskRepository.save(task));
         } else {
-            throw new AccessDeniedException("User does not have permission to update task with id:" + id);
+            throw new AccessDeniedException("User does not have"
+                   + " permission to update task with id:" + id);
         }
     }
 
@@ -65,9 +66,10 @@ public class TaskServiceImpl implements TaskService {
         if (task.getUser().getId() == user.getId()) {
             taskRepository.deleteById(id);
         } else {
-            throw new AccessDeniedException("User does not have permission to update task with id:" + id);
+            throw new AccessDeniedException("User does not have"
+                   + " permission to update task with id:" + id);
         }
-        }
+    }
 
     @Override
     @Scheduled(cron = "0 0 1 * * *")
