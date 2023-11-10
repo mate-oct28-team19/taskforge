@@ -13,6 +13,8 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import java.time.LocalDate;
+
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -24,8 +26,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
     private Long id;
-    @Min(5)
-    @Max(254)
+    @Size(min = 5, max = 254)
     @Column(nullable = false)
     private String title;
     @Column(nullable = false, name = "creation_date")

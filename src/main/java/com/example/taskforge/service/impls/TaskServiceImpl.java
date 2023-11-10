@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -45,18 +46,28 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskDto update(Long id, TaskDto taskDto) {
-        Task task = taskRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Can not find task by id:" + id));
-        task.setTitle(taskDto.getTitle());
-        task.setStatus(taskDto.getStatus());
-        return taskMapper.toDto(taskRepository.save(task));
+    public TaskDto update(String email, Long id, TaskDto taskDto) {
+        User user = getUserByEmail(email);
+        Task task = find(id);
+        if (task.getUser().getId() == user.getId()) {
+            task.setTitle(taskDto.getTitle());
+            task.setStatus(taskDto.getStatus());
+            return taskMapper.toDto(taskRepository.save(task));
+        } else {
+            throw new AccessDeniedException("User does not have permission to update task with id:" + id);
+        }
     }
 
     @Override
-    public void delete(Long id) {
-        taskRepository.deleteById(id);
-    }
+    public void delete(String email, Long id) {
+        User user = getUserByEmail(email);
+        Task task = find(id);
+        if (task.getUser().getId() == user.getId()) {
+            taskRepository.deleteById(id);
+        } else {
+            throw new AccessDeniedException("User does not have permission to update task with id:" + id);
+        }
+        }
 
     @Override
     @Scheduled(cron = "0 0 1 * * *")
@@ -64,6 +75,11 @@ public class TaskServiceImpl implements TaskService {
         LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
         List<Task> oldTasks = taskRepository.findOldTasksWithStatusDone(oneMonthAgo);
         taskRepository.deleteAll(oldTasks);
+    }
+
+    private Task find(Long id) {
+        return taskRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can not find task by id:" + id));
     }
 
     private User getUserByEmail(String email) {
