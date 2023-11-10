@@ -11,9 +11,9 @@ public interface TaskService {
 
     TaskDto save(String email, CreateTaskRequestDto requestDto);
 
-    TaskDto update(Long id, TaskDto taskDto);
+    TaskDto update(String email, Long id, TaskDto taskDto);
 
-    void delete(Long id);
+    void delete(String email, Long id);
 
     @Scheduled(cron = "0 0 1 * * *")
     void deleteOldTasks();
