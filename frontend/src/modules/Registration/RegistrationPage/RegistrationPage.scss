@@ -72,6 +72,15 @@
         color: rgba(204, 207, 222, 0.30); 
       }
     }
+
+    &--warning {
+      color: #c54b4b;
+      border-color: #c54b4b;
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
   &__link-to-login {
@@ -157,7 +166,8 @@
   }
 
   &__buttons {
-    display: grid;
+    // display: grid;
+    display: none;
     margin-top: 15px;
     grid-template-columns: 1fr 1fr;
     gap: 14px;

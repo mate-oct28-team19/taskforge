@@ -1,23 +1,75 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useContext, useState } from 'react';
+import classNames from 'classnames';
 import './RegistrationPage.scss';
 import image from '../assets/registration-bg.png';
 import { translator } from '../../../translator';
-import { useContext, useState } from 'react';
+
+//   Contexts
 import { LangContext } from '../../../contexts/LangContext';
 import { ThemeContext } from '../../../contexts/ThemeContext';
-import classNames from 'classnames';
+
+//   Components
 import { ConfirmEmailModalWindow } from '../../ConfirmEmail/ConfirmEmailModalWindow';
 
+//   Handlers
+import { onChangePasswordFieldHandler } from '../handlers/onChangePasswordFieldHandler';
+import { onChangeEmailHandler } from '../handlers/onChangeEmailHandler';
+
+//   API
+import { registrateUser } from '../api/registrationAPI';
+import { confirmEmail } from '../api/confirmEmailAPI';
+
 export const RegistrationPage: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [repeatPassword, setRepeatPassword] = useState<string>('');
+  const [confirmCodeFromServer, setConfirmCodeFromServer] = useState<string>('');
+  const [token, setToken] = useState<string>('');
+
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
+  const [disableElemsForm, setDisableElemsForm] = useState<boolean>(false)
   const [modalWinIsOpened, setModalWinIsOpened] = useState<boolean>(false);
+  const [typeOfInputs, setTypeOfInputs] = useState<'password' | 'text'>('password')
   const regTranslate = translator[lang].registration;
 
   const onSubmitHanlder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setModalWinIsOpened(true);
+    if (password !== repeatPassword) {
+      const passwordOfUser = password;
+      const repeatPasswordOfUser = repeatPassword;
+
+      setDisableElemsForm(true);
+      setTypeOfInputs('text');
+      setPassword(regTranslate.labelPasswordMismatch);
+      setRepeatPassword(regTranslate.labelPasswordMismatch);
+
+      setTimeout(() => {
+        setDisableElemsForm(false);
+        setTypeOfInputs('password');
+        setPassword(passwordOfUser)
+        setRepeatPassword(repeatPasswordOfUser)
+      }, 2000)
+    } else {
+      const body = {
+        email,
+        password,
+        repeatPassword,
+        colorScheme: theme,
+        language: lang,
+      }
+
+      registrateUser(body, setToken, setConfirmCodeFromServer);
+      setModalWinIsOpened(true);
+    }
+  }
+
+  const codeIsValid = (code: string) => {
+    if (code === confirmCodeFromServer.toString()) {
+      confirmEmail(token)
+    }
   }
 
   return (
@@ -37,7 +89,7 @@ export const RegistrationPage: React.FC = () => {
           'registration__label',
           { "registration__label--dark": theme === 'DARK' }
         )}>
-          { regTranslate.label }
+          { regTranslate.label } 
         </p>
 
         <input
@@ -48,29 +100,43 @@ export const RegistrationPage: React.FC = () => {
           type="email"
           name="email"
           placeholder={regTranslate.placeholders.email}
+          value={email}
+          onChange={e => onChangeEmailHandler(e, setEmail)}
           required
         />
 
         <input
           className={classNames(
             'registration__input',
-            { "registration__input--dark": theme === 'DARK' }
+            { 
+              "registration__input--dark": theme === 'DARK',
+              "registration__input--warning": disableElemsForm
+            }
           )}
-          type="password"
+          type={typeOfInputs}
           name="password"
           placeholder={regTranslate.placeholders.password}
+          value={password}
+          onChange={e => onChangePasswordFieldHandler(e, setPassword)}
           required
+          disabled={disableElemsForm}
         />
 
         <input
           className={classNames(
             'registration__input',
-            { "registration__input--dark": theme === 'DARK' }
+            { 
+              "registration__input--dark": theme === 'DARK',
+              "registration__input--warning": disableElemsForm
+            }
           )}
-          type="password"
+          type={typeOfInputs}
           name="repeat-password"
           placeholder={regTranslate.placeholders.repeatPassword}
+          value={repeatPassword}
+          onChange={e => onChangePasswordFieldHandler(e, setRepeatPassword)}
           required
+          disabled={disableElemsForm}
         />
 
         <a
@@ -90,6 +156,7 @@ export const RegistrationPage: React.FC = () => {
             'registration__submit',
             { "registration__submit--dark": theme === 'DARK' }
           )}
+          disabled={disableElemsForm}
         />
 
         <div className="registration__buttons">
@@ -126,7 +193,14 @@ export const RegistrationPage: React.FC = () => {
         </div>
       </form>
 
-      {modalWinIsOpened && <ConfirmEmailModalWindow closeModalWin={() => setModalWinIsOpened(false)} />}
+      {modalWinIsOpened && (
+        <ConfirmEmailModalWindow
+          closeModalWin={() => setModalWinIsOpened(false)}
+          email={email} 
+          confirmCodeFromServer={confirmCodeFromServer.toString()}
+          codeIsValid={codeIsValid}
+        />
+      )}
     </div>
   );
 }

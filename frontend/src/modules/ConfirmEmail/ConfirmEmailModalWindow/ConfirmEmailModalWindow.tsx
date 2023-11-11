@@ -9,9 +9,12 @@ import { translator } from '../../../translator';
 
 interface Props {
   closeModalWin: () => void;
+  email: string;
+  confirmCodeFromServer: string;
+  codeIsValid: (code: string) => void;
 }
 
-export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin }) => {
+export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email, confirmCodeFromServer, codeIsValid }) => {
   const [confirmCode, setConfirmCode] = useState<string>('');
 
   const [input1, setInput1] = useState<string>('');
@@ -52,7 +55,8 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin }) => {
     input3 && refInput4.current && refInput4.current.focus();
     input4 && refInput5.current && refInput5.current.focus();
     input5 && refInput6.current && refInput6.current.focus();
-  }, [input1, input2, input3, input4, input5, input6, confirmCode])
+    input6 && codeIsValid(confirmCode);
+  }, [input1, input2, input3, input4, input5, input6, confirmCode, codeIsValid])
 
   function onKeyDownHandler(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Backspace') {
@@ -83,7 +87,7 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin }) => {
               { "modal-window__email-label--dark": theme === 'DARK' }
             )
           }>
-            example@gmail.com
+            { email || 'example@gmail.com' }
           </span>
         </p>
 
