@@ -1,13 +1,11 @@
 package com.example.taskforge.service.impls;
 
-import com.example.taskforge.exception.EntityNotFoundException;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.UserRepository;
 import com.example.taskforge.service.TaskService;
 import com.example.taskforge.service.UserService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,10 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-        User user = userRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("No user with id" + id + " found"));
-        taskService.findAll(user.getEmail(), Pageable.unpaged())
-                .forEach(td -> taskService.delete(td.getId()));
+        taskService.deleteAll(id);
         userRepository.deleteById(id);
     }
 
