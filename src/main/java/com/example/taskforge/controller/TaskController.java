@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TaskController {
     private final TaskService taskService;
 
-
     @Operation(summary = "Get all tasks", description = "Get all user's tasks ")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
