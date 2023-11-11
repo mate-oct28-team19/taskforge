@@ -30,6 +30,7 @@ public class TaskController {
 
     @Operation(summary = "Get all tasks", description = "Get all user's tasks ")
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<TaskDto> getAll(Pageable pageable, Authentication authentication) {
         return taskService.findAll(authentication.getName(), pageable);
     }
@@ -42,15 +43,17 @@ public class TaskController {
         return taskService.save(authentication.getName(), requestDto);
     }
 
-    @PutMapping("/{id}")
     @Operation(summary = "Update a task", description = "Update a task by id")
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public TaskDto updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto,
                               Authentication authentication) {
         return taskService.update(authentication.getName(), id, taskDto);
     }
 
-    @DeleteMapping("/{id}")
     @Operation(summary = "Delete a task", description = "Delete a task by id")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long id, Authentication authentication) {
         taskService.delete(authentication.getName(), id);
     }
