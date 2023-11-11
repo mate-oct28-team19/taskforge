@@ -14,4 +14,6 @@ public interface TaskRepository extends JpaRepository<Task, Long>, JpaSpecificat
 
     @Query("SELECT t FROM Task t WHERE t.status = 'DONE' AND t.creationDate = :oneMonthAgo")
     List<Task> findOldTasksWithStatusDone(LocalDate oneMonthAgo);
+
+    void deleteByUserId(Long userId);
 }
