@@ -103,6 +103,11 @@
       border: 1px solid #FFF; 
     }
 
+    &--warning {
+      color: #c54b4b;
+      border-color: #c54b4b;
+    }
+
     &:focus {
       outline: none;
     }

@@ -19,6 +19,7 @@ import { onChangeEmailHandler } from '../handlers/onChangeEmailHandler';
 //   API
 import { registrateUser } from '../api/registrationAPI';
 import { confirmEmail } from '../api/confirmEmailAPI';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const RegistrationPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -26,13 +27,18 @@ export const RegistrationPage: React.FC = () => {
   const [repeatPassword, setRepeatPassword] = useState<string>('');
   const [confirmCodeFromServer, setConfirmCodeFromServer] = useState<string>('');
   const [token, setToken] = useState<string>('');
+  const [userAlreadyRegistered, setUserAlreadyRegistered] = useState<boolean>(false);
 
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
-  const [disableElemsForm, setDisableElemsForm] = useState<boolean>(false)
+
+  const [disableElemsForm, setDisableElemsForm] = useState<boolean>(false);
   const [modalWinIsOpened, setModalWinIsOpened] = useState<boolean>(false);
-  const [typeOfInputs, setTypeOfInputs] = useState<'password' | 'text'>('password')
+  const [emailIsConfirmed, setEmailIsConfirmed] = useState<boolean>(false);
+  const [typeOfInputs, setTypeOfInputs] = useState<'password' | 'text'>('password');
+
   const regTranslate = translator[lang].registration;
+  const navigate = useNavigate();
 
   const onSubmitHanlder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,8 +55,8 @@ export const RegistrationPage: React.FC = () => {
       setTimeout(() => {
         setDisableElemsForm(false);
         setTypeOfInputs('password');
-        setPassword(passwordOfUser)
-        setRepeatPassword(repeatPasswordOfUser)
+        setPassword(passwordOfUser);
+        setRepeatPassword(repeatPasswordOfUser);
       }, 2000)
     } else {
       const body = {
@@ -61,15 +67,28 @@ export const RegistrationPage: React.FC = () => {
         language: lang,
       }
 
-      registrateUser(body, setToken, setConfirmCodeFromServer);
-      setModalWinIsOpened(true);
+      registrateUser(
+        body,
+        setToken,
+        setConfirmCodeFromServer,
+        setUserAlreadyRegistered,
+        setModalWinIsOpened,
+        setEmail,
+        email,
+      );
     }
   }
 
-  const codeIsValid = (code: string) => {
+  const codeIsValid = (code: string): boolean => {
     if (code === confirmCodeFromServer.toString()) {
-      confirmEmail(token)
+      confirmEmail(token, emailIsConfirmed, setEmailIsConfirmed);
+
+      emailIsConfirmed && navigate('/dashboard');
+
+      return true;
     }
+
+    return false;
   }
 
   return (
@@ -95,13 +114,17 @@ export const RegistrationPage: React.FC = () => {
         <input
           className={classNames(
             'registration__input',
-            { "registration__input--dark": theme === 'DARK' }
+            { 
+              "registration__input--dark": theme === 'DARK',
+              "registration__input--warning": userAlreadyRegistered
+            }
           )}
           type="email"
           name="email"
           placeholder={regTranslate.placeholders.email}
           value={email}
           onChange={e => onChangeEmailHandler(e, setEmail)}
+          disabled={userAlreadyRegistered}
           required
         />
 
@@ -139,15 +162,15 @@ export const RegistrationPage: React.FC = () => {
           disabled={disableElemsForm}
         />
 
-        <a
-          href="#"
+        <Link
+          to="/login"
           className={classNames(
             'registration__link-to-login',
             { "registration__link-to-login--dark": theme === 'DARK' }
           )}
         >
           { regTranslate.hrefToLogin }
-        </a>
+        </Link>
 
         <input
           type="submit"
@@ -196,8 +219,7 @@ export const RegistrationPage: React.FC = () => {
       {modalWinIsOpened && (
         <ConfirmEmailModalWindow
           closeModalWin={() => setModalWinIsOpened(false)}
-          email={email} 
-          confirmCodeFromServer={confirmCodeFromServer.toString()}
+          email={email}
           codeIsValid={codeIsValid}
         />
       )}
