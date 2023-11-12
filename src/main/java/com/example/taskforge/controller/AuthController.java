@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,7 @@ public class AuthController {
 
     @Operation(summary = "Login", description = "Login into the system")
     @PostMapping("/login")
+    @CrossOrigin(origins = "*")
     public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto)
             throws RegistrationException {
         return authenticationService.authenticate(requestDto);
@@ -36,6 +38,7 @@ public class AuthController {
     @Operation(summary = "Register", description = "Register in the system")
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
+    @CrossOrigin(origins = "*")
     public UserRegistrationResponseDto register(
             @RequestBody @Valid UserRegistrationRequestDto registrationRequest)
             throws RegistrationException {
@@ -46,6 +49,7 @@ public class AuthController {
             description = "Confirm registration via link from email")
     @GetMapping("/confirm")
     @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(origins = "*")
     public String confirm(@RequestParam("token") String token) throws RegistrationException {
         return authenticationService.confirmRegistrationToken(token);
     }
@@ -53,6 +57,7 @@ public class AuthController {
     @Operation(summary = "Regenerate & resend code",
             description = "Regenerates and resends confirmation code on email")
     @GetMapping("/resend")
+    @CrossOrigin(origins = "*")
     public UserRegistrationResponseDto resendCode(@RequestParam("token") String token)
             throws RegistrationException {
         return authenticationService.resend(token);

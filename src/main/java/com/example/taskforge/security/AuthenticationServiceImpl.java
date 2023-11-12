@@ -28,6 +28,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final EmailSender emailSender;
+    private final static int MIN_RANDOM = 100000;
+    private final static int MAX_RANDOM = 999999;
+    private static final String LINK = "http://ec2-52-91-108-232.compute-1.amazonaws.com/auth/confirm?token=";
 
     @Override
     public UserRegistrationResponseDto register(UserRegistrationRequestDto requestDto)
@@ -42,7 +45,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setColorScheme(requestDto.getColorScheme());
         user.setLanguage(requestDto.getLanguage());
         User userFromDb = userRepository.save(user);
-
         return createRegistrationResponseDto(userFromDb);
     }
 
@@ -93,8 +95,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String token,
             int randomConfirmationCode,
             User user) throws RegistrationException {
-        String link = "http://ec2-52-91-108-232.compute-1.amazonaws.com/auth/confirm?token=" + token;
-        emailSender.send(user.getEmail(), buildEmail(randomConfirmationCode, link));
+        emailSender.send(user.getEmail(), buildEmail(randomConfirmationCode, LINK + token));
     }
 
     private User getUserFromDbByToken(String token) throws RegistrationException {
@@ -105,9 +106,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private int generateRandomConfirmationCode() {
         Random random = new Random();
-        int min = 100000;
-        int max = 999999;
-        return random.nextInt(max - min + 1) + min;
+        return random.nextInt(MAX_RANDOM - MIN_RANDOM + 1) + MIN_RANDOM;
     }
 
     private void checkIsUserEnabled(User user) throws RegistrationException {

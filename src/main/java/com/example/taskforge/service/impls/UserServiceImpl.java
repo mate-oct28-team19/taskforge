@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("No user with id" + id + " found"));
         taskService.findAll(user.getEmail(), Pageable.unpaged())
-                .forEach(td -> taskService.delete(td.getId()));
+                .forEach(td -> taskService.delete(user.getEmail(), td.getId()));
         userRepository.deleteById(id);
     }
 

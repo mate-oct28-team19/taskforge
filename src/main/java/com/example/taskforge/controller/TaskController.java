@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class TaskController {
 
     @Operation(summary = "Get all tasks", description = "Get all user's tasks ")
     @GetMapping
+    @CrossOrigin(origins = "*")
     public List<TaskDto> getAll(Pageable pageable, Authentication authentication) {
         return taskService.findAll(authentication.getName(), pageable);
     }
@@ -37,6 +39,7 @@ public class TaskController {
     @Operation(summary = "Create a new task", description = "Create a new task")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @CrossOrigin(origins = "*")
     public TaskDto createTask(@RequestBody @Valid CreateTaskRequestDto requestDto,
                               Authentication authentication) {
         return taskService.save(authentication.getName(), requestDto);
@@ -44,6 +47,7 @@ public class TaskController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a task", description = "Update a task by id")
+    @CrossOrigin(origins = "*")
     public TaskDto updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto,
                               Authentication authentication) {
         return taskService.update(authentication.getName(), id, taskDto);
@@ -51,6 +55,8 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a task", description = "Delete a task by id")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CrossOrigin(origins = "*")
     public void deleteTask(@PathVariable Long id, Authentication authentication) {
         taskService.delete(authentication.getName(), id);
     }
