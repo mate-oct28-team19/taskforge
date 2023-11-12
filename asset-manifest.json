@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/taskforge/static/css/main.0929a1ba.css",
-    "main.js": "/taskforge/static/js/main.9501e749.js",
+    "main.css": "/taskforge/static/css/main.9683b20e.css",
+    "main.js": "/taskforge/static/js/main.da7f6f63.js",
     "static/media/registration-bg.png": "/taskforge/static/media/registration-bg.6dba9b30baa1729e00bd.png",
     "static/media/registration-bg-mobile-light.png": "/taskforge/static/media/registration-bg-mobile-light.368f10db2ae92cfaee9f.png",
     "static/media/registration-bg-mobile-dark.png": "/taskforge/static/media/registration-bg-mobile-dark.6ffbd42a9ecaec5510a4.png",
     "index.html": "/taskforge/index.html",
-    "main.0929a1ba.css.map": "/taskforge/static/css/main.0929a1ba.css.map",
-    "main.9501e749.js.map": "/taskforge/static/js/main.9501e749.js.map"
+    "main.9683b20e.css.map": "/taskforge/static/css/main.9683b20e.css.map",
+    "main.da7f6f63.js.map": "/taskforge/static/js/main.da7f6f63.js.map"
   },
   "entrypoints": [
-    "static/css/main.0929a1ba.css",
-    "static/js/main.9501e749.js"
+    "static/css/main.9683b20e.css",
+    "static/js/main.da7f6f63.js"
   ]
 }
