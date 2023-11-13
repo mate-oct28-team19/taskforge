@@ -1,37 +1,41 @@
 package com.example.taskforge.email;
 
-import com.example.taskforge.exception.RegistrationException;
-import jakarta.mail.MessagingException;
+import com.example.taskforge.model.Mail;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import java.nio.charset.StandardCharsets;
 
 @Service
-@RequiredArgsConstructor
-public class EmailSenderService implements EmailSender {
-    private final Logger logger = LoggerFactory.getLogger(EmailSenderService.class);
-    private final JavaMailSender mailSender;
+public class EmailSenderService {
 
-    @Override
-    @Async
-    public void send(String to, String email) throws RegistrationException {
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(email, true);
-            helper.setTo(to);
-            helper.setSubject("Confirm your email");
-            helper.setFrom("taskforge19@gmail.com");
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            logger.error("failed to send email", e);
-            throw new RegistrationException("failed to send email");
-        }
+    @Autowired
+    private JavaMailSender emailSender;
 
+    @Autowired
+    private SpringTemplateEngine templateEngine;
+
+    public void sendEmail(Mail mail) throws jakarta.mail.MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                StandardCharsets.UTF_8.name());
+
+        String html = getHtmlContent(mail);
+        helper.setTo(mail.getTo());
+        helper.setFrom(mail.getFrom());
+        helper.setSubject(mail.getSubject());
+        helper.setText(html, true);
+        emailSender.send(message);
+    }
+
+    private String getHtmlContent(Mail mail) {
+        Context context = new Context();
+        context.setVariables(mail.getHtmlTemplate().getProps());
+        return templateEngine.process(mail.getHtmlTemplate().getTemplate(), context);
     }
 }

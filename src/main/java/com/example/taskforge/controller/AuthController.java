@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import javax.mail.MessagingException;
+import java.io.IOException;
 
 @Tag(name = "Authentication management", description = "Endpoints to register and authentication")
 @RestController
@@ -41,7 +43,7 @@ public class AuthController {
     @CrossOrigin(origins = "*")
     public UserRegistrationResponseDto register(
             @RequestBody @Valid UserRegistrationRequestDto registrationRequest)
-            throws RegistrationException {
+            throws RegistrationException, MessagingException, jakarta.mail.MessagingException, IOException {
         return authenticationService.register(registrationRequest);
     }
 
@@ -59,7 +61,7 @@ public class AuthController {
     @GetMapping("/resend")
     @CrossOrigin(origins = "*")
     public UserRegistrationResponseDto resendCode(@RequestParam("token") String token)
-            throws RegistrationException {
+            throws RegistrationException, MessagingException, jakarta.mail.MessagingException, IOException {
         return authenticationService.resend(token);
     }
 }
