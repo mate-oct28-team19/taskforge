@@ -22,6 +22,7 @@ target/
 ### Local Properties ###
 env.properties
 application.properties
+.env
 
 ### NetBeans ###
 /nbproject/private/
