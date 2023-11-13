@@ -15,8 +15,6 @@ public interface TaskService {
 
     void delete(String email, Long id);
 
-    void deleteAll(Long userId);
-
     @Scheduled(cron = "0 0 1 * * *")
     void deleteOldTasks();
 }
