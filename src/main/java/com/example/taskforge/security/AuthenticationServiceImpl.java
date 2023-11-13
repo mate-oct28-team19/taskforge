@@ -27,17 +27,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
+    private static final int MIN_RANDOM = 100000;
+    private static final int MAX_RANDOM = 999999;
+    private static final String LINK = "http://ec2-52-91-108-232.compute-1.amazonaws.com/auth/confirm?token=";
+    private final EmailPropertiesBuilderProvider emailPropertiesBuilderProvider;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final EmailSenderService emailSender;
-    private static final int MIN_RANDOM = 100000;
-    private static final int MAX_RANDOM = 999999;
-    private static final String LINK = "http://ec2-52-91-108-232.compute-1.amazonaws.com/auth/confirm?token=";
-    //private static final String LINK = "http://localhost:8080/auth/confirm?token=";
-    private final EmailPropertiesBuilderProvider emailPropertiesBuilderProvider;
 
     @Override
     public UserRegistrationResponseDto register(UserRegistrationRequestDto requestDto)
