@@ -18,7 +18,7 @@ public class ThymeleafTemplateConfig {
     }
 
     @Bean
-    public ClassLoaderTemplateResolver htmlTemplateResolver(){
+    public ClassLoaderTemplateResolver htmlTemplateResolver() {
         ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
         emailTemplateResolver.setPrefix("/templates/");
         emailTemplateResolver.setSuffix(".html");

@@ -5,8 +5,8 @@ import com.example.taskforge.dto.user.UserLoginResponseDto;
 import com.example.taskforge.dto.user.UserRegistrationRequestDto;
 import com.example.taskforge.dto.user.UserRegistrationResponseDto;
 import com.example.taskforge.exception.RegistrationException;
-import javax.mail.MessagingException;
 import java.io.IOException;
+import javax.mail.MessagingException;
 
 public interface AuthenticationService {
 
@@ -17,5 +17,6 @@ public interface AuthenticationService {
 
     String confirmRegistrationToken(String token) throws RegistrationException;
 
-    UserRegistrationResponseDto resend(String token) throws RegistrationException, MessagingException, jakarta.mail.MessagingException, IOException;
+    UserRegistrationResponseDto resend(String token)
+            throws RegistrationException, MessagingException, jakarta.mail.MessagingException, IOException;
 }

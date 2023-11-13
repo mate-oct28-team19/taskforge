@@ -1,10 +1,10 @@
 package com.example.taskforge.email.impl;
 
 import com.example.taskforge.email.EmailPropertiesBuilder;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

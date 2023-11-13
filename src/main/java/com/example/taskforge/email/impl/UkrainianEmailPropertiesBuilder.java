@@ -1,9 +1,9 @@
 package com.example.taskforge.email.impl;
 
 import com.example.taskforge.email.EmailPropertiesBuilder;
-import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UkrainianEmailPropertiesBuilder implements EmailPropertiesBuilder {

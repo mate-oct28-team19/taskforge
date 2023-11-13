@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @Operation(summary = "Delete", description = "Deletes user and its information")
+    @Operation(summary = "Delete", description = "Delete user and its information")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CrossOrigin(origins = "*")

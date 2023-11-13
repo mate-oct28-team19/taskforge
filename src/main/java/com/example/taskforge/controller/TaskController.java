@@ -53,8 +53,8 @@ public class TaskController {
         return taskService.update(authentication.getName(), id, taskDto);
     }
 
-    @DeleteMapping("/{id}")
     @Operation(summary = "Delete a task", description = "Delete a task by id")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CrossOrigin(origins = "*")
     public void deleteTask(@PathVariable Long id, Authentication authentication) {

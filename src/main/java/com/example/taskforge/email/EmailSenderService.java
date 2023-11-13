@@ -2,13 +2,13 @@ package com.example.taskforge.email;
 
 import com.example.taskforge.model.Mail;
 import jakarta.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-import java.nio.charset.StandardCharsets;
 
 @Service
 public class EmailSenderService {

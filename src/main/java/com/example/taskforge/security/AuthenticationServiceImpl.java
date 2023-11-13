@@ -13,6 +13,9 @@ import com.example.taskforge.model.Mail;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.UserRepository;
 import com.example.taskforge.service.UserService;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,10 +23,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import javax.mail.MessagingException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 @Component
 @RequiredArgsConstructor
@@ -34,15 +33,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final EmailSenderService emailSender;
-    private final EmailPropertiesBuilderProvider emailPropertiesBuilderProvider;
-    private final static int MIN_RANDOM = 100000;
-    private final static int MAX_RANDOM = 999999;
+    private static final int MIN_RANDOM = 100000;
+    private static final int MAX_RANDOM = 999999;
     private static final String LINK = "http://ec2-52-91-108-232.compute-1.amazonaws.com/auth/confirm?token=";
     //private static final String LINK = "http://localhost:8080/auth/confirm?token=";
+    private final EmailPropertiesBuilderProvider emailPropertiesBuilderProvider;
 
     @Override
     public UserRegistrationResponseDto register(UserRegistrationRequestDto requestDto)
-            throws RegistrationException, MessagingException, jakarta.mail.MessagingException {
+            throws RegistrationException, jakarta.mail.MessagingException {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
             throw new RegistrationException(
                     "Email " + requestDto.getEmail() + " is already taken, try another one");
