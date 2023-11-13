@@ -72,11 +72,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteAll(Long userId) {
-        taskRepository.deleteByUserId(userId);
-    }
-
-    @Override
     @Scheduled(cron = "0 0 1 * * *")
     public void deleteOldTasks() {
         LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
