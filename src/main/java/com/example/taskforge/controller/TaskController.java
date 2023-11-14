@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,8 +30,8 @@ public class TaskController {
     @Operation(summary = "Get all tasks", description = "Get all user's tasks ")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<TaskDto> getAll(Pageable pageable, Authentication authentication) {
-        return taskService.findAll(authentication.getName(), pageable);
+    public List<TaskDto> getAll(Authentication authentication) {
+        return taskService.findAll(authentication.getName());
     }
 
     @Operation(summary = "Create a new task", description = "Create a new task")
