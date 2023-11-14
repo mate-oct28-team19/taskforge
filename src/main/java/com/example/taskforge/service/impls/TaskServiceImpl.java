@@ -75,9 +75,8 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-
     @Override
-    @Scheduled(cron = "30 17 22 * * *")
+    @Scheduled(cron = "00 00 1 * * *")
     @Transactional
     public void deleteOldTasks() {
         LocalDate oneMonthAgo = LocalDate.now();

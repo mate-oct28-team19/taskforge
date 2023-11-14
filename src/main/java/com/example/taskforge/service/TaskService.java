@@ -3,7 +3,6 @@ package com.example.taskforge.service;
 import com.example.taskforge.dto.task.CreateTaskRequestDto;
 import com.example.taskforge.dto.task.TaskDto;
 import java.util.List;
-import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 
 public interface TaskService {
