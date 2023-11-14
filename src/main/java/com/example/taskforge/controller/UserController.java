@@ -10,8 +10,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,17 +25,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @Operation(summary = "Delete", description = "Deletes user and its information")
-    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete", description = "Delete user and its information")
+    @DeleteMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void delete(@PathVariable Long id) {
-        userService.delete(id);
+    @CrossOrigin(origins = "*")
+    void delete(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        userService.delete(user);
     }
 
     @Operation(summary = "Update color scheme", description = "Updates color scheme in db for certain user")
     @PutMapping("/color_scheme")
     @ResponseStatus(HttpStatus.OK)
-    void changeColor(@RequestBody @Valid UpdateColorSchemeRequestDto dto, Authentication authentication) {
+    @CrossOrigin(origins = "*")
+        void changeColor(@RequestBody @Valid UpdateColorSchemeRequestDto dto, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         user.setColorScheme(dto.getColorScheme());
         userService.save(user);
@@ -44,7 +47,8 @@ public class UserController {
     @Operation(summary = "Update language", description = "Updates language in db for certain user")
     @PutMapping("/language")
     @ResponseStatus(HttpStatus.OK)
-    void changeLanguage(@RequestBody @Valid UpdateLanguageRequestDto dto, Authentication authentication) {
+    @CrossOrigin(origins = "*")
+        void changeLanguage(@RequestBody @Valid UpdateLanguageRequestDto dto, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         user.setLanguage(dto.getLanguage());
         userService.save(user);

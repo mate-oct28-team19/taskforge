@@ -9,7 +9,7 @@ public interface UserService {
     void save(User user);
 
     @Transactional
-    void delete(Long id);
+    void delete(User user);
 
     Optional<User> findByEmail(String email);
 }
