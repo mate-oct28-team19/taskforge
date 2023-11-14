@@ -3,6 +3,7 @@ package com.example.taskforge.service.impls;
 import com.example.taskforge.dto.task.CreateTaskRequestDto;
 import com.example.taskforge.dto.task.TaskDto;
 import com.example.taskforge.exception.EntityNotFoundException;
+import com.example.taskforge.exception.UnableToCreateTaskException;
 import com.example.taskforge.mapper.TaskMapper;
 import com.example.taskforge.model.Task;
 import com.example.taskforge.model.User;
@@ -12,11 +13,10 @@ import com.example.taskforge.service.TaskService;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,9 +26,9 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
 
     @Override
-    public List<TaskDto> findAll(String email, Pageable pageable) {
+    public List<TaskDto> findAll(String email) {
         User user = getUserByEmail(email);
-        Page<Task> allTasks = taskRepository.findAllByUserId(user.getId(), pageable);
+        List<Task> allTasks = taskRepository.findAllByUserId(user.getId());
         return allTasks.stream()
                 .map(taskMapper::toDto)
                 .toList();
@@ -37,12 +37,16 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDto save(String email, CreateTaskRequestDto requestDto) {
         User user = getUserByEmail(email);
-        Task task = new Task();
-        task.setTitle(requestDto.getTitle());
-        task.setUser(user);
-        task.setStatus(Task.Status.TODO);
-        task.setCreationDate(LocalDate.now());
-        return taskMapper.toDto(taskRepository.save(task));
+        List<Task> allTasks = taskRepository.findAllByUserId(user.getId());
+        if (allTasks.size() < 20) {
+            Task task = new Task();
+            task.setTitle(requestDto.getTitle());
+            task.setUser(user);
+            task.setStatus(Task.Status.TODO);
+            task.setCreationDate(LocalDate.now());
+            return taskMapper.toDto(taskRepository.save(task));
+        }
+        throw new UnableToCreateTaskException("You mustn't create more 20 tasks.");
     }
 
     @Override
@@ -72,11 +76,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    @Scheduled(cron = "0 0 1 * * *")
+    @Scheduled(cron = "00 00 1 * * *")
+    @Transactional
     public void deleteOldTasks() {
-        LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
-        List<Task> oldTasks = taskRepository.findOldTasksWithStatusDone(oneMonthAgo);
-        taskRepository.deleteAll(oldTasks);
+        LocalDate oneMonthAgo = LocalDate.now();
+        taskRepository.deleteOldTasksWithStatusDone(oneMonthAgo);
     }
 
     private Task find(Long id) {
