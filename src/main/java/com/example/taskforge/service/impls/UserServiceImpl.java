@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
-        taskRepository.deleteTasksByUserId(id);
-        userRepository.deleteById(id);
+    public void delete(User user) {
+        taskRepository.deleteTasksByUserId(user.getId());
+        userRepository.deleteById(user.getId());
     }
 
     @Override

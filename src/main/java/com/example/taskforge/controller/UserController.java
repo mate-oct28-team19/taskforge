@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +26,12 @@ public class UserController {
     private final UserService userService;
 
     @Operation(summary = "Delete", description = "Delete user and its information")
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CrossOrigin(origins = "*")
-    void delete(@PathVariable Long id) {
-        userService.delete(id);
+    void delete(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        userService.delete(user);
     }
 
     @Operation(summary = "Update color scheme", description = "Updates color scheme in db for certain user")
