@@ -29,7 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthenticationServiceImpl implements AuthenticationService {
     private static final int MIN_RANDOM = 100000;
     private static final int MAX_RANDOM = 999999;
-    private static final String LINK = "http://ec2-52-91-108-232.compute-1.amazonaws.com/auth/confirm?token=";
+    //private static final String LINK = "http://ec2-52-91-108-232.compute-1.amazonaws.com/auth/confirm?token=";
+    private static final String LINK = "https://mate-oct28-team19.github.io/taskforge/auth/confirm?token=";
     private final EmailPropertiesBuilderProvider emailPropertiesBuilderProvider;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
