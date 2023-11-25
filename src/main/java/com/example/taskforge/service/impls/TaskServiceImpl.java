@@ -71,7 +71,7 @@ public class TaskServiceImpl implements TaskService {
             taskRepository.deleteById(id);
         } else {
             throw new AccessDeniedException("User does not have"
-                   + " permission to update task with id:" + id);
+                   + " permission to delete task with id:" + id);
         }
     }
 

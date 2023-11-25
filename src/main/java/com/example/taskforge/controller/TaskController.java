@@ -30,8 +30,8 @@ public class TaskController {
 
     @Operation(summary = "Get all tasks", description = "Get all user's tasks ")
     @GetMapping
-    @CrossOrigin(origins = "*")
     @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(origins = "*")
     public List<TaskDto> getAll(Authentication authentication) {
         return taskService.findAll(authentication.getName());
     }
@@ -46,9 +46,9 @@ public class TaskController {
     }
 
     @Operation(summary = "Update a task", description = "Update a task by id")
-    @CrossOrigin(origins = "*")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(origins = "*")
     public TaskDto updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto,
                               Authentication authentication) {
         return taskService.update(authentication.getName(), id, taskDto);
