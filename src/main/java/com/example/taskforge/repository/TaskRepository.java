@@ -11,7 +11,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findAllByUserId(Long userId);
 
     @Modifying
-    @Query("DELETE FROM Task t WHERE t.status = 'DONE' AND t.creationDate = :oneMonthAgo")
+    @Query("DELETE FROM Task t WHERE t.status = 'DONE' AND t.creationDate <= :oneMonthAgo")
     void deleteOldTasksWithStatusDone(LocalDate oneMonthAgo);
 
     @Modifying
