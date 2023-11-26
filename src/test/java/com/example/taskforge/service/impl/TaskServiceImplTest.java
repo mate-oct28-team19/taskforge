@@ -171,5 +171,4 @@ public class TaskServiceImplTest {
         taskService.deleteOldTasks();
         verify(taskRepository, times(1)).deleteOldTasksWithStatusDone(any(LocalDate.class));
     }
-
 }
