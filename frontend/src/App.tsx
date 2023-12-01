@@ -2,7 +2,7 @@ import './reset.scss';
 import './app.scss';
 
 import { useState } from 'react';
-import { Route, BrowserRouter as Router, Routes} from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes} from 'react-router-dom';
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Theme } from './types/Theme';
@@ -43,6 +43,8 @@ function App() {
                     <Route element={<PrivateRoute />}>
                       <Route path='/dashboard' element={<MainPage />} />
                     </Route>
+
+                    <Route path="*" element={<Navigate to="/login" />} />
                   </Routes>
                 </AuthContext.Provider>
 

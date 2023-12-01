@@ -12,8 +12,13 @@ export const ButtonSwitchTheme: React.FC = () => {
   const { token } = useContext(TokenContext);
 
   const switchThemeWithAPI = () => {
-    setTheme(oldTheme => oldTheme === 'LIGHT' ? 'DARK' : 'LIGHT');
-    localStorage.setItem('taskforge-theme', theme);
+    setTheme(oldTheme => {
+      const newValue = oldTheme === 'LIGHT' ? 'DARK' : 'LIGHT';
+
+      localStorage.setItem('taskforge-theme', newValue);
+
+      return newValue;
+    });
     console.log(isAuthenticated)
 
     if (isAuthenticated) {
