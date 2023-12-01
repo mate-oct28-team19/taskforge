@@ -108,7 +108,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 = emailPropertiesBuilder.buildProperties(randomConfirmationCode, LINK + token);
 
         Mail mail = Mail.builder()
-                .from("taskforge.no-reply")
+                .from("taskforge19@gmail.com")
                 .to(user.getEmail())
                 .htmlTemplate(new Mail.HtmlTemplate("confirmationEmailTemplate", properties))
                 .subject(getTitle(user.getLanguage()))
