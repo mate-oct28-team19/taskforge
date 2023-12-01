@@ -1,0 +1,2 @@
+DELETE FROM tasks;
+DELETE FROM users;
