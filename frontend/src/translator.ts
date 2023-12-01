@@ -12,6 +12,15 @@ export const translator = {
       hrefToLogin: 'Already have an account?',
       btnContinue: 'Continue',
     },
+    login: {
+      label: 'Login',
+      placeholders: {
+        email: 'E-mail',
+        password: 'Password',
+      },
+      hrefToLogin: 'Don\'t have an account??',
+      btnContinue: 'Continue',
+    },
     modalWindowConfirmEmail: {
       label: 'To confirm your e-mail, enter the 6 digits that were sent to ',
       sendCodeAgain: 'Send code again'
@@ -30,6 +39,15 @@ export const translator = {
       hrefToLogin: 'Вже маєш аккаунт?',
       btnContinue: 'Продовжити',
     },
+    login: {
+      label: 'Авторизація',
+      placeholders: {
+        email: 'Електронна пошта',
+        password: 'Пароль',
+      },
+      hrefToLogin: 'Не маєш облікового запису?',
+      btnContinue: 'Увійти',
+    },
     modalWindowConfirmEmail: {
       label: 'Щоб підтвердити твою електронну пошту, введи тут 6 цифр, які ми надіслали тобі на ',
       sendCodeAgain: 'Надіслати код знову'
@@ -46,6 +64,15 @@ export const translator = {
       },
       labelPasswordMismatch: 'Hasło różni się!',
       hrefToLogin: 'Posiadasz już konto?',
+      btnContinue: 'Kontynuować',
+    },
+    login: {
+      label: 'Logowanie',
+      placeholders: {
+        email: 'E-mail',
+        password: 'Hasło',
+      },
+      hrefToLogin: 'Jeszcze nie masz konta?',
       btnContinue: 'Kontynuować',
     },
     modalWindowConfirmEmail: {

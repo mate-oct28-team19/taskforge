@@ -33,7 +33,6 @@
     background-color: #303747; 
   }
 
-
   &__label {
     color: #4748EE;
     font-family: 'Montserrat', sans-serif;
@@ -166,7 +165,6 @@
   }
 
   &__buttons {
-    // display: grid;
     display: none;
     margin-top: 15px;
     grid-template-columns: 1fr 1fr;

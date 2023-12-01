@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import './RegistrationPage.scss';
 import image from '../assets/registration-bg.png';
@@ -13,24 +14,26 @@ import { ThemeContext } from '../../../contexts/ThemeContext';
 import { ConfirmEmailModalWindow } from '../../ConfirmEmail/ConfirmEmailModalWindow';
 
 //   Handlers
-import { onChangePasswordFieldHandler } from '../handlers/onChangePasswordFieldHandler';
-import { onChangeEmailHandler } from '../handlers/onChangeEmailHandler';
+import { onChangePasswordFieldHandler } from '../../../handlers/onChangePasswordFieldHandler';
+import { onChangeEmailHandler } from '../../../handlers/onChangeEmailHandler';
 
 //   API
 import { registrateUser } from '../api/registrationAPI';
 import { confirmEmail } from '../api/confirmEmailAPI';
-import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthContext';
+import { TokenContext } from '../../../contexts/TokenContext';
 
 export const RegistrationPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [repeatPassword, setRepeatPassword] = useState<string>('');
   const [confirmCodeFromServer, setConfirmCodeFromServer] = useState<string>('');
-  const [token, setToken] = useState<string>('');
   const [userAlreadyRegistered, setUserAlreadyRegistered] = useState<boolean>(false);
 
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
+  const { setAuth } = useContext(AuthContext);
+  const { token, setToken } = useContext(TokenContext);
 
   const [disableElemsForm, setDisableElemsForm] = useState<boolean>(false);
   const [modalWinIsOpened, setModalWinIsOpened] = useState<boolean>(false);
@@ -81,7 +84,7 @@ export const RegistrationPage: React.FC = () => {
 
   const codeIsValid = (code: string): boolean => {
     if (code === confirmCodeFromServer.toString()) {
-      confirmEmail(token, emailIsConfirmed, setEmailIsConfirmed);
+      confirmEmail(token, emailIsConfirmed, setEmailIsConfirmed, setAuth);
 
       emailIsConfirmed && navigate('/dashboard');
 
@@ -96,7 +99,6 @@ export const RegistrationPage: React.FC = () => {
       <img src={image} alt="sideimage" />
 
       <form
-        action="server/registration"
         className={classNames(
           'registration',
           { "registration--dark": theme === 'DARK' }

@@ -1,16 +1,27 @@
 import { useContext } from 'react';
 import './SwitchLang.scss';
+import classNames from 'classnames';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { LangContext } from '../../contexts/LangContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import { Lang } from '../../types/Lang';
-import classNames from 'classnames';
+import { switchLangAPI } from './api/switchLangAPI';
+import { TokenContext } from '../../contexts/TokenContext';
 
 export const SwitchLang: React.FC = () => {
   const { theme } = useContext(ThemeContext);
   const { lang, setLang } = useContext(LangContext);
+  const { isAuthenticated } = useContext(AuthContext);
+  const { token } = useContext(TokenContext);
 
   const langToggle = (choosenLang: Lang) => {
-    setLang(choosenLang)
+    setLang(choosenLang);
+    localStorage.setItem('taskforge-lang', choosenLang);
+
+    if (isAuthenticated) {
+      switchLangAPI(choosenLang, token);
+      console.log('haha', isAuthenticated)
+    }
   }
 
   return (

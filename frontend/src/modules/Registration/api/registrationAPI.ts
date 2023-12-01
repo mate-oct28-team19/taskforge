@@ -1,7 +1,6 @@
 const HEADERS =  {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
-  'crossorigin': 'anonymous',
 }
 
 const url = 'http://ec2-52-91-108-232.compute-1.amazonaws.com';
@@ -21,7 +20,7 @@ export const registrateUser = async (
   setUserAlreadyRegistered: React.Dispatch<React.SetStateAction<boolean>>,
   setModalWinIsOpened: React.Dispatch<React.SetStateAction<boolean>>,
   setEmail: React.Dispatch<React.SetStateAction<string>>,
-  email: string
+  email: string,
 ) => {
   const options = {
     method: 'POST',
@@ -32,7 +31,7 @@ export const registrateUser = async (
   try {
     const response = await fetch(url + '/auth/register', options);
 
-    if (response.status === 409) {
+    if (!response.ok) {
       throw new Error(`Ошибка запроса: ${response.status}`);
     }
 
@@ -41,12 +40,11 @@ export const registrateUser = async (
     setToken(responseData.token);
     setConfirmCodeFromServer(responseData.code);
     setModalWinIsOpened(true);
-    // console.log(responseData);
 
   } catch (error) {
     setUserAlreadyRegistered(true);
     const email_temp = email;
-    setEmail('Email already taken')
+    setEmail('Email already taken');
 
     setTimeout(() => {
       setEmail(email_temp);

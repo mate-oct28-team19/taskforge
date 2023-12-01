@@ -2,22 +2,31 @@ import { useContext } from 'react';
 import classNames from 'classnames';
 import './ButtonSwitchTheme.scss';
 import { ThemeContext } from '../../contexts/ThemeContext';
+import { AuthContext } from '../../contexts/AuthContext';
+import { switchThemeAPI } from './api/switchThemeAPI';
+import { TokenContext } from '../../contexts/TokenContext';
 
 export const ButtonSwitchTheme: React.FC = () => {
   const { theme, setTheme } = useContext(ThemeContext);
+  const { isAuthenticated } = useContext(AuthContext);
+  const { token } = useContext(TokenContext);
+
+  const switchThemeWithAPI = () => {
+    setTheme(oldTheme => oldTheme === 'LIGHT' ? 'DARK' : 'LIGHT');
+    localStorage.setItem('taskforge-theme', theme);
+    console.log(isAuthenticated)
+
+    if (isAuthenticated) {
+      switchThemeAPI(theme, token);
+      console.log('haha', isAuthenticated)
+    }
+  }
 
   return (
     <button className={classNames(
       'switch-theme-btn',
       { "switch-theme-btn--dark": theme === 'DARK' }
-    )} onClick={
-      () => {
-        if (theme === 'DARK') {
-          setTheme('LIGHT')
-        } else {
-          setTheme('DARK');
-        }
-      }}>
+    )} onClick={ () => switchThemeWithAPI() }>
         <div className={classNames(
         'circle-three',
         { "circle-three--dark": theme === 'DARK' }

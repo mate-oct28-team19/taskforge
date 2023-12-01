@@ -13,10 +13,15 @@ import classNames from 'classnames';
 import { RegistrationPage } from './modules/Registration/RegistrationPage';
 import { MainPage } from './modules/Main/MainPage';
 import { LoginPage } from './modules/Login/LoginPage';
+import { AuthContext } from './contexts/AuthContext';
+import { PrivateRoute } from './modules/PrivateRoute';
+import { TokenContext } from './contexts/TokenContext';
 
 function App() {
-  const [theme, setTheme] = useState<Theme>("LIGHT");
-  const [lang, setLang] = useState<Lang>('ENGLISH');
+  const [theme, setTheme] = useState<Theme>(localStorage.getItem('taskforge-theme') as Theme || 'LIGHT');
+  const [lang, setLang] = useState<Lang>(localStorage.getItem('taskforge-lang') as Lang || 'ENGLISH');
+  const [isAuthenticated, setAuth] = useState<boolean>(false);
+  const [token, setToken] = useState<string>('');
 
   return (
     <div className={classNames(
@@ -24,20 +29,27 @@ function App() {
       { "App--dark": theme === 'DARK' }
       )}
     >
-      <Router basename='/taskforge'>
-        <LangContext.Provider value={{ lang, setLang }}>
-          <ThemeContext.Provider value={{ theme, setTheme}}>
-              <Header />
+      <Router >
+        <TokenContext.Provider value={{ token, setToken }}>
+          <LangContext.Provider value={{ lang, setLang }}>
+            <ThemeContext.Provider value={{ theme, setTheme}}>
+                <AuthContext.Provider value={{ isAuthenticated, setAuth }}>
+                  <Header />
 
-              <Routes>
-                <Route path="/" index element={<RegistrationPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/dashboard" element={<MainPage />} />
-              </Routes>
+                  <Routes>
+                    <Route path="/" index element={<RegistrationPage />} />
+                    <Route path="/login" element={<LoginPage />} />
 
-              <Footer />
-          </ThemeContext.Provider>
-        </LangContext.Provider>
+                    <Route element={<PrivateRoute />}>
+                      <Route path='/dashboard' element={<MainPage />} />
+                    </Route>
+                  </Routes>
+                </AuthContext.Provider>
+
+                <Footer />
+            </ThemeContext.Provider>
+          </LangContext.Provider>
+        </TokenContext.Provider>
       </Router>
     </div>
   );

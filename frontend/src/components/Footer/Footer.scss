@@ -2,12 +2,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50px;
+  height: 52px;
   width: 100%;
   background-color: #4748EE;
   font-family: 'Montserrat', sans-serif;
-  // position: sticky;
-  // bottom: 0;
   transition: background-color 0.3s ease-in-out;
 
   &--dark {
