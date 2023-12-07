@@ -3,7 +3,6 @@ package com.example.taskforge.email;
 import com.example.taskforge.model.Mail;
 import jakarta.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
-import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -11,11 +10,14 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Service
-@RequiredArgsConstructor
 public class EmailSenderService {
+    private final JavaMailSender emailSender;
+    private final SpringTemplateEngine templateEngine;
 
-    private JavaMailSender emailSender;
-    private SpringTemplateEngine templateEngine;
+    public EmailSenderService(JavaMailSender emailSender, SpringTemplateEngine templateEngine) {
+        this.emailSender = emailSender;
+        this.templateEngine = templateEngine;
+    }
 
     public void sendEmail(Mail mail) throws jakarta.mail.MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
