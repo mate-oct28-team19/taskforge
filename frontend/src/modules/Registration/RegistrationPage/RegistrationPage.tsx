@@ -22,6 +22,7 @@ import { registrateUser } from '../api/registrationAPI';
 import { confirmEmail } from '../api/confirmEmailAPI';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { TokenContext } from '../../../contexts/TokenContext';
+import { ValidatePassword } from '../../ValidatePassword';
 
 export const RegistrationPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -39,6 +40,10 @@ export const RegistrationPage: React.FC = () => {
   const [modalWinIsOpened, setModalWinIsOpened] = useState<boolean>(false);
   const [emailIsConfirmed, setEmailIsConfirmed] = useState<boolean>(false);
   const [typeOfInputs, setTypeOfInputs] = useState<'password' | 'text'>('password');
+
+  const [passwordFieldIsFocused, setPasswordFieldIsFocused] = useState<boolean>(false);
+  const [passwordRepeatFieldIsFocused, setPasswordRepeatFieldIsFocused] = useState<boolean>(false);
+  const [passwordIsOk, setPasswordIsOk] = useState<boolean>(false)
 
   const regTranslate = translator[lang].registration;
   const navigate = useNavigate();
@@ -94,6 +99,22 @@ export const RegistrationPage: React.FC = () => {
     return false;
   }
 
+  const handlerOnFocusPasswordField = (): void => {
+    setPasswordFieldIsFocused(true);
+  }
+
+  const handlerOnBlurPasswordField = (): void => {
+    setPasswordFieldIsFocused(false);
+  }
+
+  const handlerOnFocusPasswordRepeatField = (): void => {
+    setPasswordRepeatFieldIsFocused(true);
+  }
+
+  const handlerOnBlurPasswordRepeatField = (): void => {
+    setPasswordRepeatFieldIsFocused(false);
+  }
+
   return (
     <div className="registration-page">
       <img src={image} alt="sideimage" />
@@ -129,40 +150,52 @@ export const RegistrationPage: React.FC = () => {
           disabled={userAlreadyRegistered}
           required
         />
+        <div className="password__field">
+          { passwordFieldIsFocused && <ValidatePassword password={password} setPasswordIsOk={setPasswordIsOk} /> }
 
-        <input
-          className={classNames(
-            'registration__input',
-            { 
-              "registration__input--dark": theme === 'DARK',
-              "registration__input--warning": disableElemsForm
-            }
-          )}
-          type={typeOfInputs}
-          name="password"
-          placeholder={regTranslate.placeholders.password}
-          value={password}
-          onChange={e => onChangePasswordFieldHandler(e, setPassword)}
-          required
-          disabled={disableElemsForm}
-        />
+          <input
+            className={classNames(
+              'registration__input',
+              { 
+                "registration__input--dark": theme === 'DARK',
+                "registration__input--warning": disableElemsForm
+              }
+            )}
+            type={typeOfInputs}
+            name="password"
+            placeholder={regTranslate.placeholders.password}
+            value={password}
+            onChange={e => onChangePasswordFieldHandler(e, setPassword)}
+            onFocus={handlerOnFocusPasswordField}
+            onBlur={handlerOnBlurPasswordField}
+            required
+            disabled={disableElemsForm}
+          />
+        </div>
+        
+        <div className="password__field">
+          { passwordRepeatFieldIsFocused && <ValidatePassword password={repeatPassword} setPasswordIsOk={setPasswordIsOk} /> }
 
-        <input
-          className={classNames(
-            'registration__input',
-            { 
-              "registration__input--dark": theme === 'DARK',
-              "registration__input--warning": disableElemsForm
-            }
-          )}
-          type={typeOfInputs}
-          name="repeat-password"
-          placeholder={regTranslate.placeholders.repeatPassword}
-          value={repeatPassword}
-          onChange={e => onChangePasswordFieldHandler(e, setRepeatPassword)}
-          required
-          disabled={disableElemsForm}
-        />
+          <input
+            className={classNames(
+              'registration__input',
+              { 
+                "registration__input--dark": theme === 'DARK',
+                "registration__input--warning": disableElemsForm
+              }
+            )}
+            type={typeOfInputs}
+            name="repeat-password"
+            placeholder={regTranslate.placeholders.repeatPassword}
+            value={repeatPassword}
+            onChange={e => onChangePasswordFieldHandler(e, setRepeatPassword)}
+            onFocus={handlerOnFocusPasswordRepeatField}
+            onBlur={handlerOnBlurPasswordRepeatField}
+            required
+            disabled={disableElemsForm}
+          />
+        </div>
+        
 
         <Link
           to="/login"
@@ -181,7 +214,7 @@ export const RegistrationPage: React.FC = () => {
             'registration__submit',
             { "registration__submit--dark": theme === 'DARK' }
           )}
-          disabled={disableElemsForm}
+          disabled={disableElemsForm || !passwordIsOk}
         />
 
         <div className="registration__buttons">

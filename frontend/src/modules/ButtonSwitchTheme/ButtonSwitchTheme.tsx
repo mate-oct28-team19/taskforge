@@ -5,6 +5,7 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 import { AuthContext } from '../../contexts/AuthContext';
 import { switchThemeAPI } from './api/switchThemeAPI';
 import { TokenContext } from '../../contexts/TokenContext';
+import { Theme } from '../../types/Theme';
 
 export const ButtonSwitchTheme: React.FC = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -12,18 +13,19 @@ export const ButtonSwitchTheme: React.FC = () => {
   const { token } = useContext(TokenContext);
 
   const switchThemeWithAPI = () => {
-    setTheme(oldTheme => {
-      const newValue = oldTheme === 'LIGHT' ? 'DARK' : 'LIGHT';
+    let newColor: Theme | '' = '';
 
-      localStorage.setItem('taskforge-theme', newValue);
-
-      return newValue;
-    });
-    console.log(isAuthenticated)
+    if (theme === 'LIGHT') {
+      newColor = 'DARK';
+    } else {
+      newColor = 'LIGHT';
+    }
+    
+    setTheme(newColor);
+    localStorage.setItem('taskforge-theme', newColor);
 
     if (isAuthenticated) {
-      switchThemeAPI(theme, token);
-      console.log('haha', isAuthenticated)
+      switchThemeAPI(newColor, token);
     }
   }
 

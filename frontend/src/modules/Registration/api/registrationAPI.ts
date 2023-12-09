@@ -1,9 +1,9 @@
+import { settings } from "../../settings";
+
 const HEADERS =  {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
 }
-
-const url = 'http://ec2-52-91-108-232.compute-1.amazonaws.com';
 
 type User = {
   email: string,
@@ -29,7 +29,7 @@ export const registrateUser = async (
   }
 
   try {
-    const response = await fetch(url + '/auth/register', options);
+    const response = await fetch(settings.BACKEND_URL + '/auth/register', options);
 
     if (!response.ok) {
       throw new Error(`Ошибка запроса: ${response.status}`);

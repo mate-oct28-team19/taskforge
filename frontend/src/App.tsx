@@ -21,6 +21,7 @@ function App() {
   const [theme, setTheme] = useState<Theme>(localStorage.getItem('taskforge-theme') as Theme || 'LIGHT');
   const [lang, setLang] = useState<Lang>(localStorage.getItem('taskforge-lang') as Lang || 'ENGLISH');
   const [isAuthenticated, setAuth] = useState<boolean>(false);
+  const [settingsWinIsOpened, setSettingsWinIsOpened] = useState(false)
   const [token, setToken] = useState<string>('');
 
   return (
@@ -34,14 +35,19 @@ function App() {
           <LangContext.Provider value={{ lang, setLang }}>
             <ThemeContext.Provider value={{ theme, setTheme}}>
                 <AuthContext.Provider value={{ isAuthenticated, setAuth }}>
-                  <Header />
+                  <Header openSettings={() => setSettingsWinIsOpened(true)}/>
 
                   <Routes>
                     <Route path="/" index element={<RegistrationPage />} />
                     <Route path="/login" element={<LoginPage />} />
 
                     <Route element={<PrivateRoute />}>
-                      <Route path='/dashboard' element={<MainPage />} />
+                      <Route path='/dashboard' element={
+                        <MainPage
+                          settingsWinIsOpened={settingsWinIsOpened}
+                          closeSettings={() => setSettingsWinIsOpened(false)}
+                        />
+                      }/>
                     </Route>
 
                     <Route path="*" element={<Navigate to="/login" />} />

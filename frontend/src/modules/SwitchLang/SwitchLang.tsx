@@ -20,7 +20,6 @@ export const SwitchLang: React.FC = () => {
 
     if (isAuthenticated) {
       switchLangAPI(choosenLang, token);
-      console.log('haha', isAuthenticated)
     }
   }
 

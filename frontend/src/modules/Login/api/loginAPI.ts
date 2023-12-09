@@ -1,12 +1,11 @@
 import { Lang } from "../../../types/Lang";
 import { Theme } from "../../../types/Theme";
+import { settings } from "../../settings";
 
 const HEADERS =  {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
 }
-
-const url = 'http://ec2-52-91-108-232.compute-1.amazonaws.com';
 
 type UserLogin = {
   email: string,
@@ -24,7 +23,7 @@ export const loginUser = async (
   }
 
   try {
-    const response = await fetch(url + '/auth/login', options);
+    const response = await fetch(settings.BACKEND_URL + '/auth/login', options);
 
     if (!response.ok) {
       throw new Error(`Ошибка запроса: ${response.status}`);

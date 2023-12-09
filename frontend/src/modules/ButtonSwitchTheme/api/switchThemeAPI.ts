@@ -1,6 +1,5 @@
 import { Theme } from "../../../types/Theme";
-
-const url = 'http://ec2-52-91-108-232.compute-1.amazonaws.com';
+import { settings } from "../../settings";
 
 export const switchThemeAPI = async ( theme: Theme, token: string ) => {
   const HEADERS =  {
@@ -16,7 +15,7 @@ export const switchThemeAPI = async ( theme: Theme, token: string ) => {
   }
 
   try {
-    const response = await fetch(url + `/users/color_scheme`, options);
+    const response = await fetch(settings.BACKEND_URL + `/users/color_scheme`, options);
 
     if (!response.ok) {
       throw new Error(`${response.status}`);

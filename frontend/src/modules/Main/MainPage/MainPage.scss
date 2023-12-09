@@ -1,0 +1,65 @@
+.dashboard {
+  box-sizing: border-box;
+  min-height: calc(100vh - 71px - 70px);
+  display: flex;
+  flex-direction: column;
+  padding: 65px 70px 0;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &__label {
+    margin-bottom: 40px;
+    color: #4042E2;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 36px;
+    font-weight: 500;
+
+    &--dark {
+      color: #fff;
+    }
+  }
+
+  &__columns {
+    display: flex;
+    min-height: 450px;
+    gap: 30px;
+  }
+
+  &__todo-column,
+  &__inprocess-column,
+  &__finished-column {
+    border-radius: 15px;
+    border: 2px solid #4042E2; 
+    width: 33%;
+    padding: 30px 34px 47px;
+
+    &--dark {
+      border: 2px solid #fff; 
+    }
+  }
+
+  &__create-todo {
+    margin-top: 36px;
+    margin-bottom: 65px;
+    width: 100%;
+
+    color: #4748EE;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 36px;
+    font-weight: 500;
+    background-color: transparent;
+    border-radius: 15px;
+    border: 2px solid #4042E2; 
+    padding: 16px 0;
+    cursor: pointer;
+
+    &--dark {
+      color: #fff;
+      border: 2px solid #fff;
+    }
+  }
+}

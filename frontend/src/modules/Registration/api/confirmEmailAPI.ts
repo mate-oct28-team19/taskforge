@@ -1,9 +1,9 @@
+import { settings } from "../../settings";
+
 const HEADERS =  {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
 }
-
-const url = 'http://ec2-52-91-108-232.compute-1.amazonaws.com';
 
 export const confirmEmail = async (
     token: string,
@@ -18,7 +18,7 @@ export const confirmEmail = async (
 
   if (!emailIsConfirmed) {
     try {
-      const response = await fetch(url + `/auth/confirm?token=${token}`, options);
+      const response = await fetch(settings.BACKEND_URL + `/auth/confirm?token=${token}`, options);
   
       if (!response.ok) {
         throw new Error(`${response.status}`);

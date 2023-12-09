@@ -1,7 +1,10 @@
-import { Lang } from "../../../types/Lang";
 import { settings } from "../../settings";
+import { Todo } from "../types/Todo";
 
-export const switchLangAPI = async ( choosenLang: Lang, token: string ) => {
+export const getAllTodosAPI = async (
+  token: string,
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>,
+) => {
   const HEADERS =  {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -9,19 +12,21 @@ export const switchLangAPI = async ( choosenLang: Lang, token: string ) => {
   }
 
   const options = {
-    method: 'PUT',
+    method: 'GET',
     headers: HEADERS,
-    body: JSON.stringify({ "language": choosenLang }),
   }
 
   try {
-    const response = await fetch(settings.BACKEND_URL + `/users/language`, options);
+    const response = await fetch(settings.BACKEND_URL + `/tasks`, options);
 
     if (!response.ok) {
       throw new Error(`${response.status}`);
     }
 
+    const data = await response.json();
+    setTodos(data);
+
   } catch(error) {
     console.log(error);
   }
-} 
+}
