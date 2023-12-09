@@ -26,7 +26,8 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
   const { lang } = useContext(LangContext);
 
   const changePasswordHandler = () => {
-    console.log('this function is not implemented lol')
+    UserService.changePassword(token, password);
+    closeModalWin();
   }
 
   const deleteAccountHandler = () => {
@@ -76,6 +77,7 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
             "settingsWindow__button",
             { "settingsWindow__button--dark": theme === 'DARK' }
           )}
+          disabled={!passwordIsOkay}
           onClick={changePasswordHandler}
         >
           Change

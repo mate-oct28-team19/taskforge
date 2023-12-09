@@ -17,24 +17,29 @@ export class UserService {
     }
   }
 
-  private static getOptions(token: string, method: HTTP_METHOD, body?: { newPassword: string }) {
+  private static getOptions(
+    token: string,
+    method: HTTP_METHOD,
+    body?: { newPassword: string }
+  ) {
     const options = {
       method,
       headers: this.getHeaders(token),
     }
 
     if (body) {
-      return Object.assign({}, options, body)
+      return { ...options, body: JSON.stringify(body)}
     }
 
     return options;
   }
 
   public static async changePassword(token: string, newPassword: string) {
-    const OPTIONS = this.getOptions(token, HTTP_METHOD.PATCH, { newPassword });
+    const body = { newPassword }
+    const OPTIONS = this.getOptions(token, HTTP_METHOD.PATCH, body);
     
     try {
-      const response = await fetch(settings.BACKEND_URL + `/tasks`, OPTIONS);
+      const response = await fetch(settings.BACKEND_URL + `/users/password`, OPTIONS);
 
       if (!response.ok) {
         throw new Error(`${response.status}`);
