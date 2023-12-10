@@ -11,6 +11,7 @@ import { ThemeContext } from '../../../contexts/ThemeContext';
 import { LangContext } from '../../../contexts/LangContext';
 import { translator } from '../../../translator';
 import { Settings } from '../components/Settings';
+import { TokenContext } from '../../../contexts/TokenContext';
 
 enum status {
   TODO, IN_PROCESS, DONE
@@ -76,6 +77,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
+  const { token } = useContext(TokenContext);
 
   const translate = translator[lang].dashboard;
 
