@@ -1,5 +1,12 @@
-import { CloseIcon } from '../../../../UI/CloseIcon/CloseIcon';
+import { useContext } from 'react';
+import classNames from 'classnames';
 import './ModalAddTodo.scss';
+
+import { CloseIcon } from '../../../../UI/CloseIcon/CloseIcon';
+
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { LangContext } from '../../../../contexts/LangContext';
+import { translator } from '../../../../translator';
 
 interface Props {
   closeModalWin: () => void;
@@ -14,22 +21,42 @@ export const ModalAddTodo: React.FC<Props> = ({
   setNewTodoTitle,
   createNewTodo,
 }) => {
+  const { theme } = useContext(ThemeContext);
+  const { lang } = useContext(LangContext);
+  
+  const translate = translator[lang].dashboard;
+
   return (
     <div className="modalAddTodo">
-      <div className="modalAddTodo__modalWindow modalWindow">
+      <div className={classNames(
+        "modalAddTodo__modalWindow",
+        "modalWindow",
+        { "modalWindow--dark": theme === 'DARK' }
+      )}>
         <header className="modalWindow__header">
           <CloseIcon closeModalWin={closeModalWin} />
         </header>
 
         <input
-          type="password"
-          className="modalWindow__input"
-          placeholder="Title for new todo"
+          type="text"
+          className={classNames(
+            "modalWindow__input",
+            { "modalWindow__input--dark": theme === 'DARK' }
+          )}
+          placeholder={translate.nameForNewTodo}
           value={newTodoTitle}
           onChange={e => setNewTodoTitle(e.target.value)}
         />
 
-        <button className="modalWindow__button" onClick={createNewTodo} >Create</button>
+        <button
+          className={classNames(
+            "modalWindow__button",
+            { "modalWindow__button--dark": theme === 'DARK' }
+          )}
+          onClick={createNewTodo}
+        >
+          {translate.btnCreateLabel}
+        </button>
       </div>
     </div>
   );

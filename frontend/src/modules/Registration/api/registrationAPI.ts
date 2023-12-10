@@ -1,3 +1,5 @@
+import { translator } from "../../../translator";
+import { Lang } from "../../../types/Lang";
 import { settings } from "../../settings";
 
 const HEADERS =  {
@@ -21,6 +23,7 @@ export const registrateUser = async (
   setModalWinIsOpened: React.Dispatch<React.SetStateAction<boolean>>,
   setEmail: React.Dispatch<React.SetStateAction<string>>,
   email: string,
+  lang: Lang,
 ) => {
   const options = {
     method: 'POST',
@@ -44,7 +47,7 @@ export const registrateUser = async (
   } catch (error) {
     setUserAlreadyRegistered(true);
     const email_temp = email;
-    setEmail('Email already taken');
+    setEmail(translator[lang].registration.emailAlreadyTaken);
 
     setTimeout(() => {
       setEmail(email_temp);

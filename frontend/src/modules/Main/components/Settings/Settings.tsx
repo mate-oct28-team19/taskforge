@@ -10,6 +10,7 @@ import { ThemeContext } from '../../../../contexts/ThemeContext';
 import { LangContext } from '../../../../contexts/LangContext';
 import classNames from 'classnames';
 import { ValidatePassword } from '../../../ValidatePassword';
+import { translator } from '../../../../translator';
 
 interface Props {
   closeModalWin: () => void;
@@ -24,6 +25,8 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
   const { setAuth } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
+
+  const translate = translator[lang].dashboard;
 
   const changePasswordHandler = () => {
     UserService.changePassword(token, password);
@@ -64,7 +67,7 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
               "settingsWindow__input",
               { "settingsWindow__input--dark": theme === 'DARK' }
               )}
-            placeholder="New password..."
+            placeholder={translate.newPasswordPlaceholder}
             value={password}
             onChange={e => setPassword(e.target.value)}
             onFocus={handlerOnFocusPasswordField}
@@ -80,7 +83,7 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
           disabled={!passwordIsOkay}
           onClick={changePasswordHandler}
         >
-          Change
+          {translate.changePasswordLabel}
         </button>
 
         <button
@@ -90,7 +93,7 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
           )}
           onClick={deleteAccountHandler}
         >
-          Delete account
+          {translate.deleteAccountLabel}
         </button>
       </div>
     </div>

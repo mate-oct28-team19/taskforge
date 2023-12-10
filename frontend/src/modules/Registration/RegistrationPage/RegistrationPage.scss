@@ -138,37 +138,19 @@
       &:hover {
         border: 1px solid #515765;
         background-color: #515765; 
-        
-        .google > path{
-          stroke: #fff;
-        }
-  
-        .github > path {
-          fill: #fff;
-        }
       }
 
       &:active {
         border: 1px solid #fff;
         background-color: #fff; 
         color: #303747;
-  
-        .google > path{
-          stroke: #303747;
-        }
-  
-        .github > path {
-          fill: #303747;
-        }
       }
     }
-  }
 
-  &__buttons {
-    display: none;
-    margin-top: 15px;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
   }
 
   &__signup {
@@ -296,6 +278,7 @@
 
     &__input {
       padding: 13px 10px;
+      font-size: 14px;
 
       &::placeholder {
         font-size: 13px;
@@ -319,11 +302,6 @@
         max-width: 22px;
         max-height: 22px;
       }
-    }
-
-    &__buttons {
-      margin-top: 10px;
-      gap: 7px;
     }
 
     .button__label {

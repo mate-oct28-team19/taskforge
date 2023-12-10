@@ -9,6 +9,7 @@ export const translator = {
         repeatPassword: 'Repeat password',
       },
       labelPasswordMismatch: 'Password mismatch!',
+      emailAlreadyTaken: 'Email is already taken!',
       hrefToLogin: 'Already have an account?',
       btnContinue: 'Continue',
     },
@@ -32,7 +33,12 @@ export const translator = {
       specCharLabel: 'The password must contain at least 1 special character (+, -, =, etc.)',
     },
     dashboard: {
-      newTaskLabel: 'New task'
+      newTaskLabel: 'New task',
+      btnCreateLabel: 'Create',
+      nameForNewTodo: 'Title for new todo...',
+      changePasswordLabel: 'Change',
+      newPasswordPlaceholder: 'New password...',
+      deleteAccountLabel: 'Delete account'
     }
   },
   UKRAINIAN: {
@@ -45,6 +51,7 @@ export const translator = {
         repeatPassword: 'Ще раз пароль',
       },
       labelPasswordMismatch: 'Паролі не співпадають!',
+      emailAlreadyTaken: 'Вже є аккаунт з такою поштою!',
       hrefToLogin: 'Вже маєш аккаунт?',
       btnContinue: 'Продовжити',
     },
@@ -68,7 +75,12 @@ export const translator = {
       specCharLabel: 'Пароль повинен містити щонайменше 1 спецсимвол (+, -, = і т.д.)',
     },
     dashboard: {
-      newTaskLabel: 'Створити нову задачу'
+      newTaskLabel: 'Створити нову задачу',
+      btnCreateLabel: 'Створити',
+      nameForNewTodo: 'Назва нової задачі...',
+      changePasswordLabel: 'Змінити пароль',
+      newPasswordPlaceholder: 'Новий пароль...',
+      deleteAccountLabel: 'Видалити аккаунт'
     }
   },
   POLISH: {
@@ -81,6 +93,7 @@ export const translator = {
         repeatPassword: 'Powtórz hasło',
       },
       labelPasswordMismatch: 'Hasło różni się!',
+      emailAlreadyTaken: 'Email jest już zajęty!',
       hrefToLogin: 'Posiadasz już konto?',
       btnContinue: 'Kontynuować',
     },
@@ -104,7 +117,12 @@ export const translator = {
       specCharLabel: 'Hasło musi zawierać co najmniej 1 znak specjalny (+, -, = itp.)',
     },
     dashboard: {
-      newTaskLabel: 'Utworzyć nowe zadanie'
+      newTaskLabel: 'Utworzyć nowe zadanie',
+      btnCreateLabel: 'Utworzyć',
+      nameForNewTodo: 'Nazwa nowego zadania...',
+      changePasswordLabel: 'Zmienić hasło',
+      newPasswordPlaceholder: 'Nowe hasło...',
+      deleteAccountLabel: 'Usunuć konto'
     }
   },
 }

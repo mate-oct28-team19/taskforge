@@ -23,6 +23,11 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  &--dark {
+    background-color: #303747;
+    border: 1px solid #fff; 
+  }
   
   &__header {
     display: flex;
@@ -38,7 +43,7 @@
     margin: 0 28px;
     border-radius: 3px;
     border: 1px solid #4748EE; 
-
+    background-color: transparent;
 
     font-size: 20px;
     font-family: Montserrat;
@@ -51,7 +56,15 @@
 
     &:focus {
       outline: none;
-      
+    }
+
+    &--dark {
+      color: #fff;
+      border-color: #fff;
+
+      &::placeholder {
+        color: rgba(204, 207, 222, 0.30); 
+      }
     }
   }
 
