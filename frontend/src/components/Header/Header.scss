@@ -18,21 +18,34 @@
 
   &__right {
     display: flex;
+
+    &-mobile {
+      display: none;
+    }
   }
 }
 
 @media (max-width: 1100px) {
   .header {
     justify-content: center;
+    align-items: center;
+    padding: 35px 56px 0;
+
+    &--auth {
+      justify-content: space-between;
+    }
     
     &__right {
       display: none;
+
+      &-mobile {
+        display: block;
+      }
     }
 
     &__logo {
       font-size: 28px;
       letter-spacing: 8.26px; 
     }
-
   }
 }

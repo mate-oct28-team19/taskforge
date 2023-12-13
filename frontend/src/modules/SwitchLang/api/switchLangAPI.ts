@@ -9,7 +9,7 @@ export const switchLangAPI = async ( choosenLang: Lang, token: string ) => {
   }
 
   const options = {
-    method: 'PUT',
+    method: 'PATCH',
     headers: HEADERS,
     body: JSON.stringify({ "language": choosenLang }),
   }

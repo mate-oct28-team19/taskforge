@@ -11,6 +11,8 @@ import { LangContext } from '../../../../contexts/LangContext';
 import classNames from 'classnames';
 import { ValidatePassword } from '../../../ValidatePassword';
 import { translator } from '../../../../translator';
+import { ButtonSwitchTheme } from '../../../ButtonSwitchTheme';
+import { SwitchLang } from '../../../SwitchLang';
 
 interface Props {
   closeModalWin: () => void;
@@ -57,6 +59,11 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
         <header className="settingsWindow__header">
           <CloseIcon closeModalWin={closeModalWin} />
         </header>
+
+        <div className="settingsWindow__changeThemeLang">
+          <SwitchLang />
+          <ButtonSwitchTheme />
+        </div>
 
         <div className="settingsWindow__password-field">
           { passwordFieldIsFocused && <ValidatePassword password={password} setPasswordIsOk={setPasswordIsOkay}/> }

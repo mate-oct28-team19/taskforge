@@ -9,7 +9,7 @@ export const switchThemeAPI = async ( theme: Theme, token: string ) => {
   }
 
   const options = {
-    method: 'PUT',
+    method: 'PATCH',
     headers: HEADERS,
     body: JSON.stringify({ "colorScheme": theme }),
   }

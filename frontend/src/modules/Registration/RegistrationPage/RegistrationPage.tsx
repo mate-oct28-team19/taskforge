@@ -151,6 +151,7 @@ export const RegistrationPage: React.FC = () => {
           disabled={userAlreadyRegistered}
           required
         />
+
         <div className="password__field">
           { passwordFieldIsFocused && <ValidatePassword password={password} setPasswordIsOk={setPasswordIsOk} /> }
 

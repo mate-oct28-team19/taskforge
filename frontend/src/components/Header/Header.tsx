@@ -14,7 +14,10 @@ export const Header: React.FC<{ openSettings: () => void }> = ({ openSettings })
   const { isAuthenticated } = useContext(AuthContext);
   
   return (
-    <header className="header">
+    <header className={classNames(
+      "header",
+      { "header--auth": isAuthenticated === true }
+    )}>
       <p className={classNames(
         'header__logo',
         { "header__logo--dark": theme === 'DARK' } 
@@ -22,6 +25,9 @@ export const Header: React.FC<{ openSettings: () => void }> = ({ openSettings })
       <div className='header__right'>
         <SwitchLang />
         <ButtonSwitchTheme />
+        {isAuthenticated && <SettingsIcon openSettings={openSettings}/>}
+      </div>
+      <div className="header__right-mobile">
         {isAuthenticated && <SettingsIcon openSettings={openSettings}/>}
       </div>
     </header>
