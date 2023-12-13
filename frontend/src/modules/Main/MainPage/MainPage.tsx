@@ -3,65 +3,65 @@ import classNames from 'classnames';
 import './MainPage.scss'
 
 import { getAllTodosAPI } from '../api/getAllTodosAPI';
-import { Todo } from '../types/Todo';
 import { ToDo } from '../components/ToDo';
 import { ModalAddTodo } from '../components/ModalAddTodo';
+import { Settings } from '../components/Settings';
 
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import { LangContext } from '../../../contexts/LangContext';
-import { translator } from '../../../translator';
-import { Settings } from '../components/Settings';
 import { TokenContext } from '../../../contexts/TokenContext';
 
-enum status {
-  TODO, IN_PROCESS, DONE
-}
+import { translator } from '../../../translator';
+
+import { Todo } from '../types/Todo';
+import { Task } from '../types/Task';
+import { Status } from '../types/Status';
 
 const initTodos = [
   {
     id: 0,
     title: 'haha',
-    status: status.TODO,
+    status: Status.TODO,
   },
   {
     id: 1,
     title: 'haha2',
-    status: status.IN_PROCESS,
+    status: Status.IN_PROCESS,
   },
   {
     id: 2,
     title: 'haha3',
-    status: status.DONE,
+    status: Status.DONE,
   },
   {
     id: 3,
     title: 'haha4',
-    status: status.TODO,
+    status: Status.TODO,
   },
   {
     id: 4,
     title: 'haha4',
-    status: status.TODO,
+    status: Status.TODO,
   },
   {
     id: 5,
     title: 'haha4',
-    status: status.TODO,
+    status: Status.TODO,
   },
   {
     id: 6,
     title: 'haha4',
-    status: status.TODO,
+    status: Status.TODO,
   },
   {
     id: 7,
     title: 'haha4',
-    status: status.TODO,
+    status: Status.TODO,
   },
   {
     id: 8,
     title: 'haha4',
-    status: status.TODO,
+    status: Status.TODO,
   },
 ];
 
@@ -97,7 +97,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
     const newTodo = {
       id: todos[todos.length - 1].id + 1,
       title: newTodoTitle,
-      status: status.TODO
+      status: Status.TODO
     };
 
     setNewTodoTitle('');
@@ -119,7 +119,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
           )}>TO DO</h1>
 
           { todos.map(todo => {
-            return todo.status === status.TODO
+            return todo.status === Status.TODO
             && 
             <ToDo
               key={todo.id}
@@ -142,7 +142,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
           </h1>
 
           { todos.map(todo => {
-            return todo.status === status.IN_PROCESS
+            return todo.status === Status.IN_PROCESS
             && 
             <ToDo
               key={todo.id}
@@ -165,7 +165,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
           </h1>
 
           { todos.map(todo => {
-            return todo.status === status.DONE
+            return todo.status === Status.DONE
             && 
             <ToDo
               key={todo.id}
