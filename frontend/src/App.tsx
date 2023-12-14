@@ -20,9 +20,9 @@ import { TokenContext } from './contexts/TokenContext';
 function App() {
   const [theme, setTheme] = useState<Theme>(localStorage.getItem('taskforge-theme') as Theme || 'LIGHT');
   const [lang, setLang] = useState<Lang>(localStorage.getItem('taskforge-lang') as Lang || 'ENGLISH');
-  const [isAuthenticated, setAuth] = useState<boolean>(false);
+  const [token, setToken] = useState<string>(localStorage.getItem('taskforge-token') || '');
+  const [isAuthenticated, setAuth] = useState<boolean>(!!token || false);
   const [settingsWinIsOpened, setSettingsWinIsOpened] = useState(false);
-  const [token, setToken] = useState<string>('');
 
   return (
     <div className={classNames(

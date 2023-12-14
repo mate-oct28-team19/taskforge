@@ -31,7 +31,7 @@ export const loginUser = async (
 
     const responseData = await response.json();
 
-    callback(responseData.token, responseData.language, responseData.colorScheme)
+    callback(responseData.token, responseData.language, responseData.colorScheme);
 
   } catch (error) {
     console.log(error);

@@ -35,10 +35,16 @@ export const translator = {
     dashboard: {
       newTaskLabel: 'New task',
       btnCreateLabel: 'Create',
+      btnChangeTitleLabel: 'Change',
       nameForNewTodo: 'Title for new todo...',
-      changePasswordLabel: 'Change',
+      changePasswordLabel: 'Change password',
       newPasswordPlaceholder: 'New password...',
-      deleteAccountLabel: 'Delete account'
+      deleteAccountLabel: 'Delete account',
+      boards: {
+        todoLabel: 'TO DO',
+        inProcessLabel: 'IN PROCESS',
+        doneLabel: 'DONE',
+      },
     }
   },
   UKRAINIAN: {
@@ -77,10 +83,16 @@ export const translator = {
     dashboard: {
       newTaskLabel: 'Створити нову задачу',
       btnCreateLabel: 'Створити',
+      btnChangeTitleLabel: 'Змінити',
       nameForNewTodo: 'Назва нової задачі...',
       changePasswordLabel: 'Змінити пароль',
       newPasswordPlaceholder: 'Новий пароль...',
-      deleteAccountLabel: 'Видалити аккаунт'
+      deleteAccountLabel: 'Видалити аккаунт',
+      boards: {
+        todoLabel: 'ЗАПЛАНОВАНО',
+        inProcessLabel: 'В ПРОЦЕСІ ВИКОНАННЯ',
+        doneLabel: 'ВИКОНАНО',
+      },
     }
   },
   POLISH: {
@@ -119,10 +131,16 @@ export const translator = {
     dashboard: {
       newTaskLabel: 'Utworzyć nowe zadanie',
       btnCreateLabel: 'Utworzyć',
+      btnChangeTitleLabel: 'Zmienić',
       nameForNewTodo: 'Nazwa nowego zadania...',
       changePasswordLabel: 'Zmienić hasło',
       newPasswordPlaceholder: 'Nowe hasło...',
-      deleteAccountLabel: 'Usunuć konto'
+      deleteAccountLabel: 'Usunuć konto',
+      boards: {
+        todoLabel: 'ZAPLANOWANE',
+        inProcessLabel: 'W PROCESIE REALIZACJI',
+        doneLabel: 'ZROBIONE',
+      },
     }
   },
 }

@@ -2,68 +2,23 @@ import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import './MainPage.scss'
 
-import { getAllTodosAPI } from '../api/getAllTodosAPI';
 import { ToDo } from '../components/ToDo';
 import { ModalAddTodo } from '../components/ModalAddTodo';
+import { ModalChangeTodo } from '../components/ModalChangeTodo';
 import { Settings } from '../components/Settings';
 
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import { LangContext } from '../../../contexts/LangContext';
 import { TokenContext } from '../../../contexts/TokenContext';
+import { AuthContext } from '../../../contexts/AuthContext';
 
+import { ToDoMethods } from '../classes/ToDoMethods';
 import { translator } from '../../../translator';
+import { TodoService } from '../api/TodoService';
 
 import { Todo } from '../types/Todo';
 import { Task } from '../types/Task';
-import { Status } from '../types/Status';
-
-const initTodos = [
-  {
-    id: 0,
-    title: 'haha',
-    status: Status.TODO,
-  },
-  {
-    id: 1,
-    title: 'haha2',
-    status: Status.IN_PROCESS,
-  },
-  {
-    id: 2,
-    title: 'haha3',
-    status: Status.DONE,
-  },
-  {
-    id: 3,
-    title: 'haha4',
-    status: Status.TODO,
-  },
-  {
-    id: 4,
-    title: 'haha4',
-    status: Status.TODO,
-  },
-  {
-    id: 5,
-    title: 'haha4',
-    status: Status.TODO,
-  },
-  {
-    id: 6,
-    title: 'haha4',
-    status: Status.TODO,
-  },
-  {
-    id: 7,
-    title: 'haha4',
-    status: Status.TODO,
-  },
-  {
-    id: 8,
-    title: 'haha4',
-    status: Status.TODO,
-  },
-];
+import { Board } from '../types/Board';
 
 interface Props {
   settingsWinIsOpened: boolean;
@@ -71,39 +26,148 @@ interface Props {
 }
 
 export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }) => {
-  const [todos, setTodos] = useState<Todo[]>(initTodos);
+  const [boards, setBoards] = useState<Board[]>([
+    { board_id: 1, board_title: 'To Do', items: [] as Task[] },
+    { board_id: 2, board_title: 'In Process', items: [] as Task[] },
+    { board_id: 3, board_title: 'Done', items: [] as Task[] }
+  ]);
+
   const [modalIsOpened, setModalIsOpened] = useState<boolean>(false);
+  const [modalChangeTodoIsOpened, setModalChangeTodoIsOpened] = useState<boolean>(false);
   const [newTodoTitle, setNewTodoTitle] = useState<string>('');
+  const [changedTodoTitle, setChangedTodoTitle] = useState<string>('');
+
+  const [currentBoard, setCurrentBoard] = useState<Board | null>(null);
+  const [currentTask, setCurrentTask] = useState<Task | null>(null);
+  const [selectedIdTodo, setSelectedIdTodo] = useState<Task['id']>(0);
 
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
-  const { token } = useContext(TokenContext);
+  const { token, setToken } = useContext(TokenContext);
+  const { setAuth } = useContext(AuthContext);
 
   const translate = translator[lang].dashboard;
 
-  // useEffect(() => {
-  //   getAllTodosAPI(token, setTodos);
-  // }, [token]);
+  useEffect(() => {
+    TodoService.get(token, setBoards, setAuth, setToken);
+  }, [token]);
 
   const deleteTodoHandler = (todoId: Todo['id']) => {
-    setTodos(todosInner => todosInner.filter(todo => todo.id !== todoId));
+    const deleteTodoLocal = (todoId: Todo['id']) => {
+      const boardsCopy = [...boards];
+      const updatedTasksTodo = boardsCopy[0].items.filter(todo => todo.id !== todoId);
+      const updatedTasksInProcess = boardsCopy[1].items.filter(todo => todo.id !== todoId);
+      const updatedTasksDone = boardsCopy[2].items.filter(todo => todo.id !== todoId);
+      
+      boardsCopy[0].items = updatedTasksTodo;
+      boardsCopy[1].items = updatedTasksInProcess;
+      boardsCopy[2].items = updatedTasksDone;
+
+      setBoards(boardsCopy);
+    }
+
+    TodoService.delete(token, todoId, deleteTodoLocal, setAuth, setToken);
   }
 
   const createNewTodo = () => {
-    if (!newTodoTitle.length) {
+    if (newTodoTitle.length < 5) {
       return;
     }
 
     const newTodo = {
-      id: todos[todos.length - 1].id + 1,
       title: newTodoTitle,
-      status: Status.TODO
     };
+
+    const addToDoLocal = (createdTodo: Omit<Todo, 'status'>) => {
+      const newBoardsState = [...boards];
+      newBoardsState[0].items.push(createdTodo);
+
+      setBoards(newBoardsState);
+    }
 
     setNewTodoTitle('');
     setModalIsOpened(false);
 
-    setTodos(todosInner => [ ...todosInner, newTodo]);
+    TodoService.post(token, newTodo, addToDoLocal, setAuth, setToken)
+  }
+
+  const changeTodo = async () => {
+    if (changedTodoTitle.length < 5 && selectedIdTodo > 0) {
+      return;
+    }
+
+    const findedTodo = ToDoMethods.findTodo(selectedIdTodo, boards) as Todo;
+    const updatedTodo = { ...findedTodo, title: changedTodoTitle }
+
+    const updatedTodoFromServer = await TodoService.put(token, updatedTodo, setAuth, setToken);
+    const updatedTasks = ToDoMethods.updateTodoInBoards(updatedTodoFromServer, boards)
+
+    setBoards(ToDoMethods.convertTodos(updatedTasks));
+    setModalChangeTodoIsOpened(false);
+  }
+
+  const changeTodoHandler = (todoId: Todo['id']) => {
+    setModalChangeTodoIsOpened(true);
+    const findedTodo = ToDoMethods.findTodo(todoId, boards) as Todo;
+    setChangedTodoTitle(findedTodo.title);
+    setSelectedIdTodo(findedTodo.id);
+  }
+
+  class DragAndDrop {
+    static dragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
+      const target = e.target as HTMLElement;
+      target.style.boxShadow = 'none';
+    }
+
+    static dragStartHandler(e: React.DragEvent<HTMLDivElement>, board: Board, item: Task) {
+      // isLocked && e.preventDefault()
+      setCurrentBoard(board);
+      setCurrentTask(item);
+    }
+
+    static dragEndHandler(e: React.DragEvent<HTMLDivElement>) {
+      const target = e.target as HTMLElement;
+      target.style.boxShadow = 'none';
+    }
+
+    static dropHandler(e: React.DragEvent<HTMLDivElement>, board: Board, item: Task): void {
+      e.preventDefault()
+      e.stopPropagation()
+      const currentIndex = currentBoard?.items.indexOf(currentTask as Task);
+      currentBoard?.items.splice(currentIndex as number, 1);
+      const dropIndex = board.items.indexOf(item as Task);
+      board.items.splice(dropIndex + 1, 0, currentTask as Task);
+      setBoards(boards.map(b => {
+        if (b.board_id === board.board_id) {
+          return board;
+        }
+  
+        if (b.board_id === (currentBoard as Board).board_id) {
+          return currentBoard as Board;
+        }
+  
+        return b;
+      }))
+    }
+
+    static dropCardHandler(e: React.DragEvent<HTMLDivElement>, board: Board) {
+      e.stopPropagation()
+      board.items.push(currentTask as Task);
+      const currentIndex = currentBoard?.items.indexOf(currentTask as Task);
+      currentBoard?.items.splice(currentIndex as number, 1);
+  
+      setBoards(boards.map(b => {
+        if (b.board_id === board.board_id) {
+          return board;
+        }
+  
+        if (b.board_id === (currentBoard as Board).board_id) {
+          return currentBoard as Board;
+        }
+  
+        return b;
+      }))
+    }
   }
 
   return (
@@ -116,17 +180,16 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
           <h1 className={classNames(
             "dashboard__label",
             { "dashboard__label--dark": theme === 'DARK' }
-          )}>TO DO</h1>
+          )}>{ translate.boards.todoLabel }</h1>
 
-          { todos.map(todo => {
-            return todo.status === Status.TODO
-            && 
-            <ToDo
+          {boards[0].items.map(todo => {
+            return (<ToDo
               key={todo.id}
               id={todo.id}
               title={todo.title}
               onDelete={deleteTodoHandler}
-            />
+              changeHandler={changeTodoHandler}
+            />)
           })}
         </div>
 
@@ -138,18 +201,17 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
             "dashboard__label",
             { "dashboard__label--dark": theme === 'DARK' }
           )}>
-            IN PROCESS
+            { translate.boards.inProcessLabel }
           </h1>
 
-          { todos.map(todo => {
-            return todo.status === Status.IN_PROCESS
-            && 
-            <ToDo
+          {boards[1].items.map(todo => {
+            return (<ToDo
               key={todo.id}
               id={todo.id}
               title={todo.title}
               onDelete={deleteTodoHandler}
-            />
+              changeHandler={changeTodoHandler}
+            />)
           })}
         </div>
 
@@ -161,18 +223,17 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
             "dashboard__label",
             { "dashboard__label--dark": theme === 'DARK' }
           )}>
-            DONE
+            { translate.boards.doneLabel }
           </h1>
 
-          { todos.map(todo => {
-            return todo.status === Status.DONE
-            && 
-            <ToDo
+          {boards[2].items.map(todo => {
+            return (<ToDo
               key={todo.id}
               id={todo.id}
               title={todo.title}
               onDelete={deleteTodoHandler}
-            />
+              changeHandler={changeTodoHandler}
+            />)
           })}
         </div>
       </div>
@@ -196,7 +257,16 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
         />
       )}
 
-      { settingsWinIsOpened && (
+      {modalChangeTodoIsOpened && (
+        <ModalChangeTodo
+          closeModalWin={() => setModalChangeTodoIsOpened(false)}
+          changedTodoTitle={changedTodoTitle}
+          setChangedTodoTitle={setChangedTodoTitle}
+          changeTodo={changeTodo}
+        />
+      )}
+
+      {settingsWinIsOpened && (
         <Settings 
           closeModalWin={closeSettings}
         />

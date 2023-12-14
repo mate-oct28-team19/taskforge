@@ -10,9 +10,10 @@ interface Props {
   title: string;
   id: Todo['id'];
   onDelete: (todoId: Todo['id']) => void;
+  changeHandler: (todoId: Todo['id']) => void;
 }
 
-export const ToDo: React.FC<Props> = ({ title, id, onDelete }) => {
+export const ToDo: React.FC<Props> = ({ title, id, onDelete, changeHandler }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -28,7 +29,7 @@ export const ToDo: React.FC<Props> = ({ title, id, onDelete }) => {
       </p>
 
       <div className="todo__buttons">
-        <EditIcon />
+        <EditIcon onClickFunc={() => changeHandler(id)} />
         <DeleteIcon onClickFunc={() => onDelete(id)}/>
       </div>
     </div>

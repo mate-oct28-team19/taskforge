@@ -32,6 +32,8 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
 
   const changePasswordHandler = () => {
     UserService.changePassword(token, password);
+    setToken('');
+    setAuth(false);
     closeModalWin();
   }
 

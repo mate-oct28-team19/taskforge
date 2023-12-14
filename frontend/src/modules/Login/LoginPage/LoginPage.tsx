@@ -44,6 +44,7 @@ export const LoginPage: React.FC = () => {
         setLang(lang);
         setAuth(true);
         navigate('/dashboard');
+        localStorage.setItem('taskforge-token', token);
       }
     } 
 

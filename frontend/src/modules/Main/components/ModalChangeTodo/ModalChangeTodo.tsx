@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import classNames from 'classnames';
-import './ModalAddTodo.scss';
+import './ModalChangeTodo.scss';
 
 import { CloseIcon } from '../../../../UI/CloseIcon/CloseIcon';
 
@@ -10,20 +10,19 @@ import { translator } from '../../../../translator';
 
 interface Props {
   closeModalWin: () => void;
-  newTodoTitle: string;
-  setNewTodoTitle: React.Dispatch<React.SetStateAction<string>>;
-  createNewTodo: () => void;
+  changedTodoTitle: string;
+  setChangedTodoTitle: React.Dispatch<React.SetStateAction<string>>;
+  changeTodo: () => void;
 }
 
-export const ModalAddTodo: React.FC<Props> = ({
+export const ModalChangeTodo: React.FC<Props> = ({
   closeModalWin,
-  newTodoTitle,
-  setNewTodoTitle,
-  createNewTodo,
+  changedTodoTitle,
+  setChangedTodoTitle,
+  changeTodo,
 }) => {
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
-  
   const translate = translator[lang].dashboard;
 
   return (
@@ -34,7 +33,10 @@ export const ModalAddTodo: React.FC<Props> = ({
         { "modalWindow--dark": theme === 'DARK' }
       )}>
         <header className="modalWindow__header">
-          <CloseIcon closeModalWin={closeModalWin} />
+          <CloseIcon closeModalWin={() => {
+            closeModalWin();
+            setChangedTodoTitle('');
+          }} />
         </header>
 
         <input
@@ -44,8 +46,8 @@ export const ModalAddTodo: React.FC<Props> = ({
             { "modalWindow__input--dark": theme === 'DARK' }
           )}
           placeholder={translate.nameForNewTodo}
-          value={newTodoTitle}
-          onChange={e => setNewTodoTitle(e.target.value)}
+          value={changedTodoTitle}
+          onChange={e => setChangedTodoTitle(e.target.value)}
         />
 
         <button
@@ -53,10 +55,10 @@ export const ModalAddTodo: React.FC<Props> = ({
             "modalWindow__button",
             { "modalWindow__button--dark": theme === 'DARK' }
           )}
-          onClick={createNewTodo}
-          disabled={newTodoTitle.length < 5}
+          onClick={changeTodo}
+          disabled={changedTodoTitle.length < 5}
         >
-          {translate.btnCreateLabel}
+          {translate.btnChangeTitleLabel}
         </button>
       </div>
     </div>
