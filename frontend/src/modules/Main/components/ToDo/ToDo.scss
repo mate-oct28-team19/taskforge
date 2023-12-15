@@ -17,6 +17,7 @@
     font-family: Montserrat;
     font-size: 16px;
     font-weight: 500;
+    overflow: hidden;
 
     &--dark {
       color: #fff;
@@ -26,6 +27,7 @@
   &__buttons {
     display: flex;
     gap: 15px;
+    margin-left: 15px;
     
     * {
       cursor: pointer;

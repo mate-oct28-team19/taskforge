@@ -1,8 +1,8 @@
 import './reset.scss';
 import './app.scss';
 
-import { useState } from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Navigate, Route, BrowserRouter as Router, Routes, useLocation, useNavigate} from 'react-router-dom';
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Theme } from './types/Theme';
@@ -23,6 +23,10 @@ function App() {
   const [token, setToken] = useState<string>(localStorage.getItem('taskforge-token') || '');
   const [isAuthenticated, setAuth] = useState<boolean>(!!token || false);
   const [settingsWinIsOpened, setSettingsWinIsOpened] = useState(false);
+
+  useEffect(() => {
+    setAuth(!!token);
+  }, [token]);
 
   return (
     <div className={classNames(

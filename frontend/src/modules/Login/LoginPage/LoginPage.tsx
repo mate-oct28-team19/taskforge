@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import image from '../assets/login-bg.png';
@@ -28,6 +28,14 @@ export const LoginPage: React.FC = () => {
 
   const login = translator[lang].login;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('taskforge-token');
+
+    if (token) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
 
   const onSubmitHanlder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useDebugValue, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import './ConfirmEmailModalWindow.scss';
 
@@ -7,16 +7,25 @@ import { ThemeContext } from '../../../contexts/ThemeContext';
 import { LangContext } from '../../../contexts/LangContext';
 import { translator } from '../../../translator';
 import { typingCodeHandler } from '../handlers/typingCodeHandler';
+import { TokenContext } from '../../../contexts/TokenContext';
+import { getCodeAgain } from '../api/getCodeAgainAPI';
 
 interface Props {
   email: string;
   closeModalWin: () => void;
   codeIsValid: (code: string) => boolean;
+  setConfirmCodeFromServer: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email, codeIsValid }) => {
+export const ConfirmEmailModalWindow: React.FC<Props> = ({
+  closeModalWin,
+  email,
+  codeIsValid,
+  setConfirmCodeFromServer,
+}) => {
   const [confirmCode, setConfirmCode] = useState<string>('');
   const [codeIsIncorrect, setCodeIsIncorrect] = useState<boolean>(false);
+  const [counting, setCounting] = useState(59);
 
   const [input1, setInput1] = useState<string>('');
   const [input2, setInput2] = useState<string>('');
@@ -25,9 +34,9 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
   const [input5, setInput5] = useState<string>('');
   const [input6, setInput6] = useState<string>('');
 
-
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
+  const { token, setToken } = useContext(TokenContext);
 
   const translate = translator[lang].modalWindowConfirmEmail;
 
@@ -50,8 +59,6 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
 
     if(input6) {
       const codeIsValid_variable = codeIsValid(confirmCode);
-      // const codeIsValid_variable = false;
-
       if (!codeIsValid_variable) {
         setCodeIsIncorrect(true);
 
@@ -68,7 +75,52 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
         setCodeIsIncorrect(false);
       }
     }
-  }, [input1, input2, input3, input4, input5, input6, confirmCode, codeIsValid])
+  }, [input1, input2, input3, input4, input5, input6, confirmCode, codeIsValid]);
+
+  interface ITimer {
+    count: number;
+    countID: NodeJS.Timer | null;
+  
+    start: () => void;
+    reset: () => void;
+  }
+  
+  const timer: ITimer = useMemo(() => {
+    return {
+      count: 59,
+      countID: null,
+
+      start() {
+        if (this.countID !== null) {
+          return;
+        }
+
+        this.countID = setInterval(() => {
+          if (this.count > 0) {
+            this.count = this.count - 1;
+            console.log(this.count);
+            setCounting(this.count);
+          } else {
+            clearInterval(this.countID!);
+          }
+        }, 1000)
+      },
+  
+      reset() {
+        if (this.countID !== null) {
+          clearInterval(this.countID);
+          this.countID = null;
+        }
+
+        this.count = 59;
+        setCounting(59);
+      }
+    } as ITimer
+  }, [])
+
+  useEffect(() => {
+    timer.start();
+  })
 
   function onKeyDownHandler(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Backspace') {
@@ -78,6 +130,12 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
       !input3 && setInput2('');
       !input2 && setInput1('');
     }
+  }
+
+  function requestCodeAgainHandler() {
+    getCodeAgain(token, setToken, setConfirmCodeFromServer);
+    timer.reset();
+    timer.start();
   }
 
   return (
@@ -105,7 +163,7 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
 
         <form className="modal-window__form-for-code form-for-code" action="">
           <input
-            type="text"
+            type="number"
             className={classNames(
               'form-for-code__field',
               { 
@@ -118,10 +176,11 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
             value={input1}
             ref={refInput1}
             disabled={codeIsIncorrect}
+            inputMode="numeric"
           />
 
           <input
-            type="text"
+            type="number"
             className={classNames(
               'form-for-code__field',
               { 
@@ -134,10 +193,11 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
             value={input2}
             ref={refInput2}
             disabled={codeIsIncorrect}
+            inputMode="numeric"
           />
 
           <input
-            type="text"
+            type="number"
             className={classNames(
               'form-for-code__field',
               { 
@@ -150,10 +210,11 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
             value={input3}
             ref={refInput3}
             disabled={codeIsIncorrect}
+            inputMode="numeric"
           />
 
           <input
-            type="text"
+            type="number"
             className={classNames(
               'form-for-code__field',
               { 
@@ -166,10 +227,11 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
             value={input4}
             ref={refInput4}
             disabled={codeIsIncorrect}
+            inputMode="numeric"
           />
           
           <input
-            type="text"
+            type="number"
             className={classNames(
               'form-for-code__field',
               { 
@@ -182,10 +244,11 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
             value={input5}
             ref={refInput5}
             disabled={codeIsIncorrect}
+            inputMode="numeric"
           />
 
           <input
-            type="text"
+            type="number"
             className={classNames(
               'form-for-code__field',
               { 
@@ -198,22 +261,24 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({ closeModalWin, email,
             value={input6}
             ref={refInput6}
             disabled={codeIsIncorrect}
+            inputMode="numeric"
           />
         </form>
 
         <p className="modal-window__timer">
-          00:59
+          { counting > 0 && `00:${counting.toString().length === 1 ? `0${counting}` : counting}` }
         </p>
 
-        <button
+        {counting === 0 && (<button
           type="button"
           className={classNames(
             'modal-window__send-code-again',
             { "modal-window__send-code-again--dark": theme === 'DARK' }
           )}
+          onClick={requestCodeAgainHandler}
         >
           {translate.sendCodeAgain}
-        </button>
+        </button>)}
       </div>
     </div>
   );
