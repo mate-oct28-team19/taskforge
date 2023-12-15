@@ -2,7 +2,7 @@ import './reset.scss';
 import './app.scss';
 
 import { useEffect, useState } from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes, useLocation, useNavigate} from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Theme } from './types/Theme';

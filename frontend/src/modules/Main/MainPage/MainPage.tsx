@@ -50,7 +50,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
   useEffect(() => {
     TodoService.get(token, setBoards, setAuth, setToken);
-  }, [token]);
+  }, [setAuth, setToken, token]);
 
   const deleteTodoHandler = (todoId: Todo['id']) => {
     const deleteTodoLocal = (todoId: Todo['id']) => {
@@ -119,8 +119,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
       target.style.boxShadow = 'none';
     }
 
-    static dragStartHandler(e: React.DragEvent<HTMLDivElement>, board: Board, item: Task) {
-      // isLocked && e.preventDefault()
+    static dragStartHandler(board: Board, item: Task) {
       setCurrentBoard(board);
       setCurrentTask(item);
     }
@@ -167,16 +166,23 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
   
         return b;
       }))
+
+      const todoToUpdate = ToDoMethods.findTodo(currentTask?.id as number, boards) as Todo;
+      TodoService.put(token, todoToUpdate, setAuth, setToken);
     }
   }
 
   return (
     <div className="dashboard">
       <div className="dashboard__columns">
-        <div className={classNames(
-          "dashboard__todo-column",
-          {"dashboard__todo-column--dark": theme === 'DARK'}
-        )}>
+        <div
+          className={classNames(
+            "dashboard__todo-column",
+            {"dashboard__todo-column--dark": theme === 'DARK'}
+          )}
+          onDragOver={e => e.preventDefault()}
+          onDrop={(e) => DragAndDrop.dropCardHandler(e, boards[0])}
+        >
           <h1 className={classNames(
             "dashboard__label",
             { "dashboard__label--dark": theme === 'DARK' }
@@ -189,14 +195,21 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
               title={todo.title}
               onDelete={deleteTodoHandler}
               changeHandler={changeTodoHandler}
+              board={boards[0]}
+              dragAndDropClass={DragAndDrop}
+              item={todo}
             />)
           })}
         </div>
 
-        <div className={classNames(
-          "dashboard__inprocess-column",
-          { "dashboard__inprocess-column--dark": theme === 'DARK' }
-        )}>
+        <div 
+          className={classNames(
+            "dashboard__inprocess-column",
+            { "dashboard__inprocess-column--dark": theme === 'DARK' }
+          )}
+          onDragOver={e => e.preventDefault()}
+          onDrop={(e) => DragAndDrop.dropCardHandler(e, boards[1])}
+        >
           <h1 className={classNames(
             "dashboard__label",
             { "dashboard__label--dark": theme === 'DARK' }
@@ -211,14 +224,21 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
               title={todo.title}
               onDelete={deleteTodoHandler}
               changeHandler={changeTodoHandler}
+              board={boards[1]}
+              dragAndDropClass={DragAndDrop}
+              item={todo}
             />)
           })}
         </div>
 
-        <div className={classNames(
-          "dashboard__finished-column",
-          { "dashboard__finished-column--dark": theme === 'DARK' }
-        )}>
+        <div
+          className={classNames(
+            "dashboard__finished-column",
+            { "dashboard__finished-column--dark": theme === 'DARK' }
+          )}
+          onDragOver={e => e.preventDefault()}
+          onDrop={(e) => DragAndDrop.dropCardHandler(e, boards[2])}
+        >
           <h1 className={classNames(
             "dashboard__label",
             { "dashboard__label--dark": theme === 'DARK' }
@@ -233,6 +253,9 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
               title={todo.title}
               onDelete={deleteTodoHandler}
               changeHandler={changeTodoHandler}
+              board={boards[2]}
+              dragAndDropClass={DragAndDrop}
+              item={todo}
             />)
           })}
         </div>

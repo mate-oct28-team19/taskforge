@@ -6,6 +6,11 @@
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 
   &--dark {
     border: 1px solid #fff;
@@ -13,7 +18,7 @@
 
   &__title {
     color: #4042E2;
-    text-align: center;
+    text-align: left;
     font-family: Montserrat;
     font-size: 16px;
     font-weight: 500;

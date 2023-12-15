@@ -52,6 +52,13 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
     setPasswordFieldIsFocused(false);
   }
 
+  const logoutHandler = (): void => {
+    localStorage.setItem('taskforge-token', '');
+    closeModalWin();
+    setAuth(false);
+    setToken('');
+  }
+
   return (
     <div className="settings">
       <div className={classNames(
@@ -95,6 +102,16 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
           {translate.changePasswordLabel}
         </button>
 
+        <button
+          className={classNames(
+            "settingsWindow__button",
+            { "settingsWindow__button--dark": theme === 'DARK' }
+          )}
+          onClick={logoutHandler}
+        >
+          {translate.logoutLabel}
+        </button>
+        
         <button
           className={classNames(
             "settingsWindow__button",

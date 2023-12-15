@@ -40,6 +40,7 @@ export const translator = {
       changePasswordLabel: 'Change password',
       newPasswordPlaceholder: 'New password...',
       deleteAccountLabel: 'Delete account',
+      logoutLabel: 'Logout',
       boards: {
         todoLabel: 'TO DO',
         inProcessLabel: 'IN PROCESS',
@@ -88,6 +89,7 @@ export const translator = {
       changePasswordLabel: 'Змінити пароль',
       newPasswordPlaceholder: 'Новий пароль...',
       deleteAccountLabel: 'Видалити аккаунт',
+      logoutLabel: 'Вийти з аккаунту',
       boards: {
         todoLabel: 'ЗАПЛАНОВАНО',
         inProcessLabel: 'В ПРОЦЕСІ ВИКОНАННЯ',
@@ -136,6 +138,7 @@ export const translator = {
       changePasswordLabel: 'Zmienić hasło',
       newPasswordPlaceholder: 'Nowe hasło...',
       deleteAccountLabel: 'Usunuć konto',
+      logoutLabel: 'Wyloguj',
       boards: {
         todoLabel: 'ZAPLANOWANE',
         inProcessLabel: 'W PROCESIE REALIZACJI',

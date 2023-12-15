@@ -26,6 +26,8 @@
     color: #fff;
     font-size: 15px;
     transition: color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
 
     &--dark {
       color: #303747;

@@ -1,4 +1,4 @@
-import { useContext, useDebugValue, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import './ConfirmEmailModalWindow.scss';
 

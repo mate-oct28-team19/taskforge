@@ -44,9 +44,6 @@ export class UserService {
       if (!response.ok) {
         throw new Error(`${response.status}`);
       }
-
-      const data = await response.json();
-
     } catch(error) {
       console.log(error);
     }
@@ -61,9 +58,6 @@ export class UserService {
       if (!response.ok) {
         throw new Error(`${response.status}`);
       }
-
-      const data = await response.json();
-
     } catch(error) {
       console.log(error);
     }
