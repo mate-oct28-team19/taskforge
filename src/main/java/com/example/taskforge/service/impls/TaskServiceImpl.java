@@ -79,7 +79,7 @@ public class TaskServiceImpl implements TaskService {
     @Scheduled(cron = "00 00 1 * * *")
     @Transactional
     public void deleteOldTasks() {
-        LocalDate oneMonthAgo = LocalDate.now();
+        LocalDate oneMonthAgo = LocalDate.now().minusMonths(1);
         taskRepository.deleteOldTasksWithStatusDone(oneMonthAgo);
     }
 
