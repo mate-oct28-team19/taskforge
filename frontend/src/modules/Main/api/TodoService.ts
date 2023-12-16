@@ -60,8 +60,12 @@ export class TodoService {
 
       const data = await response.json();
       setBoards(ToDoMethods.convertTodos(data))
-    } catch(error) {
-      console.log(error);
+    } catch(error: any) {
+      if (error.name === "NS_ERROR_DOM_BAD_URI") {
+        setAuth(false);
+        setToken('');
+        localStorage.setItem('taskforge-token', '');
+      }
     }
   }
 

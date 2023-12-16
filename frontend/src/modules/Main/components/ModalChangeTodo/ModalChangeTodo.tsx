@@ -68,7 +68,7 @@ export const ModalChangeTodo: React.FC<Props> = ({
             )}
             onClick={() => setStatusOfTodo(Status.TODO)}
           >
-            To Do
+            { translate.boards.todoShortLabel }
           </button>
           <button 
             className={classNames(
@@ -79,7 +79,7 @@ export const ModalChangeTodo: React.FC<Props> = ({
             )}
             onClick={() => setStatusOfTodo(Status.IN_PROCESS)}
           >
-            In process
+            { translate.boards.inProcessShortLabel }
           </button>
           <button 
             className={classNames(
@@ -90,7 +90,7 @@ export const ModalChangeTodo: React.FC<Props> = ({
             )}
             onClick={() => setStatusOfTodo(Status.DONE)}
           >
-            Done
+            { translate.boards.doneShortLabel }
           </button>
         </div>
 

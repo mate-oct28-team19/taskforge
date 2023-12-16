@@ -20,6 +20,7 @@ import { TokenContext } from '../../../contexts/TokenContext';
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [passwordIncorrectError, setPasswordIncorrectError] = useState(false);
   
   const { theme, setTheme } = useContext(ThemeContext);
   const { lang, setLang } = useContext(LangContext);
@@ -36,6 +37,17 @@ export const LoginPage: React.FC = () => {
       navigate('/dashboard', { replace: true });
     }
   }, [navigate]);
+
+  const incorrectPasswordHandler = () => {
+    const emailOfUser = email;
+    setEmail('Password or email is incorrect');
+    setPasswordIncorrectError(true);
+
+    setTimeout(() => {
+      setEmail(emailOfUser);
+      setPasswordIncorrectError(false);
+    }, 3000);
+  }
 
   const onSubmitHanlder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,7 +68,7 @@ export const LoginPage: React.FC = () => {
       }
     } 
 
-    loginUser(body, callback);
+    loginUser(body, callback, incorrectPasswordHandler);
   }
 
   return (
@@ -121,7 +133,7 @@ export const LoginPage: React.FC = () => {
             'login__submit',
             { "login__submit--dark": theme === 'DARK' }
           )}
-          disabled={password.length < 8}
+          disabled={password.length < 8 || passwordIncorrectError}
         />
       </form>
     </div>

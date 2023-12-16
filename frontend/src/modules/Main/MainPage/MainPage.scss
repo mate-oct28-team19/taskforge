@@ -64,6 +64,14 @@
   }
 }
 
+@media (max-width: 1350px) {
+  .dashboard {
+    &__label {
+      font-size: 28px;
+    }
+  }
+}
+
 @media (max-width: 1100px) {
   .dashboard {
     padding: 25px 56px 0;

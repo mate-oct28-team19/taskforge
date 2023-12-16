@@ -8,6 +8,11 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
+.scroll-forbidden {
+  overflow-y: hidden;
+  height: 100%;
+}
+
 .App {
   height: 100%;
   transition: background-color 0.3s ease-in-out;

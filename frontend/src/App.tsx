@@ -28,6 +28,18 @@ function App() {
     setAuth(!!token);
   }, [token]);
 
+  class Scroll {
+    static body = document.querySelector('body') as HTMLBodyElement;
+
+    static enable() {
+      this.body.classList.add('scroll-forbidden');
+    }
+
+    static disable() {
+      this.body.classList.remove('scroll-forbidden');
+    }
+  }
+
   return (
     <div className={classNames(
       'App',
@@ -40,7 +52,10 @@ function App() {
           <LangContext.Provider value={{ lang, setLang }}>
             <ThemeContext.Provider value={{ theme, setTheme }}>
                 <AuthContext.Provider value={{ isAuthenticated, setAuth }}>
-                  <Header openSettings={() => setSettingsWinIsOpened(true)}/>
+                  <Header openSettings={() => {
+                    setSettingsWinIsOpened(true)
+                    Scroll.enable()
+                  }}/>
 
                   <Routes>
                     <Route path="/" index element={<RegistrationPage />} />

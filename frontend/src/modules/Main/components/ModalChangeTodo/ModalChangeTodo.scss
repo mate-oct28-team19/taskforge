@@ -69,12 +69,11 @@
   }
 
   &__change-status-mobile {
-    display: none;
+    display: flex;
     border: 1px solid #4748EE; 
     border-radius: 3px;
     margin: 0 28px;
-
-    font-size: 16px;
+    
     font-family: Montserrat;
     font-weight: 500;
     
@@ -85,11 +84,12 @@
 
   &__change-status-btn {
     color: #fff;
-    padding: 9px 0;
+    padding: 9px 5px;
     width: 100%;
     background-color: #7375e9;
     border: none;
     transition: background-color 0.3s ease-out;
+    font-size: 16px;
 
     &--current {
       background-color: #4748EE;
@@ -168,8 +168,8 @@
       font-size: 13px;
     }
 
-    &__change-status-mobile {
-      display: flex;
+    &__change-status-btn {
+      font-size: 12px;
     }
 
     &__button {

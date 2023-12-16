@@ -45,6 +45,9 @@ export const translator = {
         todoLabel: 'TO DO',
         inProcessLabel: 'IN PROCESS',
         doneLabel: 'DONE',
+        todoShortLabel: 'To do',
+        inProcessShortLabel: 'In process',
+        doneShortLabel: 'Done',
       },
     }
   },
@@ -94,6 +97,9 @@ export const translator = {
         todoLabel: 'ЗАПЛАНОВАНО',
         inProcessLabel: 'В ПРОЦЕСІ ВИКОНАННЯ',
         doneLabel: 'ВИКОНАНО',
+        todoShortLabel: 'Заплановано',
+        inProcessShortLabel: 'В процесі',
+        doneShortLabel: 'Виконано',
       },
     }
   },
@@ -143,6 +149,9 @@ export const translator = {
         todoLabel: 'ZAPLANOWANE',
         inProcessLabel: 'W PROCESIE REALIZACJI',
         doneLabel: 'ZROBIONE',
+        todoShortLabel: 'Zaplanowane',
+        inProcessShortLabel: 'W trakcie',
+        doneShortLabel: 'Zrobione',
       },
     }
   },

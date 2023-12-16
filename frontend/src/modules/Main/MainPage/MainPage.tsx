@@ -89,6 +89,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
     setNewTodoTitle('');
     setModalIsOpened(false);
+    Scroll.disable();
 
     TodoService.post(token, newTodo, addToDoLocal, setAuth, setToken)
   }
@@ -106,11 +107,13 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
     setBoards(ToDoMethods.convertTodos(updatedTasks));
     setModalChangeTodoIsOpened(false);
+    Scroll.disable()
   }
 
   const changeTodoHandler = (todoId: Todo['id']) => {
     const findedTodo = ToDoMethods.findTodo(todoId, boards) as Todo;
     setModalChangeTodoIsOpened(true);
+    Scroll.enable();
     setChangedTodoTitle(findedTodo.title);
     setSelectedIdTodo(findedTodo.id);
     setStatusOfTodo(findedTodo.status);
@@ -172,6 +175,18 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
       const todoToUpdate = ToDoMethods.findTodo(currentTask?.id as number, boards) as Todo;
       TodoService.put(token, todoToUpdate, setAuth, setToken);
+    }
+  }
+
+  class Scroll {
+    static body = document.querySelector('body') as HTMLBodyElement;
+
+    static enable() {
+      this.body.classList.add('scroll-forbidden');
+    }
+
+    static disable() {
+      this.body.classList.remove('scroll-forbidden');
     }
   }
 
@@ -269,14 +284,20 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
           "dashboard__create-todo",
           { "dashboard__create-todo--dark": theme === 'DARK' }
         )}
-        onClick={() => setModalIsOpened(true)}
+        onClick={() => {
+          setModalIsOpened(true);
+          Scroll.enable();
+        }}
       >
         { translate.newTaskLabel }
       </button>
 
       {modalIsOpened && (
         <ModalAddTodo
-          closeModalWin={() => setModalIsOpened(false)}
+          closeModalWin={() => {
+            setModalIsOpened(false);
+            Scroll.disable();
+          }}
           newTodoTitle={newTodoTitle}
           setNewTodoTitle={setNewTodoTitle}
           createNewTodo={createNewTodo}
@@ -285,7 +306,10 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
       {modalChangeTodoIsOpened && (
         <ModalChangeTodo
-          closeModalWin={() => setModalChangeTodoIsOpened(false)}
+          closeModalWin={() => {
+            setModalChangeTodoIsOpened(false);
+            Scroll.disable();
+          }}
           changedTodoTitle={changedTodoTitle}
           statusOfTodo={statusOfTodo}
           setChangedTodoTitle={setChangedTodoTitle}
@@ -296,7 +320,10 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
       {settingsWinIsOpened && (
         <Settings 
-          closeModalWin={closeSettings}
+          closeModalWin={() => {
+            closeSettings();
+            Scroll.disable();
+          }}
         />
       )}
     </div>
