@@ -8,10 +8,12 @@ import static org.mockito.Mockito.when;
 import com.example.taskforge.dto.UpdateColorSchemeRequestDto;
 import com.example.taskforge.dto.UpdateLanguageRequestDto;
 import com.example.taskforge.dto.UpdatePasswordRequestDto;
+import com.example.taskforge.dto.user.UserPropertiesResponseDto;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.TaskRepository;
 import com.example.taskforge.repository.UserRepository;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -101,5 +103,16 @@ class UserServiceImplTest {
         assertDoesNotThrow(() -> userService.updateLanguage(authentication, dto));
         verify(authentication, times(1)).getPrincipal();
         verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    @DisplayName("Tests whether getProperties() method works")
+    void getProperties_withValidUser_Ok() {
+        when(authentication.getPrincipal()).thenReturn(user);
+        UserPropertiesResponseDto expected = new UserPropertiesResponseDto(user.getColorScheme(), user.getLanguage());
+        assertDoesNotThrow(() -> userService.getProperties(authentication));
+        UserPropertiesResponseDto actual = userService.getProperties(authentication);
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(expected, actual);
     }
 }
