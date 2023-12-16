@@ -19,6 +19,7 @@ import { TodoService } from '../api/TodoService';
 import { Todo } from '../types/Todo';
 import { Task } from '../types/Task';
 import { Board } from '../types/Board';
+import { Status } from '../types/Status';
 
 interface Props {
   settingsWinIsOpened: boolean;
@@ -36,6 +37,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
   const [modalChangeTodoIsOpened, setModalChangeTodoIsOpened] = useState<boolean>(false);
   const [newTodoTitle, setNewTodoTitle] = useState<string>('');
   const [changedTodoTitle, setChangedTodoTitle] = useState<string>('');
+  const [statusOfTodo, setStatusOfTodo] = useState(Status.TODO)
 
   const [currentBoard, setCurrentBoard] = useState<Board | null>(null);
   const [currentTask, setCurrentTask] = useState<Task | null>(null);
@@ -97,7 +99,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
     }
 
     const findedTodo = ToDoMethods.findTodo(selectedIdTodo, boards) as Todo;
-    const updatedTodo = { ...findedTodo, title: changedTodoTitle }
+    const updatedTodo = { ...findedTodo, title: changedTodoTitle, status: statusOfTodo }
 
     const updatedTodoFromServer = await TodoService.put(token, updatedTodo, setAuth, setToken);
     const updatedTasks = ToDoMethods.updateTodoInBoards(updatedTodoFromServer, boards)
@@ -107,10 +109,11 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
   }
 
   const changeTodoHandler = (todoId: Todo['id']) => {
-    setModalChangeTodoIsOpened(true);
     const findedTodo = ToDoMethods.findTodo(todoId, boards) as Todo;
+    setModalChangeTodoIsOpened(true);
     setChangedTodoTitle(findedTodo.title);
     setSelectedIdTodo(findedTodo.id);
+    setStatusOfTodo(findedTodo.status);
   }
 
   class DragAndDrop {
@@ -284,7 +287,9 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
         <ModalChangeTodo
           closeModalWin={() => setModalChangeTodoIsOpened(false)}
           changedTodoTitle={changedTodoTitle}
+          statusOfTodo={statusOfTodo}
           setChangedTodoTitle={setChangedTodoTitle}
+          setStatusOfTodo={setStatusOfTodo}
           changeTodo={changeTodo}
         />
       )}

@@ -39,6 +39,7 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
 
   const deleteAccountHandler = () => {
     UserService.deleteAccount(token);
+    localStorage.setItem('taskforge-token', '');
     setToken('');
     setAuth(false);
     closeModalWin();

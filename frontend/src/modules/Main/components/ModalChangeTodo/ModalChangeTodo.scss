@@ -68,6 +68,42 @@
     }
   }
 
+  &__change-status-mobile {
+    display: none;
+    border: 1px solid #4748EE; 
+    border-radius: 3px;
+    margin: 0 28px;
+
+    font-size: 16px;
+    font-family: Montserrat;
+    font-weight: 500;
+    
+    &--dark {
+      border: 1px solid #303747;
+    }
+  }
+
+  &__change-status-btn {
+    color: #fff;
+    padding: 9px 0;
+    width: 100%;
+    background-color: #7375e9;
+    border: none;
+    transition: background-color 0.3s ease-out;
+
+    &--current {
+      background-color: #4748EE;
+
+      &--dark {
+        background-color: #303747;
+      }
+    }
+
+    &--dark {
+      background-color: #515765
+    }
+  }
+
   &__button {
     padding: 24px 0;
     margin: 0 28px;
@@ -130,6 +166,10 @@
     &__input {
       padding: 13px 10px;
       font-size: 13px;
+    }
+
+    &__change-status-mobile {
+      display: flex;
     }
 
     &__button {

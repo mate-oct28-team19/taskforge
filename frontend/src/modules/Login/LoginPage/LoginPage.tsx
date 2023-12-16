@@ -121,6 +121,7 @@ export const LoginPage: React.FC = () => {
             'login__submit',
             { "login__submit--dark": theme === 'DARK' }
           )}
+          disabled={password.length < 8}
         />
       </form>
     </div>
