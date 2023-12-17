@@ -16,9 +16,15 @@ import { SwitchLang } from '../../../SwitchLang';
 
 interface Props {
   closeModalWin: () => void;
+  setModalContinueOpened: () => void;
+  setCallbackForModalWinContinue: React.Dispatch<React.SetStateAction<() => void>>;
 }
 
-export const Settings: React.FC<Props> = ({ closeModalWin }) => {
+export const Settings: React.FC<Props> = ({
+  closeModalWin,
+  setModalContinueOpened,
+  setCallbackForModalWinContinue,
+}) => {
   const [password, setPassword] = useState<string>('');
   const [passwordIsOkay, setPasswordIsOkay] = useState<boolean>(false);
   const [passwordFieldIsFocused, setPasswordFieldIsFocused] = useState<boolean>(false);
@@ -38,11 +44,16 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
   }
 
   const deleteAccountHandler = () => {
-    UserService.deleteAccount(token);
-    localStorage.setItem('taskforge-token', '');
-    setToken('');
-    setAuth(false);
-    closeModalWin();
+    const deleteAccount = () => {
+      UserService.deleteAccount(token);
+      localStorage.setItem('taskforge-token', '');
+      setToken('');
+      setAuth(false);
+      closeModalWin();
+    }
+
+    setCallbackForModalWinContinue(() => deleteAccount);
+    setModalContinueOpened();
   }
 
   const handlerOnFocusPasswordField = (): void => {

@@ -21,6 +21,10 @@ export const translator = {
       },
       hrefToLogin: 'Don\'t have an account??',
       btnContinue: 'Continue',
+      errors: {
+        passwordEmailIsIncorrect1: 'Password or ...',
+        passwordEmailIsIncorrect2: '... email is incorrect',
+      },
     },
     modalWindowConfirmEmail: {
       label: 'To confirm your e-mail, enter the 6 digits that were sent to ',
@@ -73,6 +77,10 @@ export const translator = {
       },
       hrefToLogin: 'Не маєш облікового запису?',
       btnContinue: 'Увійти',
+      errors: {
+        passwordEmailIsIncorrect1: 'Електронна пошта або ...',
+        passwordEmailIsIncorrect2: '... пароль неправильний',
+      },
     },
     modalWindowConfirmEmail: {
       label: 'Щоб підтвердити твою електронну пошту, введи тут 6 цифр, які ми надіслали тобі на ',
@@ -125,6 +133,10 @@ export const translator = {
       },
       hrefToLogin: 'Jeszcze nie masz konta?',
       btnContinue: 'Kontynuować',
+      errors: {
+        passwordEmailIsIncorrect1: 'E-mail lub ...',
+        passwordEmailIsIncorrect2: '... hasło jest niepoprawne',
+      },
     },
     modalWindowConfirmEmail: {
       label: 'Aby potwierdzić swój adres e-mail, wpisz 6 cyfr, które zostały wysłane na adres ',

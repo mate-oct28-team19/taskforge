@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import classNames from 'classnames';
 import { DeleteIcon } from '../../../../UI/DeleteIcon/DeleteIcon';
 import { EditIcon } from '../../../../UI/EditIcon/EditIcon';
@@ -7,6 +7,7 @@ import { ThemeContext } from '../../../../contexts/ThemeContext';
 import { Todo } from '../../types/Todo';
 import { Board } from '../../types/Board';
 import { Task } from '../../types/Task';
+import LoadingIcons from 'react-loading-icons';
 
 interface IDragAndDrop {
   dragLeaveHandler(e: React.DragEvent<HTMLDivElement>): void;
@@ -24,6 +25,8 @@ interface Props {
   board: Board;
   dragAndDropClass: IDragAndDrop;
   item: Task;
+  setCallbackForModalWinContinue: React.Dispatch<React.SetStateAction<() => void>>;
+  setModalContinueOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ToDo: React.FC<Props> = ({
@@ -34,9 +37,23 @@ export const ToDo: React.FC<Props> = ({
   board,
   dragAndDropClass,
   item,
+  setCallbackForModalWinContinue,
+  setModalContinueOpened,
  }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
   const { theme } = useContext(ThemeContext);
   const DragAndDrop = dragAndDropClass;
+
+  const deleteHandlerByToDo = () => {
+    const deleteCallback = () => {
+      setModalContinueOpened(false);
+      setIsDeleting(true);
+      onDelete(id);
+    }
+
+    setCallbackForModalWinContinue(() => deleteCallback);
+    setModalContinueOpened(true);
+  }
 
   return (
     <div
@@ -60,7 +77,11 @@ export const ToDo: React.FC<Props> = ({
 
       <div className="todo__buttons">
         <EditIcon onClickFunc={() => changeHandler(id)} />
-        <DeleteIcon onClickFunc={() => onDelete(id)}/>
+        {!isDeleting ? (
+        <DeleteIcon onClickFunc={() => deleteHandlerByToDo()}/>
+        ) : (
+          <LoadingIcons.TailSpin width={'15px'} height={'17px'} strokeWidth='4px' stroke={theme === 'LIGHT' ? '#4042E2' : '#fff'}/>
+        )}
       </div>
     </div>
   );

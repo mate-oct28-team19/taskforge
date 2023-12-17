@@ -20,6 +20,7 @@ import { TokenContext } from '../../../contexts/TokenContext';
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [typePasswordInput, setTypePasswordInput] = useState('password');
   const [passwordIncorrectError, setPasswordIncorrectError] = useState(false);
   
   const { theme, setTheme } = useContext(ThemeContext);
@@ -40,11 +41,16 @@ export const LoginPage: React.FC = () => {
 
   const incorrectPasswordHandler = () => {
     const emailOfUser = email;
-    setEmail('Password or email is incorrect');
+    const passwordOfUser = password;
+    setEmail(login.errors.passwordEmailIsIncorrect1);
+    setPassword(login.errors.passwordEmailIsIncorrect2);
+    setTypePasswordInput('text');
     setPasswordIncorrectError(true);
 
     setTimeout(() => {
       setEmail(emailOfUser);
+      setPassword(passwordOfUser);
+      setTypePasswordInput('password');
       setPasswordIncorrectError(false);
     }, 3000);
   }
@@ -101,6 +107,7 @@ export const LoginPage: React.FC = () => {
           value={email}
           onChange={e => onChangeEmailHandler(e, setEmail)}
           required
+          disabled={passwordIncorrectError}
         />
 
         <input
@@ -108,12 +115,13 @@ export const LoginPage: React.FC = () => {
             'login__input',
             { "login__input--dark": theme === 'DARK' }
           )}
-          type="password"
+          type={typePasswordInput}
           name="password"
           placeholder={login.placeholders.password}
           value={password}
           onChange={e => onChangePasswordFieldHandler(e, setPassword)}
           required
+          disabled={passwordIncorrectError}
         />
 
         <Link

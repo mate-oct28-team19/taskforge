@@ -98,7 +98,6 @@ export const ConfirmEmailModalWindow: React.FC<Props> = ({
         this.countID = setInterval(() => {
           if (this.count > 0) {
             this.count = this.count - 1;
-            console.log(this.count);
             setCounting(this.count);
           } else {
             clearInterval(this.countID!);

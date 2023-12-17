@@ -26,7 +26,7 @@ export const loginUser = async (
   try {
     const response = await fetch(settings.BACKEND_URL + '/auth/login', options);
 
-    if (response.status === 403) {
+    if (response.status === 403 || response.status === 409) {
       incorrectPasswordHandler();
       return;
     }

@@ -6,6 +6,7 @@ import { ToDo } from '../components/ToDo';
 import { ModalAddTodo } from '../components/ModalAddTodo';
 import { ModalChangeTodo } from '../components/ModalChangeTodo';
 import { Settings } from '../components/Settings';
+import { ConfirmOperation } from '../components/ConfirmOperation/ConfirmOperation';
 
 import { ThemeContext } from '../../../contexts/ThemeContext';
 import { LangContext } from '../../../contexts/LangContext';
@@ -35,6 +36,10 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
   const [modalIsOpened, setModalIsOpened] = useState<boolean>(false);
   const [modalChangeTodoIsOpened, setModalChangeTodoIsOpened] = useState<boolean>(false);
+  const [modalContinueOpened, setModalContinueOpened] = useState<boolean>(false);
+
+  const [callbackForModalWinContinue, setCallbackForModalWinContinue] = useState<() => void>(() => {});
+
   const [newTodoTitle, setNewTodoTitle] = useState<string>('');
   const [changedTodoTitle, setChangedTodoTitle] = useState<string>('');
   const [statusOfTodo, setStatusOfTodo] = useState(Status.TODO)
@@ -55,20 +60,22 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
   }, [setAuth, setToken, token]);
 
   const deleteTodoHandler = (todoId: Todo['id']) => {
-    const deleteTodoLocal = (todoId: Todo['id']) => {
-      const boardsCopy = [...boards];
-      const updatedTasksTodo = boardsCopy[0].items.filter(todo => todo.id !== todoId);
-      const updatedTasksInProcess = boardsCopy[1].items.filter(todo => todo.id !== todoId);
-      const updatedTasksDone = boardsCopy[2].items.filter(todo => todo.id !== todoId);
-      
-      boardsCopy[0].items = updatedTasksTodo;
-      boardsCopy[1].items = updatedTasksInProcess;
-      boardsCopy[2].items = updatedTasksDone;
-
-      setBoards(boardsCopy);
-    }
-
-    TodoService.delete(token, todoId, deleteTodoLocal, setAuth, setToken);
+    setTimeout(() => {
+      const deleteTodoLocal = (todoId: Todo['id']) => {
+        const boardsCopy = [...boards];
+        const updatedTasksTodo = boardsCopy[0].items.filter(todo => todo.id !== todoId);
+        const updatedTasksInProcess = boardsCopy[1].items.filter(todo => todo.id !== todoId);
+        const updatedTasksDone = boardsCopy[2].items.filter(todo => todo.id !== todoId);
+        
+        boardsCopy[0].items = updatedTasksTodo;
+        boardsCopy[1].items = updatedTasksInProcess;
+        boardsCopy[2].items = updatedTasksDone;
+  
+        setBoards(boardsCopy);
+      }
+  
+      TodoService.delete(token, todoId, deleteTodoLocal, setAuth, setToken);
+    }, 500)
   }
 
   const createNewTodo = () => {
@@ -107,7 +114,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
     setBoards(ToDoMethods.convertTodos(updatedTasks));
     setModalChangeTodoIsOpened(false);
-    Scroll.disable()
+    Scroll.disable();
   }
 
   const changeTodoHandler = (todoId: Todo['id']) => {
@@ -204,7 +211,10 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
           <h1 className={classNames(
             "dashboard__label",
             { "dashboard__label--dark": theme === 'DARK' }
-          )}>{ translate.boards.todoLabel }</h1>
+          )}
+          >
+            { translate.boards.todoLabel }
+          </h1>
 
           {boards[0].items.map(todo => {
             return (<ToDo
@@ -216,6 +226,8 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
               board={boards[0]}
               dragAndDropClass={DragAndDrop}
               item={todo}
+              setCallbackForModalWinContinue={setCallbackForModalWinContinue}
+              setModalContinueOpened={setModalContinueOpened}
             />)
           })}
         </div>
@@ -245,6 +257,8 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
               board={boards[1]}
               dragAndDropClass={DragAndDrop}
               item={todo}
+              setCallbackForModalWinContinue={setCallbackForModalWinContinue}
+              setModalContinueOpened={setModalContinueOpened}
             />)
           })}
         </div>
@@ -274,6 +288,8 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
               board={boards[2]}
               dragAndDropClass={DragAndDrop}
               item={todo}
+              setCallbackForModalWinContinue={setCallbackForModalWinContinue}
+              setModalContinueOpened={setModalContinueOpened}
             />)
           })}
         </div>
@@ -291,6 +307,13 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
       >
         { translate.newTaskLabel }
       </button>
+
+      {modalContinueOpened && (
+        <ConfirmOperation callbackConfirm={callbackForModalWinContinue} closeModalWin={() => {
+          setModalContinueOpened(false);
+          Scroll.disable();
+        }} />
+      )}
 
       {modalIsOpened && (
         <ModalAddTodo
@@ -324,6 +347,14 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
             closeSettings();
             Scroll.disable();
           }}
+
+          setModalContinueOpened={() => {
+            closeSettings();
+            setModalContinueOpened(true);
+            Scroll.enable();
+          }}
+
+          setCallbackForModalWinContinue={setCallbackForModalWinContinue}
         />
       )}
     </div>
