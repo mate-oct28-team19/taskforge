@@ -21,6 +21,7 @@ import { Todo } from '../types/Todo';
 import { Task } from '../types/Task';
 import { Board } from '../types/Board';
 import { Status } from '../types/Status';
+import { WarningMsgLimitTasks } from '../components/WarningMsgLimitTasks';
 
 interface Props {
   settingsWinIsOpened: boolean;
@@ -37,6 +38,7 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
   const [modalIsOpened, setModalIsOpened] = useState<boolean>(false);
   const [modalChangeTodoIsOpened, setModalChangeTodoIsOpened] = useState<boolean>(false);
   const [modalContinueOpened, setModalContinueOpened] = useState<boolean>(false);
+  const [warningLimitTask, setWarningLimitTask] = useState<boolean>(false);
 
   const [callbackForModalWinContinue, setCallbackForModalWinContinue] = useState<() => void>(() => {});
 
@@ -197,6 +199,24 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
     }
   }
 
+  const addTodoHanlder = () => {
+    if (!checkLimitTodosCreating()) {
+      setWarningLimitTask(true);
+    } else {
+      setWarningLimitTask(false);
+      setModalIsOpened(true);
+      Scroll.enable();
+    }
+  }
+
+  const checkLimitTodosCreating = (): boolean => {
+    const tasksTodoQuantity = boards[0].items.length;
+    const tasksInProcessQuantity = boards[1].items.length;
+    const tasksDoneQuantity = boards[2].items.length;
+
+    return (tasksDoneQuantity + tasksTodoQuantity + tasksInProcessQuantity) < 20;
+  }
+
   return (
     <div className="dashboard">
       <div className="dashboard__columns">
@@ -298,12 +318,10 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
       <button
         className={classNames(
           "dashboard__create-todo",
-          { "dashboard__create-todo--dark": theme === 'DARK' }
+          { "dashboard__create-todo--dark": theme === 'DARK' },
+          { "dashboard__create-todo--disabled" : !checkLimitTodosCreating() }
         )}
-        onClick={() => {
-          setModalIsOpened(true);
-          Scroll.enable();
-        }}
+        onClick={addTodoHanlder}
       >
         { translate.newTaskLabel }
       </button>
@@ -356,6 +374,10 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
 
           setCallbackForModalWinContinue={setCallbackForModalWinContinue}
         />
+      )}
+
+      {warningLimitTask && (
+        <WarningMsgLimitTasks closeModal={() => setWarningLimitTask(false)}/>
       )}
     </div>
   );

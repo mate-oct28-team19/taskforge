@@ -70,32 +70,29 @@
 
   &__change-status-mobile {
     display: flex;
-    border: 1px solid #4748EE; 
-    border-radius: 3px;
     margin: 0 28px;
     
     font-family: Montserrat;
     font-weight: 500;
-    
-    &--dark {
-      border: 1px solid #303747;
-    }
   }
 
   &__change-status-btn {
-    color: #fff;
     padding: 9px 5px;
     width: 100%;
     background-color: #7375e9;
     border: none;
-    transition: background-color 0.3s ease-out;
     font-size: 16px;
+    color: #fff;
+    transition:
+      background-color 0.3s ease-out,
+      color 0.5s ease-out;
 
     &--current {
       background-color: #4748EE;
 
       &--dark {
-        background-color: #303747;
+        background-color: #fff;
+        color:#303747;
       }
     }
 

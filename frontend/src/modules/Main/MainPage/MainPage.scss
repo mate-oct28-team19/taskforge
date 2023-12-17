@@ -61,6 +61,11 @@
       color: #fff;
       border: 2px solid #fff;
     }
+
+    &--disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
   }
 }
 
