@@ -57,7 +57,7 @@ public class UserController {
     @Operation(summary = "Get color theme and language", description = "Returnes color theme and language for certain user")
     @GetMapping("/properties")
     @ResponseStatus(HttpStatus.OK)
-    UserPropertiesResponseDto getProperties(@RequestBody Authentication authentication) {
+    UserPropertiesResponseDto getProperties(Authentication authentication) {
         return userService.getProperties(authentication);
     }
 
