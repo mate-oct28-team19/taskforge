@@ -3,6 +3,7 @@ package com.example.taskforge.service;
 import com.example.taskforge.dto.UpdateColorSchemeRequestDto;
 import com.example.taskforge.dto.UpdateLanguageRequestDto;
 import com.example.taskforge.dto.UpdatePasswordRequestDto;
+import com.example.taskforge.dto.user.UserPropertiesResponseDto;
 import com.example.taskforge.model.User;
 import java.util.Optional;
 import org.springframework.security.core.Authentication;
@@ -22,4 +23,6 @@ public interface UserService {
     void updateColor(Authentication authentication, UpdateColorSchemeRequestDto dto);
 
     void updateLanguage(Authentication authentication, UpdateLanguageRequestDto dto);
+
+    UserPropertiesResponseDto getProperties(Authentication authentication);
 }

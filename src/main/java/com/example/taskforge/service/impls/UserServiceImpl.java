@@ -3,6 +3,7 @@ package com.example.taskforge.service.impls;
 import com.example.taskforge.dto.UpdateColorSchemeRequestDto;
 import com.example.taskforge.dto.UpdateLanguageRequestDto;
 import com.example.taskforge.dto.UpdatePasswordRequestDto;
+import com.example.taskforge.dto.user.UserPropertiesResponseDto;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.TaskRepository;
 import com.example.taskforge.repository.UserRepository;
@@ -58,6 +59,12 @@ public class UserServiceImpl implements UserService {
         User user = (User) authentication.getPrincipal();
         user.setLanguage(dto.getLanguage());
         userRepository.save(user);
+    }
+
+    @Override
+    public UserPropertiesResponseDto getProperties(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return new UserPropertiesResponseDto(user.getColorScheme(), user.getLanguage());
     }
 }
 

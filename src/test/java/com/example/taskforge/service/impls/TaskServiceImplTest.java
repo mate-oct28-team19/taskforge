@@ -1,4 +1,4 @@
-package com.example.taskforge.service.impl;
+package com.example.taskforge.service.impls;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +17,6 @@ import com.example.taskforge.model.Task;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.TaskRepository;
 import com.example.taskforge.repository.UserRepository;
-import com.example.taskforge.service.impls.TaskServiceImpl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
