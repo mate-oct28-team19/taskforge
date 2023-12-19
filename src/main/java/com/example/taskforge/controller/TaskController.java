@@ -9,8 +9,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,16 +30,16 @@ public class TaskController {
 
     @Operation(summary = "Get all tasks", description = "Get all user's tasks ")
     @GetMapping
+    @PreAuthorize("isAuthenticated() and principal.enabled")
     @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public List<TaskDto> getAll(Authentication authentication) {
         return taskService.findAll(authentication.getName());
     }
 
     @Operation(summary = "Create a new task", description = "Create a new task")
     @PostMapping
+    @PreAuthorize("isAuthenticated() and principal.enabled")
     @ResponseStatus(HttpStatus.CREATED)
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public TaskDto createTask(@RequestBody @Valid CreateTaskRequestDto requestDto,
                               Authentication authentication) {
         return taskService.save(authentication.getName(), requestDto);
@@ -47,8 +47,8 @@ public class TaskController {
 
     @Operation(summary = "Update a task", description = "Update a task by id")
     @PutMapping("/{id}")
+    @PreAuthorize("isAuthenticated() and principal.enabled")
     @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public TaskDto updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto,
                               Authentication authentication) {
         return taskService.update(authentication.getName(), id, taskDto);
@@ -56,8 +56,8 @@ public class TaskController {
 
     @Operation(summary = "Delete a task", description = "Delete a task by id")
     @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated() and principal.enabled")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public void deleteTask(@PathVariable Long id, Authentication authentication) {
         taskService.delete(authentication.getName(), id);
     }

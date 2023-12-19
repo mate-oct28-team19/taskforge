@@ -13,10 +13,15 @@ import com.example.taskforge.model.Mail;
 import com.example.taskforge.model.User;
 import com.example.taskforge.repository.UserRepository;
 import com.example.taskforge.service.UserService;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final int MIN_RANDOM = 100000;
     private static final int MAX_RANDOM = 999999;
     private static final String LINK = "http://ec2-54-80-32-157.compute-1.amazonaws.com/auth/confirm?token=";
+    //private static final String LINK = "http://localhost:8080/auth/confirm?token=";
 
     private final EmailPropertiesBuilderProvider emailPropertiesBuilderProvider;
     private final JwtUtil jwtUtil;
@@ -71,13 +77,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Transactional
-    public String confirmRegistrationToken(String token) throws RegistrationException {
+    public Resource confirmRegistrationToken(String token) throws RegistrationException, FileNotFoundException {
         checkIsTokenValid(token);
         User user = getUserFromDbByToken(token);
         checkIsUserEnabled(user);
         user.setEnabled(true);
         userService.save(user);
-        return "Email confirmed";
+        File file = new File("taskforge-redirect.html");
+        try {
+            return new InputStreamResource(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException("File not found");
+        }
     }
 
     @Override

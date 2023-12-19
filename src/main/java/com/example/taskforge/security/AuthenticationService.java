@@ -5,8 +5,10 @@ import com.example.taskforge.dto.user.UserLoginResponseDto;
 import com.example.taskforge.dto.user.UserRegistrationRequestDto;
 import com.example.taskforge.dto.user.UserRegistrationResponseDto;
 import com.example.taskforge.exception.RegistrationException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.mail.MessagingException;
+import org.springframework.core.io.Resource;
 
 public interface AuthenticationService {
 
@@ -15,7 +17,7 @@ public interface AuthenticationService {
 
     UserLoginResponseDto authenticate(UserLoginRequestDto request) throws RegistrationException;
 
-    String confirmRegistrationToken(String token) throws RegistrationException;
+    Resource confirmRegistrationToken(String token) throws RegistrationException, FileNotFoundException;
 
     UserRegistrationResponseDto resend(String token)
             throws RegistrationException, MessagingException, jakarta.mail.MessagingException, IOException;
