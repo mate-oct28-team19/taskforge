@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskForge</title>
+</head>
+<body onload="onLoadHandler()">
+  <p>Email is confirmed</p>
+  <br>
+  <p class="time">Redirection will be in 5 seconds</p>
+
+  <script>
+    function onLoadHandler() {
+      let timeoutId = null;
+      let seconds = 5;
+
+      if (timeoutId === null) {
+        const timer = document.querySelector('.time');
+
+        let intervalID = setInterval(() => {
+          seconds--;
+          timer.textContent = 'Redirection will be in ' + seconds + ' seconds';
+
+          if (seconds === 0) {
+            clearInterval(intervalID);
+          }
+        }, 1000);
+
+        timeoutId = setTimeout(() => {
+          window.location.replace('http://taskforge.byethost11.com/login');
+        }, 5000)
+      }
+    }
+  </script>
+</body>
+</html>

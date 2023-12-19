@@ -9,8 +9,10 @@ import com.example.taskforge.security.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +49,7 @@ public class AuthController {
             description = "Confirm registration via link from email")
     @GetMapping("/confirm")
     @ResponseStatus(HttpStatus.OK)
-    public String confirm(@RequestParam("token") String token) throws RegistrationException {
+    public Resource confirm(@RequestParam("token") String token) throws RegistrationException, FileNotFoundException {
         return authenticationService.confirmRegistrationToken(token);
     }
 

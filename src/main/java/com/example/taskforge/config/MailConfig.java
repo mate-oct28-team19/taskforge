@@ -4,23 +4,18 @@ import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.stereotype.Component;
 
 @Configuration
-@Component
-@PropertySource("classpath:application.properties")
 public class MailConfig {
-
-    @Value("${spring.mail.port}")
+    @Value("587")
     private int port;
-    @Value("${spring.mail.host}")
+    @Value("smtp.gmail.com")
     private String host;
-    @Value("${spring.mail.username}")
+    @Value("taskforge19@gmail.com")
     private String username;
-    @Value("${spring.mail.password}")
+    @Value("dwop euow jdbv ydwz")
     private String password;
 
     @Bean
@@ -40,3 +35,4 @@ public class MailConfig {
         return mailSender;
     }
 }
+

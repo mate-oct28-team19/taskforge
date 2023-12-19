@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class UserController {
 
     @Operation(summary = "Delete", description = "Delete user and its information")
     @DeleteMapping()
+    @PreAuthorize("isAuthenticated() and principal.enabled")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(Authentication authentication) {
         userService.delete(authentication);
@@ -35,6 +37,7 @@ public class UserController {
 
     @Operation(summary = "Update color scheme", description = "Updates color scheme in db for certain user")
     @PatchMapping("/color_scheme")
+    @PreAuthorize("isAuthenticated() and principal.enabled")
     @ResponseStatus(HttpStatus.OK)
     void changeColor(@RequestBody @Valid UpdateColorSchemeRequestDto dto, Authentication authentication) {
         userService.updateColor(authentication, dto);
@@ -42,6 +45,7 @@ public class UserController {
 
     @Operation(summary = "Update language", description = "Updates language in db for certain user")
     @PatchMapping("/language")
+    @PreAuthorize("isAuthenticated() and principal.enabled")
     @ResponseStatus(HttpStatus.OK)
     void changeLanguage(@RequestBody @Valid UpdateLanguageRequestDto dto, Authentication authentication) {
         userService.updateLanguage(authentication, dto);
@@ -49,6 +53,7 @@ public class UserController {
 
     @Operation(summary = "Update password", description = "Updates password in db for certain user")
     @PatchMapping("/password")
+    @PreAuthorize("isAuthenticated() and principal.enabled")
     @ResponseStatus(HttpStatus.OK)
     void changePassword(@RequestBody @Valid UpdatePasswordRequestDto dto, Authentication authentication) {
         userService.updatePassword(authentication, dto);
@@ -56,9 +61,9 @@ public class UserController {
 
     @Operation(summary = "Get color theme and language", description = "Returnes color theme and language for certain user")
     @GetMapping("/properties")
+    @PreAuthorize("isAuthenticated() and principal.enabled")
     @ResponseStatus(HttpStatus.OK)
     UserPropertiesResponseDto getProperties(Authentication authentication) {
         return userService.getProperties(authentication);
     }
-
 }
