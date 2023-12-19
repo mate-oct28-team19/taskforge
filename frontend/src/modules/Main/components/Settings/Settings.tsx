@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './Settings.scss';
 
 import { CloseIcon } from '../../../../UI/CloseIcon/CloseIcon';
@@ -16,9 +16,16 @@ import { SwitchLang } from '../../../SwitchLang';
 
 interface Props {
   closeModalWin: () => void;
+  setModalContinueOpened: () => void;
+  setCallbackForModalWinContinue: React.Dispatch<React.SetStateAction<() => void>>;
 }
 
-export const Settings: React.FC<Props> = ({ closeModalWin }) => {
+export const Settings: React.FC<Props> = ({
+  closeModalWin,
+  setModalContinueOpened,
+  setCallbackForModalWinContinue,
+}) => {
+  const [render, setRender] = useState(false);
   const [password, setPassword] = useState<string>('');
   const [passwordIsOkay, setPasswordIsOkay] = useState<boolean>(false);
   const [passwordFieldIsFocused, setPasswordFieldIsFocused] = useState<boolean>(false);
@@ -32,14 +39,27 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
 
   const changePasswordHandler = () => {
     UserService.changePassword(token, password);
+    localStorage.setItem('taskforge-token', '');
+    setToken('');
+    setAuth(false);
     closeModalWin();
   }
 
   const deleteAccountHandler = () => {
-    UserService.deleteAccount(token);
-    setToken('');
-    setAuth(false);
-    closeModalWin();
+    const deleteAccount = () => {
+      UserService.deleteAccount(token);
+      localStorage.setItem('taskforge-token', '');
+      setToken('');
+      setAuth(false);
+      closeModalWin();
+    }
+
+    setCallbackForModalWinContinue(() => deleteAccount);
+    setRender(false);
+
+    setTimeout(() => {
+      setModalContinueOpened();
+    }, 1000);
   }
 
   const handlerOnFocusPasswordField = (): void => {
@@ -50,14 +70,39 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
     setPasswordFieldIsFocused(false);
   }
 
+  const logoutHandler = (): void => {
+    localStorage.setItem('taskforge-token', '');
+    closeModalWin();
+    setAuth(false);
+    setToken('');
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setRender(true);
+    }, 50);
+  }, [setRender]);
+
+  const closeHandler = () => {
+    setRender(false);
+
+    setTimeout(() => {
+      closeModalWin();
+    }, 1000)
+  }
+
   return (
-    <div className="settings">
+    <div className={classNames(
+      "settings",
+      { "settings--render": render }
+    )}>
       <div className={classNames(
         "settingsWindow",
-        { "settingsWindow--dark": theme === 'DARK' }
+        { "settingsWindow--dark": theme === 'DARK' },
+        { "settingsWindow--render": render }
       )}>
         <header className="settingsWindow__header">
-          <CloseIcon closeModalWin={closeModalWin} />
+          <CloseIcon closeModalWin={closeHandler} />
         </header>
 
         <div className="settingsWindow__changeThemeLang">
@@ -93,6 +138,16 @@ export const Settings: React.FC<Props> = ({ closeModalWin }) => {
           {translate.changePasswordLabel}
         </button>
 
+        <button
+          className={classNames(
+            "settingsWindow__button",
+            { "settingsWindow__button--dark": theme === 'DARK' }
+          )}
+          onClick={logoutHandler}
+        >
+          {translate.logoutLabel}
+        </button>
+        
         <button
           className={classNames(
             "settingsWindow__button",

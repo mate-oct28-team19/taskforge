@@ -57,7 +57,7 @@
   }
 
   &__timer {
-    margin-top: 15px;
+    margin-top: 25px;
     color: inherit;
     font-family: 'Montserrat', sans-serif;
     font-size: 24px;
@@ -67,13 +67,14 @@
   &__send-code-again {
     border: none;
     background-color: transparent;
-    margin-top: 10px;
+    margin-top: 20px;
 
     color: #4748EE;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
     font-size: 28px;
     font-weight: 600;
+    cursor: pointer;
 
     &--dark {
       color: #BDD0FB;

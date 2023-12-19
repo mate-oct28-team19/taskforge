@@ -24,9 +24,9 @@ export const ValidatePassword: React.FC<Props> = ({ password, setPasswordIsOk })
   const translate = translator[lang].passwordValidation
 
   useEffect(() => {
-    const nums = parseInt(password.replace(/[^\d]/g, ''));
+    const nums = password.replace(/[^\d]/g, '');
 
-    if (nums) {
+    if (nums.toString().length) {
       setNumberExists(true);
     } else {
       setNumberExists(false);

@@ -1,9 +1,11 @@
-enum status {
-  TODO, IN_PROCESS, DONE
+enum Status {
+  TODO = 'TODO',
+  IN_PROCESS = 'IN_PROCESS',
+  DONE = 'DONE'
 }
 
 export type Todo = {
   id: number,
   title: string,
-  status: status
+  status: Status
 };

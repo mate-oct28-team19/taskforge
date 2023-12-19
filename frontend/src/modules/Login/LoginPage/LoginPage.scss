@@ -104,6 +104,7 @@
       font-weight: 500;
       background-color: transparent;
       border: none;
+      cursor: pointer;
   
       display: flex;
       margin-top: 8px;
@@ -138,132 +139,18 @@
         &:hover {
           border: 1px solid #515765;
           background-color: #515765; 
-          
-          .google > path{
-            stroke: #fff;
-          }
-    
-          .github > path {
-            fill: #fff;
-          }
         }
   
         &:active {
           border: 1px solid #fff;
           background-color: #fff; 
           color: #303747;
-    
-          .google > path{
-            stroke: #303747;
-          }
-    
-          .github > path {
-            fill: #303747;
-          }
         }
       }
-    }
 
-    &__buttons {
-      display: none;
-      margin-top: 15px;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-  
-    &__signup {
-      padding: 23px 33px;
-      background-color: transparent;
-      border-radius: 3px;
-      border: 1px solid #4748EE; 
-      display: flex;
-      align-items: center;
-      color: #4748EE;
-  
-      .google path{
-        stroke: #4748EE;
-      }
-  
-      .github path {
-        fill: #4748EE;
-      }
-  
-      transition:
-        border-color 0.3s ease-in-out,
-        color 0.3s ease-in-out,
-        background-color 0.3s ease-in-out;
-  
-      path {
-        transition: stroke 0.3s ease,
-        fill 0.3s ease;;
-      }
-  
-      &:hover {
-        border: 1px solid #6062E7;
-        background-color: #6062E7; 
-        color: #fff;
-        
-        .google > path{
-          stroke: #fff;
-        }
-  
-        .github > path {
-          fill: #fff;
-        }
-      }
-  
-      &:active {
-        border: 1px solid #4748EE;
-        background-color: #4748EE; 
-        color: #fff;
-  
-        .google > path{
-          stroke: #fff;
-        }
-  
-        .github > path {
-          fill: #fff;
-        }
-      }
-  
-      &--dark {
-        border-color: #fff;
-        color: #fff;
-  
-        .google path{
-          stroke: #fff;
-        }
-  
-        .github path {
-          fill: #fff;
-        }
-  
-        &:hover {
-          border: 1px solid #515765;
-          background-color: #515765; 
-          
-          .google > path{
-            stroke: #fff;
-          }
-    
-          .github > path {
-            fill: #fff;
-          }
-        }
-  
-        &:active {
-          border: 1px solid #fff;
-          background-color: #fff; 
-          color: #303747;
-    
-          .google > path{
-            stroke: #303747;
-          }
-    
-          .github > path {
-            fill: #303747;
-          }
-        }
+      &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
       }
     }
 
@@ -296,6 +183,7 @@
 
     &__input {
       padding: 13px 10px;
+      font-size: 13px;
 
       &::placeholder {
         font-size: 13px;

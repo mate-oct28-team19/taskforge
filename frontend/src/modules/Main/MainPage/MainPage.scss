@@ -61,6 +61,19 @@
       color: #fff;
       border: 2px solid #fff;
     }
+
+    &--disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+}
+
+@media (max-width: 1350px) {
+  .dashboard {
+    &__label {
+      font-size: 28px;
+    }
   }
 }
 
@@ -91,7 +104,7 @@
     &__create-todo {
       position: fixed;
       width: calc(100% - 112px);
-      margin-bottom: 24px;
+      margin-bottom: 70px;
       left: 56px;
       right: 56px;
       bottom: 0;

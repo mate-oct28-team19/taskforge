@@ -1,8 +1,8 @@
 import './reset.scss';
 import './app.scss';
 
-import { useState } from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Theme } from './types/Theme';
@@ -20,9 +20,25 @@ import { TokenContext } from './contexts/TokenContext';
 function App() {
   const [theme, setTheme] = useState<Theme>(localStorage.getItem('taskforge-theme') as Theme || 'LIGHT');
   const [lang, setLang] = useState<Lang>(localStorage.getItem('taskforge-lang') as Lang || 'ENGLISH');
-  const [isAuthenticated, setAuth] = useState<boolean>(false);
+  const [token, setToken] = useState<string>(localStorage.getItem('taskforge-token') || '');
+  const [isAuthenticated, setAuth] = useState<boolean>(!!token || false);
   const [settingsWinIsOpened, setSettingsWinIsOpened] = useState(false);
-  const [token, setToken] = useState<string>('');
+
+  useEffect(() => {
+    setAuth(!!token);
+  }, [token]);
+
+  class Scroll {
+    static body = document.querySelector('body') as HTMLBodyElement;
+
+    static enable() {
+      this.body.classList.add('scroll-forbidden');
+    }
+
+    static disable() {
+      this.body.classList.remove('scroll-forbidden');
+    }
+  }
 
   return (
     <div className={classNames(
@@ -36,7 +52,10 @@ function App() {
           <LangContext.Provider value={{ lang, setLang }}>
             <ThemeContext.Provider value={{ theme, setTheme }}>
                 <AuthContext.Provider value={{ isAuthenticated, setAuth }}>
-                  <Header openSettings={() => setSettingsWinIsOpened(true)}/>
+                  <Header openSettings={() => {
+                    setSettingsWinIsOpened(true)
+                    Scroll.enable()
+                  }}/>
 
                   <Routes>
                     <Route path="/" index element={<RegistrationPage />} />

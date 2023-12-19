@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import image from '../assets/login-bg.png';
@@ -20,6 +20,8 @@ import { TokenContext } from '../../../contexts/TokenContext';
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [typePasswordInput, setTypePasswordInput] = useState('password');
+  const [passwordIncorrectError, setPasswordIncorrectError] = useState(false);
   
   const { theme, setTheme } = useContext(ThemeContext);
   const { lang, setLang } = useContext(LangContext);
@@ -28,6 +30,30 @@ export const LoginPage: React.FC = () => {
 
   const login = translator[lang].login;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('taskforge-token');
+
+    if (token) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
+  const incorrectPasswordHandler = () => {
+    const emailOfUser = email;
+    const passwordOfUser = password;
+    setEmail(login.errors.passwordEmailIsIncorrect1);
+    setPassword(login.errors.passwordEmailIsIncorrect2);
+    setTypePasswordInput('text');
+    setPasswordIncorrectError(true);
+
+    setTimeout(() => {
+      setEmail(emailOfUser);
+      setPassword(passwordOfUser);
+      setTypePasswordInput('password');
+      setPasswordIncorrectError(false);
+    }, 3000);
+  }
 
   const onSubmitHanlder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,10 +70,11 @@ export const LoginPage: React.FC = () => {
         setLang(lang);
         setAuth(true);
         navigate('/dashboard');
+        localStorage.setItem('taskforge-token', token);
       }
     } 
 
-    loginUser(body, callback);
+    loginUser(body, callback, incorrectPasswordHandler);
   }
 
   return (
@@ -80,6 +107,7 @@ export const LoginPage: React.FC = () => {
           value={email}
           onChange={e => onChangeEmailHandler(e, setEmail)}
           required
+          disabled={passwordIncorrectError}
         />
 
         <input
@@ -87,12 +115,13 @@ export const LoginPage: React.FC = () => {
             'login__input',
             { "login__input--dark": theme === 'DARK' }
           )}
-          type="password"
+          type={typePasswordInput}
           name="password"
           placeholder={login.placeholders.password}
           value={password}
           onChange={e => onChangePasswordFieldHandler(e, setPassword)}
           required
+          disabled={passwordIncorrectError}
         />
 
         <Link
@@ -112,6 +141,7 @@ export const LoginPage: React.FC = () => {
             'login__submit',
             { "login__submit--dark": theme === 'DARK' }
           )}
+          disabled={password.length < 8 || passwordIncorrectError}
         />
       </form>
     </div>

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import './RegistrationPage.scss';
@@ -47,6 +47,14 @@ export const RegistrationPage: React.FC = () => {
 
   const regTranslate = translator[lang].registration;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('taskforge-token');
+
+    if (token) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
 
   const onSubmitHanlder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -225,6 +233,7 @@ export const RegistrationPage: React.FC = () => {
           closeModalWin={() => setModalWinIsOpened(false)}
           email={email}
           codeIsValid={codeIsValid}
+          setConfirmCodeFromServer={setConfirmCodeFromServer}
         />
       )}
     </div>
