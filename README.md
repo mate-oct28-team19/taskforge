@@ -4,5 +4,5 @@
 
 ## Technologies:
 ### **FrontEnd:** HTML5, CSS3, TypeScript, React, SCSS
-### **BackEnd:** Java, Spring (?)
+### **BackEnd:** Java, Spring Framework, Hibernate, MySql, AWS
 ### **QA tester:** Cypress, Postman, Testrail, Jira
