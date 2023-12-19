@@ -1,0 +1,159 @@
+.settings {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+}
+
+.settingsWindow {
+  box-sizing: border-box;
+  width: 421px; 
+  padding: 24px 24px 37px;
+  border-radius: 15px;
+  border: 1px solid #4748EE;
+  background: #FFF; 
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &--dark {
+    border: 1px solid #FFF;
+    background: #303747; 
+  }
+  
+  &__header {
+    display: flex;
+    justify-content: right;
+
+    .icon-close {
+      transform: scale(0.7);
+    }
+  }
+
+  &__changeThemeLang {
+    display: none;
+  }
+
+  &__password-field {
+    box-sizing: border-box;
+    margin: 0 28px;
+    position: relative;
+  }
+
+  &__input {
+    padding: 23px 20px;
+    border-radius: 3px;
+    border: 1px solid #4748EE; 
+    background-color: transparent;
+    width: 100%;
+
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 500;
+    color: #4748EE;
+
+    &::placeholder {
+      color: #BDD0FB;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &--dark {
+      border: 1px solid #FFF; 
+      color: #fff;
+
+      &::placeholder {
+        color: #7A8090; 
+      }
+    }
+  }
+
+  &__button {
+    padding: 24px 0;
+    margin: 0 28px;
+    background-color: transparent;
+    border-radius: 3px;
+    border: 1px solid #4748EE; 
+    cursor: pointer;
+
+    color: #4748EE;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 500;
+
+    transition:
+      border-color 0.3s ease-in-out,
+      color 0.3s ease-in-out,
+      background-color 0.3s ease-in-out;
+
+    &:hover {
+      border: 1px solid #6062E7;
+      background-color: #6062E7; 
+      color: #fff;
+    }
+
+    &:active {
+      border: 1px solid #4748EE;
+      background-color: #4748EE; 
+      color: #fff;
+    }
+
+    &--dark {
+      border-color: #fff;
+      color: #fff;
+
+      &:hover {
+        border: 1px solid #515765;
+        background-color: #515765; 
+        
+      }
+
+      &:active {
+        border: 1px solid #fff;
+        background-color: #fff; 
+        color: #303747;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .settingsWindow {
+    width: 330px;
+
+    &__changeThemeLang {
+      display: flex;
+      height: 120px;
+      gap: 10px;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 28px;
+      position: relative;
+    }
+
+    &__input {
+      padding: 10px 13px;
+      font-size: 13px;
+    }
+
+    &__button {
+      padding: 9px 0px;
+      font-size: 20px;
+    }
+  }
+}

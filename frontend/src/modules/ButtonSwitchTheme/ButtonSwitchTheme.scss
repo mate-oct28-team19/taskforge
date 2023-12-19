@@ -1,0 +1,304 @@
+$transition-duration: 0.5s;
+
+.switch-theme-btn {
+  width: 130px;
+  height: 50px;
+  margin-left: 30px;
+  border-radius: 60px;
+  background: #4345E8;
+  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.25) inset; 
+  border: none;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+
+  transition:
+    background-color $transition-duration ease-in-out $transition-duration;
+
+  &--dark {
+    transition:
+      background-color ease-in-out $transition-duration;
+    background-color: #192032;
+  }
+
+  .circle-one {
+    height: 57px;
+    width: 99px;
+    border-radius: 33px;
+    background-color: #91B3FA;
+    top: -3px;
+    left: -5px;
+    position: absolute;
+    transition:
+      left $transition-duration ease-in-out $transition-duration,
+      background-color $transition-duration ease-in-out $transition-duration;
+
+    &--dark {
+      transition:
+        left ease-in-out $transition-duration,
+        background-color ease-in-out $transition-duration;
+      background-color: #454C5C;
+      left: 33px
+    }
+  }
+
+  .circle-two {
+    height: 57px;
+    width: 99px;
+    border-radius: 33px;
+    background-color: #BDD0FB;
+    top: -3px;
+    left: -30px;
+    position: absolute;
+    transition:
+      left $transition-duration ease-in-out $transition-duration,
+      background-color $transition-duration ease-in-out $transition-duration;
+
+    &--dark {
+      transition:
+        left ease-in-out $transition-duration,
+        background-color ease-in-out $transition-duration;
+      background-color: #585E6E;
+      left: 48px;
+    }
+  }
+
+  .circle-three {
+    height: 57px;
+    width: 99px;
+    border-radius: 33px;
+    background-color: #BDD0FB;
+    top: -3px;
+    left: -30px;
+    position: absolute;
+    transition:
+      left $transition-duration ease-in-out $transition-duration,
+      background-color $transition-duration ease-in-out $transition-duration;
+
+    &--dark {
+      transition:
+        left ease-in-out $transition-duration,
+        background-color ease-in-out $transition-duration;
+      background-color: #303747;
+      left: 15px;
+    }
+  }
+
+  .clouds-one {
+    position: relative;
+    width: 130px;
+    height: 50px;
+    left: 0px;
+    transition: left 0.5s ease-in-out 0.5s;
+
+    &--dark {
+      transition: left 0.5s ease-in-out;
+      left: 130px
+    }
+
+    div {
+      background-color: #B4CFE0;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    &__1 {
+      width: 24px;
+      height: 15px;
+      top: 34px;
+      right: 102px;
+    }
+
+    &__2 {
+      width: 24px;
+      height: 15px;
+      top: 30px;
+      right: 81px;
+    }
+
+    &__3 {
+      width: 28px;
+      height: 27px;
+      top: 24px;
+      right: 61px;
+    }
+
+    &__4 {
+      width: 17px;
+      height: 16px;
+      top: 25px;
+      right: 51px;
+    }
+
+    &__5 {
+      width: 26px;
+      height: 23px;
+      top: 18px;
+      right: 32px;
+    }
+
+    &__6 {
+      width: 40px;
+      height: 33px;
+      top: 14px;
+      right: 5px;
+    }
+
+    &__7 {
+      width: 45px;
+      height: 40px;
+      top: -6px;
+      right: -19px;
+    }
+  }
+
+  .clouds-two {
+    position: relative;
+    width: 130px;
+    height: 50px;
+    left: 0px;
+    top: -50px;
+    transition: left $transition-duration ease-in-out $transition-duration;
+
+    &--dark {
+      transition: left $transition-duration ease-in-out;
+      left: 130px
+    }
+
+    div {
+      background-color: #F5FAFF;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    &__1 {
+      width: 25px;
+      height: 15px;
+      top: 40px;
+      right: 97px;
+    }
+
+    &__2 {
+      width: 25px;
+      height: 15px;
+      top: 39px;
+      right: 74px;
+    }
+
+    &__3 {
+      width: 29px;
+      height: 27px;
+      top: 35px;
+      right: 54px;
+    }
+
+    &__4 {
+      width: 16px;
+      height: 16px;
+      top: 37px;
+      right: 42px;
+    }
+
+    &__5 {
+      width: 27px;
+      height: 23px;
+      top: 33px;
+      right: 19px;
+    }
+
+    &__6 {
+      width: 40px;
+      height: 33px;
+      top: 20px;
+      right: -12px;
+    }
+
+    &__7 {
+      width: 44px;
+      height: 40px;
+      top: 5px;
+      right: -26px;
+    }
+  }
+
+  .stars {
+    position: absolute;
+    top: 8px;
+    left: -73px;
+    width: 73px;
+    height: 38px;
+    transition:
+      left $transition-duration ease-in-out $transition-duration;
+
+    &--dark {
+      transition:
+        left ease-in-out $transition-duration;
+      left: 10px
+    }
+  }
+
+  .sun-and-moon {
+    width: 42px;
+    height: 42px;
+    background-color: #FFD84D;
+    border-radius: 50%;
+    margin-left: 7px;
+    box-shadow: 1px -1px 4px 0px rgba(0, 0, 0, 0.25) inset; 
+    position: absolute;
+    top: 4px;
+    left: 0px;
+    transition:
+      left $transition-duration ease-in-out $transition-duration,
+      background-color $transition-duration ease-in-out $transition-duration;
+
+    &--dark {
+      transition: left 0.5s ease-in-out, background-color 0.5s ease-in-out;
+      left: 73px;
+      background-color: #CCCFDE;
+    }
+
+    &__circle {
+      &-1, &-2, &-3 {
+        position: relative;
+        border-radius: 50%;
+        background-color: #9EA2AE;
+        opacity: 0;
+        transition: opacity $transition-duration ease-in-out;
+        box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25) inset; 
+
+        &--dark {
+          transition: opacity $transition-duration ease-in-out $transition-duration;
+          opacity: 1;
+        }
+      }
+
+      &-1 {
+        width: 8px;
+        height: 8px;
+        top: 5px;
+        left: 17px;
+      }
+
+      &-2 {
+        width: 14px;
+        height: 14px;
+        top: 8px;
+        left: 8px;
+      }
+
+      &-3 {
+        width: 8px;
+        height: 8px;
+        top: 1px;
+        left: 27px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .switch-theme-btn {
+    transform: scale(0.8);
+    margin: 0;
+  }
+}
