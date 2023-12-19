@@ -1,2 +1,8 @@
 # taskforge
-Stud team mate academy project
+### Stud team Mate academy project
+### [Link to the Web-app](http://taskforge.byethost11.com/)
+
+## Technologies:
+### **FrontEnd:** HTML5, CSS3, TypeScript, React, SCSS
+### **BackEnd:** Java, Spring (?)
+### **QA tester:** Cypress, Postman, Testrail, Jira
