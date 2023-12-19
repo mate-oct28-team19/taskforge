@@ -46,9 +46,12 @@ export const ToDo: React.FC<Props> = ({
 
   const deleteHandlerByToDo = () => {
     const deleteCallback = () => {
-      setModalContinueOpened(false);
-      setIsDeleting(true);
       onDelete(id);
+      setIsDeleting(true);
+
+      setTimeout(() => {
+        setModalContinueOpened(false);
+      }, 1100)
     }
 
     setCallbackForModalWinContinue(() => deleteCallback);

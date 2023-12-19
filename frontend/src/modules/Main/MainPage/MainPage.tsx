@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import './MainPage.scss'
 
@@ -56,77 +56,6 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
   const { setAuth } = useContext(AuthContext);
 
   const translate = translator[lang].dashboard;
-
-  useEffect(() => {
-    TodoService.get(token, setBoards, setAuth, setToken);
-  }, [setAuth, setToken, token]);
-
-  const deleteTodoHandler = (todoId: Todo['id']) => {
-    setTimeout(() => {
-      const deleteTodoLocal = (todoId: Todo['id']) => {
-        const boardsCopy = [...boards];
-        const updatedTasksTodo = boardsCopy[0].items.filter(todo => todo.id !== todoId);
-        const updatedTasksInProcess = boardsCopy[1].items.filter(todo => todo.id !== todoId);
-        const updatedTasksDone = boardsCopy[2].items.filter(todo => todo.id !== todoId);
-        
-        boardsCopy[0].items = updatedTasksTodo;
-        boardsCopy[1].items = updatedTasksInProcess;
-        boardsCopy[2].items = updatedTasksDone;
-  
-        setBoards(boardsCopy);
-      }
-  
-      TodoService.delete(token, todoId, deleteTodoLocal, setAuth, setToken);
-    }, 500)
-  }
-
-  const createNewTodo = () => {
-    if (newTodoTitle.length < 5) {
-      return;
-    }
-
-    const newTodo = {
-      title: newTodoTitle,
-    };
-
-    const addToDoLocal = (createdTodo: Omit<Todo, 'status'>) => {
-      const newBoardsState = [...boards];
-      newBoardsState[0].items.push(createdTodo);
-
-      setBoards(newBoardsState);
-    }
-
-    setNewTodoTitle('');
-    setModalIsOpened(false);
-    Scroll.disable();
-
-    TodoService.post(token, newTodo, addToDoLocal, setAuth, setToken)
-  }
-
-  const changeTodo = async () => {
-    if (changedTodoTitle.length < 5 && selectedIdTodo > 0) {
-      return;
-    }
-
-    const findedTodo = ToDoMethods.findTodo(selectedIdTodo, boards) as Todo;
-    const updatedTodo = { ...findedTodo, title: changedTodoTitle, status: statusOfTodo }
-
-    const updatedTodoFromServer = await TodoService.put(token, updatedTodo, setAuth, setToken);
-    const updatedTasks = ToDoMethods.updateTodoInBoards(updatedTodoFromServer, boards)
-
-    setBoards(ToDoMethods.convertTodos(updatedTasks));
-    setModalChangeTodoIsOpened(false);
-    Scroll.disable();
-  }
-
-  const changeTodoHandler = (todoId: Todo['id']) => {
-    const findedTodo = ToDoMethods.findTodo(todoId, boards) as Todo;
-    setModalChangeTodoIsOpened(true);
-    Scroll.enable();
-    setChangedTodoTitle(findedTodo.title);
-    setSelectedIdTodo(findedTodo.id);
-    setStatusOfTodo(findedTodo.status);
-  }
 
   class DragAndDrop {
     static dragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
@@ -187,16 +116,110 @@ export const MainPage: React.FC<Props> = ({ settingsWinIsOpened, closeSettings }
     }
   }
 
-  class Scroll {
-    static body = document.querySelector('body') as HTMLBodyElement;
+  const Scroll = useMemo(() => {
+    return {
+      body: document.querySelector('body') as HTMLBodyElement,
+  
+      enable() {
+        this.body.classList.add('scroll-forbidden');
+      },
+  
+      disable() {
+        this.body.classList.remove('scroll-forbidden');
+      }
+    }
+  }, []);
 
-    static enable() {
-      this.body.classList.add('scroll-forbidden');
+  useEffect(() => {
+    TodoService.get(token, setBoards, setAuth, setToken);
+  }, [setAuth, setToken, token]);
+
+  useEffect(() => {
+    if (warningLimitTask) {
+      Scroll.enable();
+    } else {
+      Scroll.disable();
+    }
+  }, [Scroll, warningLimitTask]);
+
+  useEffect(() => {
+    if (modalContinueOpened) {
+      Scroll.enable();
+    } else {
+      Scroll.disable();
+    }
+  }, [Scroll, modalContinueOpened])
+
+  const deleteTodoHandler = (todoId: Todo['id']) => {
+    setTimeout(() => {
+      const deleteTodoLocal = (todoId: Todo['id']) => {
+        const boardsCopy = [...boards];
+        const updatedTasksTodo = boardsCopy[0].items.filter(todo => todo.id !== todoId);
+        const updatedTasksInProcess = boardsCopy[1].items.filter(todo => todo.id !== todoId);
+        const updatedTasksDone = boardsCopy[2].items.filter(todo => todo.id !== todoId);
+        
+        boardsCopy[0].items = updatedTasksTodo;
+        boardsCopy[1].items = updatedTasksInProcess;
+        boardsCopy[2].items = updatedTasksDone;
+  
+        setBoards(boardsCopy);
+      }
+  
+      TodoService.delete(token, todoId, deleteTodoLocal, setAuth, setToken);
+    }, 1200)
+  }
+
+  const createNewTodo = () => {
+    if (newTodoTitle.length < 5) {
+      return;
     }
 
-    static disable() {
-      this.body.classList.remove('scroll-forbidden');
+    const newTodo = {
+      title: newTodoTitle,
+    };
+
+    const addToDoLocal = (createdTodo: Omit<Todo, 'status'>) => {
+      const newBoardsState = [...boards];
+      newBoardsState[0].items.push(createdTodo);
+
+      setBoards(newBoardsState);
     }
+
+    TodoService.post(token, newTodo, addToDoLocal, setAuth, setToken);
+
+    setTimeout(() => {
+      setNewTodoTitle('');
+      setModalIsOpened(false);
+      Scroll.disable();
+    }, 1200)
+  }
+
+  const changeTodo = async () => {
+    if (changedTodoTitle.length < 5 && selectedIdTodo > 0) {
+      return;
+    }
+
+    const findedTodo = ToDoMethods.findTodo(selectedIdTodo, boards) as Todo;
+    const updatedTodo = { ...findedTodo, title: changedTodoTitle, status: statusOfTodo }
+
+    const updatedTodoFromServer = await TodoService.put(token, updatedTodo, setAuth, setToken);
+    const updatedTasks = ToDoMethods.updateTodoInBoards(updatedTodoFromServer, boards)
+
+    setBoards(ToDoMethods.convertTodos(updatedTasks));
+
+    setTimeout(() => {
+      setModalChangeTodoIsOpened(false);
+      Scroll.disable();
+    }, 1200)
+  }
+
+  const changeTodoHandler = (todoId: Todo['id']) => {
+    const findedTodo = ToDoMethods.findTodo(todoId, boards) as Todo;
+    setModalChangeTodoIsOpened(true);
+    Scroll.enable();
+    setChangedTodoTitle(findedTodo.title);
+    setSelectedIdTodo(findedTodo.id);
+    setStatusOfTodo(findedTodo.status);
   }
 
   const addTodoHanlder = () => {

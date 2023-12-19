@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import './ModalChangeTodo.scss';
 
@@ -26,20 +26,44 @@ export const ModalChangeTodo: React.FC<Props> = ({
   statusOfTodo,
   setStatusOfTodo
 }) => {
+  const [render, setRender] = useState(false);
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LangContext);
   const translate = translator[lang].dashboard;
 
+  useEffect(() => {
+    setTimeout(() => {
+      setRender(true);
+    }, 50);
+  }, [setRender]);
+
+  const closeHandler = () => {
+    setRender(false);
+
+    setTimeout(() => {
+      closeModalWin();
+    }, 1000)
+  }
+
+  const changeTodoHandler = () => {
+    setRender(false);
+    changeTodo();
+  }
+
   return (
-    <div className="modalAddTodo">
+    <div className={classNames(
+      "modalAddTodo",
+      { "modalAddTodo--render": render }
+    )}>
       <div className={classNames(
         "modalAddTodo__modalWindow",
         "modalWindow",
-        { "modalWindow--dark": theme === 'DARK' }
+        { "modalWindow--dark": theme === 'DARK' },
+        { "modalWindow--render": render },
       )}>
         <header className="modalWindow__header">
           <CloseIcon closeModalWin={() => {
-            closeModalWin();
+            closeHandler();
             setChangedTodoTitle('');
           }} />
         </header>
@@ -99,7 +123,7 @@ export const ModalChangeTodo: React.FC<Props> = ({
             "modalWindow__button",
             { "modalWindow__button--dark": theme === 'DARK' }
           )}
-          onClick={changeTodo}
+          onClick={changeTodoHandler}
           disabled={changedTodoTitle.length < 5}
         >
           {translate.btnChangeTitleLabel}

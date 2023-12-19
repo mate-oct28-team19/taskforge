@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './Settings.scss';
 
 import { CloseIcon } from '../../../../UI/CloseIcon/CloseIcon';
@@ -25,6 +25,7 @@ export const Settings: React.FC<Props> = ({
   setModalContinueOpened,
   setCallbackForModalWinContinue,
 }) => {
+  const [render, setRender] = useState(false);
   const [password, setPassword] = useState<string>('');
   const [passwordIsOkay, setPasswordIsOkay] = useState<boolean>(false);
   const [passwordFieldIsFocused, setPasswordFieldIsFocused] = useState<boolean>(false);
@@ -38,6 +39,7 @@ export const Settings: React.FC<Props> = ({
 
   const changePasswordHandler = () => {
     UserService.changePassword(token, password);
+    localStorage.setItem('taskforge-token', '');
     setToken('');
     setAuth(false);
     closeModalWin();
@@ -53,7 +55,11 @@ export const Settings: React.FC<Props> = ({
     }
 
     setCallbackForModalWinContinue(() => deleteAccount);
-    setModalContinueOpened();
+    setRender(false);
+
+    setTimeout(() => {
+      setModalContinueOpened();
+    }, 1000);
   }
 
   const handlerOnFocusPasswordField = (): void => {
@@ -71,14 +77,32 @@ export const Settings: React.FC<Props> = ({
     setToken('');
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setRender(true);
+    }, 50);
+  }, [setRender]);
+
+  const closeHandler = () => {
+    setRender(false);
+
+    setTimeout(() => {
+      closeModalWin();
+    }, 1000)
+  }
+
   return (
-    <div className="settings">
+    <div className={classNames(
+      "settings",
+      { "settings--render": render }
+    )}>
       <div className={classNames(
         "settingsWindow",
-        { "settingsWindow--dark": theme === 'DARK' }
+        { "settingsWindow--dark": theme === 'DARK' },
+        { "settingsWindow--render": render }
       )}>
         <header className="settingsWindow__header">
-          <CloseIcon closeModalWin={closeModalWin} />
+          <CloseIcon closeModalWin={closeHandler} />
         </header>
 
         <div className="settingsWindow__changeThemeLang">

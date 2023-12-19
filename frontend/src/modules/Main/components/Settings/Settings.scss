@@ -10,7 +10,14 @@
   right: 0;
   bottom: 0;
   z-index: 1;
-  backdrop-filter: blur(10px);
+  // backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px) opacity(0);
+  transition: backdrop-filter 0.3s ease-out 0.5s;
+
+  &--render {
+    backdrop-filter: blur(10px) opacity(1);
+    transition: backdrop-filter 0.3s ease-in;
+  }
 }
 
 .settingsWindow {
@@ -23,6 +30,13 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  opacity: 0;
+  transition: opacity 0.5s linear;
+
+  &--render {
+    opacity: 1;
+    transition: opacity 0.5s linear 0.3s;
+  }
 
   &--dark {
     border: 1px solid #FFF;
