@@ -1,6 +1,5 @@
 # TaskForge
 #### Stud team Mate academy project
- [Link to the Web-app](http://taskforge.byethost11.com/)
 
 
 <!---
