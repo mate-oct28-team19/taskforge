@@ -1,14 +1,12 @@
 # TaskForge
-#### Stud team Mate academy project
 
-
+Increase your productivity by creating and completing your tasks in our web application!
 <!---
 ## Technologies:
 ### **FrontEnd:** HTML5, CSS3, TypeScript, React, SCSS
 ### **BackEnd:** Java, Spring Framework, Hibernate, MySql, AWS, Docker, Liquibase
 ### **QA tester:** Cypress, Postman, Testrail, Jira
 --->
----
 
 ## Technologies
 <div id="technologies">
@@ -34,7 +32,7 @@
   </div>
 
   <div id="qa-tester">
-    <h3>QA tester:</h3>
+    <h3>QA testing:</h3>
       <img src="https://liveloveapp.com/assets/logo/cypress.png" title="cypress" alt="cypress" width="40" height="40"/>&nbsp;
       <img src="https://miro.medium.com/v2/resize:fit:1400/1*QOx_tPV5wJnhTzAGhfIiLA.png" title="postman" alt="postman" width="100" height="40"/>&nbsp;
       <img src="https://codahosted.io/packs/21236/unversioned/assets/LOGO/ba1091c59bab89cd2fd0f289622731fe16113d7b00905abe64759c313a4b73b76c1b0426076ed76cb74752234c734131df46992d5b8b48fc13e264240e4f7119f736cfeb64df36ded54b5cbf6198b9cadedf18dd0cac5c7dbcd16e6336c29363cd1292ba" title="testrail" alt="testrail" width="40" height="40"/>&nbsp;
